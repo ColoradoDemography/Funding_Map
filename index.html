@@ -1,0 +1,39 @@
+<html>
+  <body>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    
+    <script type="text/javascript" src="data/convertcsv.json"></script>
+    <script type="text/javascript" src="data/stratfunding.json"></script>
+    
+    <div id="map"></div>
+
+    <style>
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    
+
+
+
+    <!-- Okay, time to do this! -->
+    <script type="text/javascript">
+      $(document).ready( function() {
+
+        var map = L.map('map').setView([40, -104.25], 7);
+
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+        
+        
+        
+      });
+    </script>
+  </body>
+</html>
