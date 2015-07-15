@@ -5,6 +5,8 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     
+    <!--<script type="text/javascript" src="js/underscore-min.js"></script>    -->
+    
     <script type="text/javascript" src="data/convertcsv.json"></script>
     <script type="text/javascript" src="data/stratfunding.json"></script>
     
@@ -30,9 +32,224 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+
+        
+          
+//           for(var j=0;j<grants.length;j=j+1){
+//             var lgid=grants[j].lgid;
+//             console.log(lgid);
+//           }
+          
+
+        
+        //function that will reduce an array to unique values
+    var arrayUnique = function(a) {
+      return a.reduce(function(p, c) {
+        if (p.indexOf(c) < 0) p.push(c);
+        return p;
+        }, []);
+    };
+      
+        //list of all lgid's in main grants json file
+        var lgidlist=[]; //array of strings
+        var sumtotal=[]; //array of objects
+        
+        var i,j;  //iterators
+        
+        var b={}; //temp objects
+        var gjson={};
+        
+        for(i=0;i<grants.length;i=i+1){
+          if(grants[i].lgid){lgidlist.push(grants[i].lgid);}
+        }
+        
+        //reduce to unique values only
+        lgidlist = arrayUnique(lgidlist);
+        
+        //join to x, y, govname
+        for(i=0;i<lgidlist.length;i=i+1){
+          for(j=0;j<xy.length;j=j+1){
+            if(lgidlist[i]==xy[j].LG_ID){
+              var coordx=xy[j].X;
+              var coordy=xy[j].Y;
+              if(!coordx){coordx=0;coordy=0;}
+              var geom={'type': 'Point', 'coordinates':[coordy, coordx]};
+              var cdbg={'2011': 0, '2012': 0, '2013': 0, '2014':0};
+              var csbg={'FY2011-2012': 0, 'FY2012-2013': 0, 'FY2013-2014':0, 'FY2014-2015':0, 'FY2015-2016':0};
+              var eiaf={'2011': 0, '2012': 0, '2013': 0, '2014':0, '2015':0};
+              var ffb={'FFY2014-15': 0};
+              var ctf={'FY2009-10': 0, 'FY2010-11': 0, 'FY2011-12': 0, 'FY2012-13':0, 'FY2013-14': 0, 'FY2014-15':0};
+              var fmldd={'2009': 0, '2010': 0,'2011': 0, '2012': 0, '2013': 0, '2014':0};
+              var fmlddsb106={'2014':0};              
+              var game={'2010': 0, '2011': 0, '2012': 0, '2013': 0, '2014':0};
+              var redi={'2014': 0, '2015': 0 };
+              var sar={'FFY2009-10': 0, 'FFY2010-11': 0, 'FFY2011-12': 0, 'FFY2012-13': 0, 'FFY2013-14': 0};
+              var sevedd={'FY2009': 0, 'FY2010': 0, 'FY2011': 0, 'FY2012': 0, 'FY2013': 0, 'FY2014': 0};
+              var vfp={'FY2009-10':0, 'FY2010-11':0, 'FY2011-12':0, 'FY2012-13':0, 'FY2013-14':0, 'FY2014-15':0};
+              b={'lgid': lgidlist[i], 'govname': xy[j].NAME, 'x': xy[j].X, 'y': xy[j].Y, 'total': 0, 'projects': [], 'CDBG':cdbg, 'CSBG':csbg, 'CTF':ctf, 'EIAF':eiaf, 'FFB':ffb, 'FMLDD':fmldd, 'FMLDDSB106': fmlddsb106, 'GAME': game, 'REDI': redi, 'SAR': sar, 'SEVEDD': sevedd, 'VFP': vfp };              
+              gjson={'type': 'Feature', 'geometry': geom, 'properties': b};
+              if(coordx){sumtotal.push(gjson);}else{console.log('missing xy of '+xy[j].LG_ID)} //remove
+            }
+          }
+        }
+        
+        //loop through all projects.  add to sumtotal.  add to projects{}
+         for(i=0;i<grants.length;i=i+1){
+           for(j=0;j<sumtotal.length;j=j+1){
+             if(grants[i].lgid===sumtotal[j].properties.lgid){
+               if(grants[i].totalawarded){
+                 
+                 sumtotal[j].properties.total=sumtotal[j].properties.total+Number(grants[i].totalawarded); //if totalawarded exists, add it to lgidsumaward
+                 
+                 //mini sums for CDBG
+                 if(grants[i].programtype==='CDBG'){
+                   if(grants[i].yearofaward=='2011'){sumtotal[j].properties.CDBG['2011']=sumtotal[j].properties.CDBG['2011']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2012'){sumtotal[j].properties.CDBG['2012']=sumtotal[j].properties.CDBG['2012']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2013'){sumtotal[j].properties.CDBG['2013']=sumtotal[j].properties.CDBG['2013']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.CDBG['2014']=sumtotal[j].properties.CDBG['2014']+Number(grants[i].totalawarded)};                   
+                 }
+                 
+                 //mini sums for CSBG
+                 if(grants[i].programtype==='CSBG'){
+                   if(grants[i].yearofaward=='FY2011-2012'){sumtotal[j].properties.CSBG['FY2011-2012']=sumtotal[j].properties.CSBG['FY2011-2012']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2012-2013'){sumtotal[j].properties.CSBG['FY2012-2013']=sumtotal[j].properties.CSBG['FY2012-2013']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2013-2014'){sumtotal[j].properties.CSBG['FY2013-2014']=sumtotal[j].properties.CSBG['FY2013-2014']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2014-2015'){sumtotal[j].properties.CSBG['FY2014-2015']=sumtotal[j].properties.CSBG['FY2014-2015']+Number(grants[i].totalawarded)};  
+                   if(grants[i].yearofaward=='FY2015-2016'){sumtotal[j].properties.CSBG['FY2015-2016']=sumtotal[j].properties.CSBG['FY2015-2016']+Number(grants[i].totalawarded)};
+                 }
+                 
+                 
+                 
+                 //mini sums for CTF
+                 if(grants[i].programtype==='CTF'){
+                   if(grants[i].yearofaward=='FY2009-10'){sumtotal[j].properties.CTF['FY2009-10']=sumtotal[j].properties.CTF['FY2009-10']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2010-11'){sumtotal[j].properties.CTF['FY2010-11']=sumtotal[j].properties.CTF['FY2010-11']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2011-12'){sumtotal[j].properties.CTF['FY2011-12']=sumtotal[j].properties.CTF['FY2011-12']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2012-13'){sumtotal[j].properties.CTF['FY2012-13']=sumtotal[j].properties.CTF['FY2012-13']+Number(grants[i].totalawarded)};   
+                   if(grants[i].yearofaward=='FY2013-14'){sumtotal[j].properties.CTF['FY2013-14']=sumtotal[j].properties.CTF['FY2013-14']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2014-15'){sumtotal[j].properties.CTF['FY2014-15']=sumtotal[j].properties.CTF['FY2014-15']+Number(grants[i].totalawarded)};   
+                 }        
+                 
+                 //mini sums for EIAF
+                 if(grants[i].programtype==='EIAF'){
+                   if(grants[i].yearofaward=='2011'){sumtotal[j].properties.EIAF['2011']=sumtotal[j].properties.EIAF['2011']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2012'){sumtotal[j].properties.EIAF['2012']=sumtotal[j].properties.EIAF['2012']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2013'){sumtotal[j].properties.EIAF['2013']=sumtotal[j].properties.EIAF['2013']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.EIAF['2014']=sumtotal[j].properties.EIAF['2014']+Number(grants[i].totalawarded)};    
+                   if(grants[i].yearofaward=='2015'){sumtotal[j].properties.EIAF['2015']=sumtotal[j].properties.EIAF['2015']+Number(grants[i].totalawarded)};                       
+                 }    
+                  
+                 //mini sums for FFB
+                 if(grants[i].programtype==='FFB'){
+                   if(grants[i].yearofaward=='FFY2014-15'){sumtotal[j].properties.FFB['FFY2014-15']=sumtotal[j].properties.FFB['FFY2014-15']+Number(grants[i].totalawarded)};
+                 }                  
+                 
+                 //mini sums for FML - DD
+                 if(grants[i].programtype==='FML - DD'){
+                   if(grants[i].yearofaward=='2009'){sumtotal[j].properties.FMLDD['2009']=sumtotal[j].properties.FMLDD['2009']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2010'){sumtotal[j].properties.FMLDD['2010']=sumtotal[j].properties.FMLDD['2010']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2011'){sumtotal[j].properties.FMLDD['2011']=sumtotal[j].properties.FMLDD['2011']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2012'){sumtotal[j].properties.FMLDD['2012']=sumtotal[j].properties.FMLDD['2012']+Number(grants[i].totalawarded)};    
+                   if(grants[i].yearofaward=='2013'){sumtotal[j].properties.FMLDD['2013']=sumtotal[j].properties.FMLDD['2013']+Number(grants[i].totalawarded)};     
+                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.FMLDD['2014']=sumtotal[j].properties.FMLDD['2014']+Number(grants[i].totalawarded)};                      
+                 }
+                 
+                  //mini sums for FML - DD - SB106
+                 if(grants[i].programtype==='FML - DD - SB106'){
+                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.FMLDDSB106['2014']=sumtotal[j].properties.FMLDDSB106['2014']+Number(grants[i].totalawarded)};                      
+                 }
+                 
+                 //mini sums for GAME
+                 if(grants[i].programtype==='GAME'){
+                   if(grants[i].yearofaward=='2010'){sumtotal[j].properties.GAME['2010']=sumtotal[j].properties.GAME['2010']+Number(grants[i].totalawarded)};                   
+                   if(grants[i].yearofaward=='2011'){sumtotal[j].properties.GAME['2011']=sumtotal[j].properties.GAME['2011']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2012'){sumtotal[j].properties.GAME['2012']=sumtotal[j].properties.GAME['2012']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2013'){sumtotal[j].properties.GAME['2013']=sumtotal[j].properties.GAME['2013']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.GAME['2014']=sumtotal[j].properties.GAME['2014']+Number(grants[i].totalawarded)};                   
+                 }
+                 
+                 //mini sums for REDI
+                 if(grants[i].programtype==='REDI'){
+                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.REDI['2014']=sumtotal[j].properties.REDI['2014']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='2015'){sumtotal[j].properties.REDI['2015']=sumtotal[j].properties.REDI['2015']+Number(grants[i].totalawarded)};                   
+                 }
+                 
+                 //mini sums for SAR
+                 if(grants[i].programtype==='SAR'){
+                   if(grants[i].yearofaward=='FFY2009-10'){sumtotal[j].properties.SAR['FFY2009-10']=sumtotal[j].properties.SAR['FFY2009-10']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FFY2010-11'){sumtotal[j].properties.SAR['FFY2010-11']=sumtotal[j].properties.SAR['FFY2010-11']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FFY2011-12'){sumtotal[j].properties.SAR['FFY2011-12']=sumtotal[j].properties.SAR['FFY2011-12']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FFY2012-13'){sumtotal[j].properties.SAR['FFY2012-13']=sumtotal[j].properties.SAR['FFY2012-13']+Number(grants[i].totalawarded)};                 
+                   if(grants[i].yearofaward=='FFY2013-14'){sumtotal[j].properties.SAR['FFY2013-14']=sumtotal[j].properties.SAR['FFY2013-14']+Number(grants[i].totalawarded)};                  
+                 }
+                 
+                 //mini sums for SEVEDD
+                 if(grants[i].programtype==='Seve-DD'){
+                   if(grants[i].yearofaward=='FY2009'){sumtotal[j].properties.SEVEDD['FY2009']=sumtotal[j].properties.SEVEDD['FY2009']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2010'){sumtotal[j].properties.SEVEDD['FY2010']=sumtotal[j].properties.SEVEDD['FY2010']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2011'){sumtotal[j].properties.SEVEDD['FY2011']=sumtotal[j].properties.SEVEDD['FY2011']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2012'){sumtotal[j].properties.SEVEDD['FY2012']=sumtotal[j].properties.SEVEDD['FY2012']+Number(grants[i].totalawarded)};                 
+                   if(grants[i].yearofaward=='FY2013'){sumtotal[j].properties.SEVEDD['FY2013']=sumtotal[j].properties.SEVEDD['FY2013']+Number(grants[i].totalawarded)};    
+                   if(grants[i].yearofaward=='FY2014'){sumtotal[j].properties.SEVEDD['FY2014']=sumtotal[j].properties.SEVEDD['FY2014']+Number(grants[i].totalawarded)};                     
+                 }    
+                 
+                 //mini sums for VFP
+                 if(grants[i].programtype==='VFP'){
+                   if(grants[i].yearofaward=='FY2009-10'){sumtotal[j].properties.VFP['FY2009-10']=sumtotal[j].properties.VFP['FY2009-10']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2010-11'){sumtotal[j].properties.VFP['FY2010-11']=sumtotal[j].properties.VFP['FY2010-11']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2011-12'){sumtotal[j].properties.VFP['FY2011-12']=sumtotal[j].properties.VFP['FY2011-12']+Number(grants[i].totalawarded)};
+                   if(grants[i].yearofaward=='FY2012-13'){sumtotal[j].properties.VFP['FY2012-13']=sumtotal[j].properties.VFP['FY2012-13']+Number(grants[i].totalawarded)};                 
+                   if(grants[i].yearofaward=='FY2013-14'){sumtotal[j].properties.VFP['FY2013-14']=sumtotal[j].properties.VFP['FY2013-14']+Number(grants[i].totalawarded)};    
+                   if(grants[i].yearofaward=='FY2014-15'){sumtotal[j].properties.VFP['FY2014-15']=sumtotal[j].properties.VFP['FY2014-15']+Number(grants[i].totalawarded)};                     
+                 }
+                 
+               } 
+               
+               b={'projname': grants[i].projname, 'program': grants[i].programtype, 'dateofaward': grants[i].dateofaward, 'award': grants[i].totalawarded};
+               sumtotal[j].properties.projects.push(b);
+             }
+           }
+                        
+      }
+        
+geojsonLayer = L.geoJson(sumtotal, {
+    style: function(feature) {
+        return {color: 'green'};
+    },
+    pointToLayer: function(feature, latlng) {
+        return new L.CircleMarker(latlng, {radius: 10, fillOpacity: 0.85});
+    },
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(feature.properties.govname);
+    }
+}).addTo(map);
         
         
+        console.log(sumtotal);
         
+
+        
+        
+        //REFERENCE
+      
+      //PROGTOTAL
+      // lgid
+      // govname
+      // sumtotal
+      // program
+      // x
+      // y
+      // projects: [{projname, dateofaward, award},{projname, dateofaward, award}]
+
+      //SUMTOTAL *DONE
+      // lgid
+      // govname
+      // sumtotal
+      // x
+      // y
+      // projects: [{projname, program, dateofaward, award},{projname, program, dateofaward, award}]      
+      
+      
       });
     </script>
   </body>
