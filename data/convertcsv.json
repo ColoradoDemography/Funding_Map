@@ -100,8 +100,8 @@ var xy=[
     ,"NAME":"Hyland Hills Metropolitan Park & Recreation District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.859807505999996
+    ,"Y":-105.019529458
   },
   {
      "LG_ID":"01014"
@@ -180,16 +180,16 @@ var xy=[
     ,"NAME":"South Adams County Fire Protection District"
     ,"LGTYPE_ID":8
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.8490743135
+    ,"Y":-104.8493351005
   },
   {
      "LG_ID":"01024"
     ,"NAME":"Southwest Adams County Fire Protection District"
     ,"LGTYPE_ID":8
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.82727713050005
+    ,"Y":-105.0296733205
   },
   {
      "LG_ID":"01025"
@@ -292,8 +292,8 @@ var xy=[
     ,"NAME":"Bromley Park Metropolitan District No. 2"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.997154571500005
+    ,"Y":-104.752145817
   },
   {
      "LG_ID":"01040"
@@ -308,8 +308,8 @@ var xy=[
     ,"NAME":"Brighton Crossing Metropolitan District No. 4"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.979171526500096
+    ,"Y":-104.74743774699999
   },
   {
      "LG_ID":"01042"
@@ -372,8 +372,8 @@ var xy=[
     ,"NAME":"Wright Farms Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.91766966600005
+    ,"Y":-104.9148423935
   },
   {
      "LG_ID":"01050"
@@ -492,8 +492,8 @@ var xy=[
     ,"NAME":"Buffalo Ridge Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.907191706999996
+    ,"Y":-104.803317721
   },
   {
      "LG_ID":"01065"
@@ -508,8 +508,8 @@ var xy=[
     ,"NAME":"Riverdale Dunes Metropolitan District No. 1"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.901377571000054
+    ,"Y":-104.872462713
   },
   {
      "LG_ID":"01067"
@@ -636,8 +636,8 @@ var xy=[
     ,"NAME":"Belle Creek Metropolitan District No. 1"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.890758225499994
+    ,"Y":-104.879574601
   },
   {
      "LG_ID":"01083"
@@ -796,8 +796,8 @@ var xy=[
     ,"NAME":"Bennett Park and Recreation District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.8396176180001
+    ,"Y":-104.518026927
   },
   {
      "LG_ID":"01103"
@@ -828,32 +828,32 @@ var xy=[
     ,"NAME":"Mapleton 1 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.841664935
+    ,"Y":-104.9768666165
   },
   {
      "LG_ID":"01901"
     ,"NAME":"Adams 12 Five Star Schools"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.919312443500004
+    ,"Y":-104.9780696265
   },
   {
      "LG_ID":"01902"
     ,"NAME":"Adams County 14 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.8454684385001
+    ,"Y":-104.8797945915
   },
   {
      "LG_ID":"01910"
     ,"NAME":"Westminster 50 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.8381509295
+    ,"Y":-105.024345127
   },
   {
      "LG_ID":"02001"
@@ -996,8 +996,8 @@ var xy=[
     ,"NAME":"Arapahoe Lake Public Park District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.60335470950005
+    ,"Y":-104.871440844
   },
   {
      "LG_ID":"03007"
@@ -1044,8 +1044,8 @@ var xy=[
     ,"NAME":"Chaparral Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.587628447
+    ,"Y":-104.7634465415
   },
   {
      "LG_ID":"03013"
@@ -1068,8 +1068,8 @@ var xy=[
     ,"NAME":"Cherry Creek Vista Metropolitan Recreation & Park District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.60957202050005
+    ,"Y":-104.857335568
   },
   {
      "LG_ID":"03016"
@@ -1140,8 +1140,8 @@ var xy=[
     ,"NAME":"Heather Gardens Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.662175531
+    ,"Y":-104.82781063249999
   },
   {
      "LG_ID":"03025"
@@ -1204,8 +1204,8 @@ var xy=[
     ,"NAME":"Cunningham Fire Protection District"
     ,"LGTYPE_ID":8
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.6497393380001
+    ,"Y":-104.79503991
   },
   {
      "LG_ID":"03033"
@@ -1236,8 +1236,8 @@ var xy=[
     ,"NAME":"East Arapahoe Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.601716494
+    ,"Y":-104.7387020905
   },
   {
      "LG_ID":"03037"
@@ -1412,8 +1412,8 @@ var xy=[
     ,"NAME":"Orchard Hills Metropolitan Recreation & Park District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.61328782700005
+    ,"Y":-104.88079747399999
   },
   {
      "LG_ID":"03060"
@@ -1476,8 +1476,8 @@ var xy=[
     ,"NAME":"Smoky Hill Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.619388229500046
+    ,"Y":-104.78196315299999
   },
   {
      "LG_ID":"03068"
@@ -1548,8 +1548,8 @@ var xy=[
     ,"NAME":"Sundance Hills Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.61324041
+    ,"Y":-104.87134806649999
   },
   {
      "LG_ID":"03077"
@@ -1636,8 +1636,8 @@ var xy=[
     ,"NAME":"Arapahoe Park & Recreation District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.616859929499995
+    ,"Y":-104.7688053455
   },
   {
      "LG_ID":"03088"
@@ -1716,8 +1716,8 @@ var xy=[
     ,"NAME":"Dove Valley Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.58041912100005
+    ,"Y":-104.82548172899999
   },
   {
      "LG_ID":"03098"
@@ -1764,8 +1764,8 @@ var xy=[
     ,"NAME":"Parker Jordan Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.58037525100005
+    ,"Y":-104.8030276145
   },
   {
      "LG_ID":"03104"
@@ -1972,16 +1972,16 @@ var xy=[
     ,"NAME":"Goodman Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.60226787850005
+    ,"Y":-104.782472031
   },
   {
      "LG_ID":"03130"
     ,"NAME":"East Smoky Hill Metropolitan District No. 1"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.61757021300005
+    ,"Y":-104.731207673
   },
   {
      "LG_ID":"03131"
@@ -2268,32 +2268,32 @@ var xy=[
     ,"NAME":"Cherry Creek 5 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.63853992050005
+    ,"Y":-104.78975904500001
   },
   {
      "LG_ID":"03905"
     ,"NAME":"Englewood 1 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.65136740600005
+    ,"Y":-104.99170960000001
   },
   {
      "LG_ID":"03906"
     ,"NAME":"Littleton 6 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.5988119
+    ,"Y":-104.98304808750001
   },
   {
      "LG_ID":"03907"
     ,"NAME":"Sheridan 2 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.64416490450005
+    ,"Y":-105.016742604
   },
   {
      "LG_ID":"03999"
@@ -2412,16 +2412,16 @@ var xy=[
     ,"NAME":"San Juan River Village Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.335665544500046
+    ,"Y":-106.9487384815
   },
   {
      "LG_ID":"04015"
     ,"NAME":"Alpha-Rockridge Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.25850638550005
+    ,"Y":-107.0483909605
   },
   {
      "LG_ID":"04016"
@@ -2444,8 +2444,8 @@ var xy=[
     ,"NAME":"Loma Linda Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.186090759500004
+    ,"Y":-106.98551682050001
   },
   {
      "LG_ID":"05001"
@@ -2524,8 +2524,8 @@ var xy=[
     ,"NAME":"Springfield Metropolitan Recreation District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.4034589360001
+    ,"Y":-102.646967054
   },
   {
      "LG_ID":"05011"
@@ -2556,8 +2556,8 @@ var xy=[
     ,"NAME":"Two Buttes Metropolitan Recreation & Park District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.5430613340001
+    ,"Y":-102.4470354995
   },
   {
      "LG_ID":"05015"
@@ -2588,8 +2588,8 @@ var xy=[
     ,"NAME":"Vilas Metropolitan Recreation District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.32796049350005
+    ,"Y":-102.4280623625
   },
   {
      "LG_ID":"05019"
@@ -2620,8 +2620,8 @@ var xy=[
     ,"NAME":"Walsh Metropolitan Recreation District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.31875975050005
+    ,"Y":-102.21108831699999
   },
   {
      "LG_ID":"05023"
@@ -2652,8 +2652,8 @@ var xy=[
     ,"NAME":"Campo Park & Recreation District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.1006520635
+    ,"Y":-102.600062962
   },
   {
      "LG_ID":"05027"
@@ -2668,40 +2668,40 @@ var xy=[
     ,"NAME":"Walsh RE-1 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.318726249500045
+    ,"Y":-102.212433215
   },
   {
      "LG_ID":"05901"
     ,"NAME":"Pritchett RE-3 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.32144969550011
+    ,"Y":-102.93276836300001
   },
   {
      "LG_ID":"05902"
     ,"NAME":"Springfield RE-4 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.4033337325001
+    ,"Y":-102.603297801
   },
   {
      "LG_ID":"05903"
     ,"NAME":"Vilas RE-5 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.3275842330001
+    ,"Y":-102.428477754
   },
   {
      "LG_ID":"05904"
     ,"NAME":"Campo RE-6 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.1006096945001
+    ,"Y":-102.600059771
   },
   {
      "LG_ID":"06001"
@@ -2836,16 +2836,16 @@ var xy=[
     ,"NAME":"Las Animas RE-1 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.954874777
+    ,"Y":-103.185125465
   },
   {
      "LG_ID":"06901"
     ,"NAME":"McClave RE-2 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.95524780450005
+    ,"Y":-102.9233304235
   },
   {
      "LG_ID":"07001"
@@ -2948,8 +2948,8 @@ var xy=[
     ,"NAME":"Gunbarrel Estates Metropolitan Recreation and Park District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":40.0777656605
+    ,"Y":-105.1832550805
   },
   {
      "LG_ID":"07014"
@@ -3564,8 +3564,8 @@ var xy=[
     ,"NAME":"Buena Vista R-31 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":38.842276696
+    ,"Y":-106.2530608035
   },
   {
      "LG_ID":"09001"
@@ -3604,8 +3604,8 @@ var xy=[
     ,"NAME":"Cheyenne Wells Metropolitan Recreation District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":38.8200439955
+    ,"Y":-102.35203143000001
   },
   {
      "LG_ID":"09006"
@@ -3740,16 +3740,16 @@ var xy=[
     ,"NAME":"Kit Carson R-1 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":38.826732432
+    ,"Y":-102.85879250549999
   },
   {
      "LG_ID":"09901"
     ,"NAME":"Cheyenne County RE-5 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":38.83000446550005
+    ,"Y":-102.336265364
   },
   {
      "LG_ID":"10001"
@@ -3780,8 +3780,8 @@ var xy=[
     ,"NAME":"Clear Creek Metropolitan Recreation District"
     ,"LGTYPE_ID":7
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.7084368625
+    ,"Y":-105.66249975950001
   },
   {
      "LG_ID":"10005"
@@ -3828,8 +3828,8 @@ var xy=[
     ,"NAME":"St. Mary's Glacier Metropolitan District"
     ,"LGTYPE_ID":6
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.821272136500056
+    ,"Y":-105.6510128385
   },
   {
      "LG_ID":"10011"
@@ -3844,8 +3844,8 @@ var xy=[
     ,"NAME":"Clear Creek County Emergency Services General Improvement District"
     ,"LGTYPE_ID":31
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.708580783000045
+    ,"Y":-105.6626715605
   },
   {
      "LG_ID":"10013"
@@ -3876,8 +3876,8 @@ var xy=[
     ,"NAME":"Clear Creek RE-1 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":39.70843686100005
+    ,"Y":-105.66249975950001
   },
   {
      "LG_ID":"11001"
@@ -4076,8 +4076,8 @@ var xy=[
     ,"NAME":"South Conejos RE-10 School District"
     ,"LGTYPE_ID":99
     ,"LGSTATUS_ID":1
-    ,"X":null
-    ,"Y":null
+    ,"X":37.11085945550005
+    ,"Y":-106.194351102
   },
   {
      "LG_ID":"11971"
