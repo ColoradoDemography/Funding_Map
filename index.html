@@ -1,25 +1,43 @@
 <html>
   <body>
+
+     <link rel="stylesheet" href="jquery/jquery-ui.min.css" />    
+     <link rel="stylesheet" href="jquery/jquery-ui.structure.min.css" />        
+     <link rel="stylesheet" href="jquery/jquery-ui.theme.min.css" />     
+     <link rel="stylesheet" href="css/classic-min.css" />  
+    
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <link rel="stylesheet" href="css/leaflet.groupedlayercontrol.css" />
+    <link rel="stylesheet" href="css/MarkerCluster.Default.css" />    
+   
+
+
+    
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+    <script src="js/jQDateRangeSlider-min.js"></script>     
     
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script src="js/leaflet.groupedlayercontrol.js"></script>
-    
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    
-    <!--<script type="text/javascript" src="js/underscore-min.js"></script>    -->
+    <script src="js/leaflet.groupedlayercontrol.min.js"></script>
+    <script src="js/leaflet.markercluster.js"></script> 
+
+
     
     <script type="text/javascript" src="data/convertcsv.json"></script>
     <script type="text/javascript" src="data/stratfunding.json"></script>
     
     <div id="map"></div>
 
+<article style="position: absolute; top:40px; left:5%; width: 90%;">
+    <div id="slider"></div></article>
+    
+    
     <style>
       #map {
         width: 100%;
         height: 100%;
       }
+
     </style>
     
 
@@ -28,13 +46,29 @@
     <!-- Okay, time to do this! -->
     <script type="text/javascript">
       $(document).ready( function() {
+        
+        
+var mindate=new Date("Thu Jan 01 2014 00:00:00 GMT-0700");
+var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
+        
+        var city_federal, county_federal, district_federal, city_state, county_state, district_state, city_formula, county_formula, district_formula, city_special, county_special, district_special;
+        
+        
+        var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ';
 
-        var map = L.map('map').setView([40, -104.25], 7);
-
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
+	    var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+		    streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+        
+		var map = L.map('map', {
+    center: [39, -105.5],
+    zoom: 7,
+    minZoom: 6,
+    maxZoom: 13, 
+			layers: [grayscale]
+		});
 
 
         
@@ -70,19 +104,19 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
               var coordy=xy[j].Y;
               if(!coordx){coordx=0;coordy=0;}
               var geom={'type': 'Point', 'coordinates':[coordy, coordx]};
-              var cdbg={'2011': 0, '2012': 0, '2013': 0, '2014':0};
-              var csbg={'FFY2011-2012': 0, 'FFY2012-2013': 0, 'FFY2013-2014':0, 'FFY2014-2015':0, 'FFY2015-2016':0};
-              var eiaf={'2011': 0, '2012': 0, '2013': 0, '2014':0, '2015':0};
-              var ffb={'FFY2014-15': 0};
-              var ctf={'FY2009-10': 0, 'FY2010-11': 0, 'FY2011-12': 0, 'FY2012-13':0, 'FY2013-14': 0, 'FY2014-15':0};
-              var fmldd={'2009': 0, '2010': 0,'2011': 0, '2012': 0, '2013': 0, '2014':0};
-              var fmlddsb106={'2014':0};              
-              var game={'2010': 0, '2011': 0, '2012': 0, '2013': 0, '2014':0};
-              var redi={'2014': 0, '2015': 0 };
-              var sar={'FFY2009-10': 0, 'FFY2010-11': 0, 'FFY2011-12': 0, 'FFY2012-13': 0, 'FFY2013-14': 0};
-              var sevedd={'FY2009': 0, 'FY2010': 0, 'FY2011': 0, 'FY2012': 0, 'FY2013': 0, 'FY2014': 0};
-              var vfp={'FY2009-10':0, 'FY2010-11':0, 'FY2011-12':0, 'FY2012-13':0, 'FY2013-14':0, 'FY2014-15':0};
-              b={'lgid': lgidlist[i], 'govname': xy[j].NAME, 'x': xy[j].X, 'y': xy[j].Y, 'total': 0, 'projects': [], 'CDBG':cdbg, 'CSBG':csbg, 'CTF':ctf, 'EIAF':eiaf, 'FFB':ffb, 'FMLDD':fmldd, 'FMLDDSB106': fmlddsb106, 'GAME': game, 'REDI': redi, 'SAR': sar, 'SEVEDD': sevedd, 'VFP': vfp };              
+              
+              
+
+
+              
+              var state={'eiaf': [], 'game': [], 'redi': [] };
+              var federal={'cdbg': [], 'csbg': [] };
+              var formula={'fmldd': [], 'fmlddsb106': [], 'ctf': [], 'sevedd': [] };
+              var special={'ffb': [], 'sar': [], 'vfp': [] };
+              
+              var projects={'state': state, 'federal': federal, 'formula': formula, 'special': special};
+              
+              b={'lgid': lgidlist[i], 'lgtype': xy[j].LGTYPE_ID, 'govname': xy[j].NAME, 'x': xy[j].X, 'y': xy[j].Y, 'total': 0, 'projects': projects };              
               gjson={'type': 'Feature', 'geometry': geom, 'properties': b};
               if(coordx){sumtotal.push(gjson);}else{
                 //console.log(xy[j].LG_ID);
@@ -99,112 +133,72 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                  
                  sumtotal[j].properties.total=sumtotal[j].properties.total+Number(grants[i].totalawarded); //if totalawarded exists, add it to lgidsumaward
                  
+                b={'projname': grants[i].projname, 'program': grants[i].programtype, 'dateofaward': grants[i].dateofaward, 'yearofaward': grants[i].yearofaward,  'award': grants[i].totalawarded};
+
+                 
                  //mini sums for CDBG
                  if(grants[i].programtype==='CDBG'){
-                   if(grants[i].yearofaward=='2011'){sumtotal[j].properties.CDBG['2011']=sumtotal[j].properties.CDBG['2011']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2012'){sumtotal[j].properties.CDBG['2012']=sumtotal[j].properties.CDBG['2012']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2013'){sumtotal[j].properties.CDBG['2013']=sumtotal[j].properties.CDBG['2013']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.CDBG['2014']=sumtotal[j].properties.CDBG['2014']+Number(grants[i].totalawarded)};                   
+                   sumtotal[j].properties.projects.federal.cdbg.push(b);
                  }
                  
                  //mini sums for CSBG
                  if(grants[i].programtype==='CSBG'){
-                   if(grants[i].yearofaward=='FFY2011-2012'){sumtotal[j].properties.CSBG['FFY2011-2012']=sumtotal[j].properties.CSBG['FFY2011-2012']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FFY2012-2013'){sumtotal[j].properties.CSBG['FFY2012-2013']=sumtotal[j].properties.CSBG['FFY2012-2013']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FFY2013-2014'){sumtotal[j].properties.CSBG['FFY2013-2014']=sumtotal[j].properties.CSBG['FFY2013-2014']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FFY2014-2015'){sumtotal[j].properties.CSBG['FFY2014-2015']=sumtotal[j].properties.CSBG['FFY2014-2015']+Number(grants[i].totalawarded)};  
-                   if(grants[i].yearofaward=='FFY2015-2016'){sumtotal[j].properties.CSBG['FFY2015-2016']=sumtotal[j].properties.CSBG['FFY2015-2016']+Number(grants[i].totalawarded)};
+                   sumtotal[j].properties.projects.federal.csbg.push(b);
                  }
-                 
-                 
                  
                  //mini sums for CTF
                  if(grants[i].programtype==='CTF'){
-                   if(grants[i].yearofaward=='FY2009-10'){sumtotal[j].properties.CTF['FY2009-10']=sumtotal[j].properties.CTF['FY2009-10']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2010-11'){sumtotal[j].properties.CTF['FY2010-11']=sumtotal[j].properties.CTF['FY2010-11']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2011-12'){sumtotal[j].properties.CTF['FY2011-12']=sumtotal[j].properties.CTF['FY2011-12']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2012-13'){sumtotal[j].properties.CTF['FY2012-13']=sumtotal[j].properties.CTF['FY2012-13']+Number(grants[i].totalawarded)};   
-                   if(grants[i].yearofaward=='FY2013-14'){sumtotal[j].properties.CTF['FY2013-14']=sumtotal[j].properties.CTF['FY2013-14']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2014-15'){sumtotal[j].properties.CTF['FY2014-15']=sumtotal[j].properties.CTF['FY2014-15']+Number(grants[i].totalawarded)};   
+                   sumtotal[j].properties.projects.formula.ctf.push(b);
                  }        
                  
                  //mini sums for EIAF
                  if(grants[i].programtype==='EIAF'){
-                   if(grants[i].yearofaward=='2011'){sumtotal[j].properties.EIAF['2011']=sumtotal[j].properties.EIAF['2011']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2012'){sumtotal[j].properties.EIAF['2012']=sumtotal[j].properties.EIAF['2012']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2013'){sumtotal[j].properties.EIAF['2013']=sumtotal[j].properties.EIAF['2013']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.EIAF['2014']=sumtotal[j].properties.EIAF['2014']+Number(grants[i].totalawarded)};    
-                   if(grants[i].yearofaward=='2015'){sumtotal[j].properties.EIAF['2015']=sumtotal[j].properties.EIAF['2015']+Number(grants[i].totalawarded)};                       
+                   sumtotal[j].properties.projects.state.eiaf.push(b);                     
                  }    
                   
                  //mini sums for FFB
                  if(grants[i].programtype==='FFB'){
-                   if(grants[i].yearofaward=='FFY2014-15'){sumtotal[j].properties.FFB['FFY2014-15']=sumtotal[j].properties.FFB['FFY2014-15']+Number(grants[i].totalawarded)};
+                   sumtotal[j].properties.projects.special.ffb.push(b);
                  }                  
                  
                  //mini sums for FML - DD
                  if(grants[i].programtype==='FML - DD'){
-                   if(grants[i].yearofaward=='2009'){sumtotal[j].properties.FMLDD['2009']=sumtotal[j].properties.FMLDD['2009']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2010'){sumtotal[j].properties.FMLDD['2010']=sumtotal[j].properties.FMLDD['2010']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2011'){sumtotal[j].properties.FMLDD['2011']=sumtotal[j].properties.FMLDD['2011']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2012'){sumtotal[j].properties.FMLDD['2012']=sumtotal[j].properties.FMLDD['2012']+Number(grants[i].totalawarded)};    
-                   if(grants[i].yearofaward=='2013'){sumtotal[j].properties.FMLDD['2013']=sumtotal[j].properties.FMLDD['2013']+Number(grants[i].totalawarded)};     
-                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.FMLDD['2014']=sumtotal[j].properties.FMLDD['2014']+Number(grants[i].totalawarded)};                      
+                   sumtotal[j].properties.projects.formula.fmldd.push(b);
                  }
                  
                   //mini sums for FML - DD - SB106
                  if(grants[i].programtype==='FML - DD - SB106'){
-                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.FMLDDSB106['2014']=sumtotal[j].properties.FMLDDSB106['2014']+Number(grants[i].totalawarded)};                      
+                   sumtotal[j].properties.projects.formula.fmlddsb106.push(b);
                  }
                  
                  //mini sums for GAME
                  if(grants[i].programtype==='GAME'){
-                   if(grants[i].yearofaward=='2010'){sumtotal[j].properties.GAME['2010']=sumtotal[j].properties.GAME['2010']+Number(grants[i].totalawarded)};                   
-                   if(grants[i].yearofaward=='2011'){sumtotal[j].properties.GAME['2011']=sumtotal[j].properties.GAME['2011']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2012'){sumtotal[j].properties.GAME['2012']=sumtotal[j].properties.GAME['2012']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2013'){sumtotal[j].properties.GAME['2013']=sumtotal[j].properties.GAME['2013']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.GAME['2014']=sumtotal[j].properties.GAME['2014']+Number(grants[i].totalawarded)};                   
+                   sumtotal[j].properties.projects.state.game.push(b);
                  }
                  
                  //mini sums for REDI
                  if(grants[i].programtype==='REDI'){
-                   if(grants[i].yearofaward=='2014'){sumtotal[j].properties.REDI['2014']=sumtotal[j].properties.REDI['2014']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='2015'){sumtotal[j].properties.REDI['2015']=sumtotal[j].properties.REDI['2015']+Number(grants[i].totalawarded)};                   
+                   sumtotal[j].properties.projects.state.redi.push(b);
                  }
                  
                  //mini sums for SAR
                  if(grants[i].programtype==='SAR'){
-                   if(grants[i].yearofaward=='FFY2009-10'){sumtotal[j].properties.SAR['FFY2009-10']=sumtotal[j].properties.SAR['FFY2009-10']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FFY2010-11'){sumtotal[j].properties.SAR['FFY2010-11']=sumtotal[j].properties.SAR['FFY2010-11']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FFY2011-12'){sumtotal[j].properties.SAR['FFY2011-12']=sumtotal[j].properties.SAR['FFY2011-12']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FFY2012-13'){sumtotal[j].properties.SAR['FFY2012-13']=sumtotal[j].properties.SAR['FFY2012-13']+Number(grants[i].totalawarded)};                 
-                   if(grants[i].yearofaward=='FFY2013-14'){sumtotal[j].properties.SAR['FFY2013-14']=sumtotal[j].properties.SAR['FFY2013-14']+Number(grants[i].totalawarded)};                  
+                   sumtotal[j].properties.projects.special.sar.push(b);
                  }
                  
                  //mini sums for SEVEDD
                  if(grants[i].programtype==='Seve-DD'){
-                   if(grants[i].yearofaward=='FY2009'){sumtotal[j].properties.SEVEDD['FY2009']=sumtotal[j].properties.SEVEDD['FY2009']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2010'){sumtotal[j].properties.SEVEDD['FY2010']=sumtotal[j].properties.SEVEDD['FY2010']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2011'){sumtotal[j].properties.SEVEDD['FY2011']=sumtotal[j].properties.SEVEDD['FY2011']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2012'){sumtotal[j].properties.SEVEDD['FY2012']=sumtotal[j].properties.SEVEDD['FY2012']+Number(grants[i].totalawarded)};                 
-                   if(grants[i].yearofaward=='FY2013'){sumtotal[j].properties.SEVEDD['FY2013']=sumtotal[j].properties.SEVEDD['FY2013']+Number(grants[i].totalawarded)};    
-                   if(grants[i].yearofaward=='FY2014'){sumtotal[j].properties.SEVEDD['FY2014']=sumtotal[j].properties.SEVEDD['FY2014']+Number(grants[i].totalawarded)};                     
+                   sumtotal[j].properties.projects.formula.sevedd.push(b);
                  }    
                  
                  //mini sums for VFP
                  if(grants[i].programtype==='VFP'){
-                   if(grants[i].yearofaward=='FY2009-10'){sumtotal[j].properties.VFP['FY2009-10']=sumtotal[j].properties.VFP['FY2009-10']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2010-11'){sumtotal[j].properties.VFP['FY2010-11']=sumtotal[j].properties.VFP['FY2010-11']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2011-12'){sumtotal[j].properties.VFP['FY2011-12']=sumtotal[j].properties.VFP['FY2011-12']+Number(grants[i].totalawarded)};
-                   if(grants[i].yearofaward=='FY2012-13'){sumtotal[j].properties.VFP['FY2012-13']=sumtotal[j].properties.VFP['FY2012-13']+Number(grants[i].totalawarded)};                 
-                   if(grants[i].yearofaward=='FY2013-14'){sumtotal[j].properties.VFP['FY2013-14']=sumtotal[j].properties.VFP['FY2013-14']+Number(grants[i].totalawarded)};    
-                   if(grants[i].yearofaward=='FY2014-15'){sumtotal[j].properties.VFP['FY2014-15']=sumtotal[j].properties.VFP['FY2014-15']+Number(grants[i].totalawarded)};                     
+                   sumtotal[j].properties.projects.special.vfp.push(b);
                  }
                  
                } 
                
-               b={'projname': grants[i].projname, 'program': grants[i].programtype, 'dateofaward': grants[i].dateofaward, 'award': grants[i].totalawarded};
-               sumtotal[j].properties.projects.push(b);
+
              }
            }
                         
@@ -233,10 +227,6 @@ var n = this,
   return sum;
 }       
         
-        
-       
-        
-        
 var greyIcon = L.icon({
     iconUrl: 'img/grey.png',
     //shadowUrl: 'leaf-shadow.png',
@@ -247,36 +237,37 @@ var greyIcon = L.icon({
     popupAnchor:  [32, 0] // point from which the popup should open relative to the iconAnchor
 });  
         
-var geojsonLayer = L.geoJson(sumtotal, {
-    filter: function(feature, layer) {
-        return true;
-    },
-//     style: function(feature) {
-//         return {color: 'green'};
-//     },
-    pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
-    },
-    onEachFeature: function (feature, layer) {
-      var yearstart='start';  //get these from date slider eventually
-      var yearend='end';
-      
-      var csbg=sum(feature.properties.CSBG);
-      var ctf=sum(feature.properties.CTF);
-      
-      var popuphtml=feature.properties.govname + "<br />" + 
-          yearstart + "-" + yearend +"</br>" + 
-          "Total Awarded: $" + (feature.properties.total).formatMoney(0)  +"</br>" +
-          "CSBG: $" + csbg.formatMoney(0) +"</br>" +
-          "CTF: $" + ctf.formatMoney(0) +"</br>" ;
-      
-        layer.bindPopup(popuphtml);
-    }
-}).addTo(map);
         
-var stategrants = L.geoJson(sumtotal, {
+        
+function refreshdata(){        
+//geojsonLayer
+ city_federal = L.geoJson(sumtotal, {
     filter: function(feature, layer) {
-      if((Number(sum(feature.properties.EIAF))+Number(sum(feature.properties.GAME))+Number(sum(feature.properties.REDI)))>0){return true;}else{return false;}
+      
+      //filter out if no projects
+      var cdbgexist=(feature.properties.projects.federal.cdbg).length;
+      var csbgexist=(feature.properties.projects.federal.csbg).length;
+      if((cdbgexist+csbgexist)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(cdbgexist>0){
+        for(i=0;i<cdbgexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.federal.cdbg[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(csbgexist>0){
+        for(i=0;i<csbgexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.federal.csbg[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(countprojinrange===0){return false;}
+      
+      //filter by geography
+      if(feature.properties.lgtype==2 || feature.properties.lgtype==3 || feature.properties.lgtype==4 || feature.properties.lgtype==5 ){return true;}else{return false;}
+
     },
 //     style: function(feature) {
 //         return {color: 'green'};
@@ -301,9 +292,146 @@ var stategrants = L.geoJson(sumtotal, {
     }
 });
         
-var federalgrants = L.geoJson(sumtotal, {
+ county_federal = L.geoJson(sumtotal, {
     filter: function(feature, layer) {
-      if((Number(sum(feature.properties.CDBG))+Number(sum(feature.properties.CSBG)))>0){return true;}else{return false;}
+      
+      //filter out if no projects
+      var cdbgexist=(feature.properties.projects.federal.cdbg).length;
+      var csbgexist=(feature.properties.projects.federal.csbg).length;
+      if((cdbgexist+csbgexist)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(cdbgexist>0){
+        for(i=0;i<cdbgexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.federal.cdbg[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(csbgexist>0){
+        for(i=0;i<csbgexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.federal.csbg[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(countprojinrange===0){return false;}
+      
+      //filter by geography
+      if(feature.properties.lgtype==1 || feature.properties.lgtype==61 || feature.properties.lgtype==70  ){return true;}else{return false;}
+
+    },
+//     style: function(feature) {
+//         return {color: 'green'};
+//     },
+    pointToLayer: function(feature, latlng) {
+        return new L.Marker(latlng, {icon: greyIcon});
+    },
+    onEachFeature: function (feature, layer) {
+      var yearstart='start';  //get these from date slider eventually
+      var yearend='end';
+      
+      var csbg=sum(feature.properties.CSBG);
+      var ctf=sum(feature.properties.CTF);
+      
+      var popuphtml=feature.properties.govname + "<br />" + 
+          yearstart + "-" + yearend +"</br>" + 
+          "Total Awarded: $" + (feature.properties.total).formatMoney(0)  +"</br>" +
+          "CSBG: $" + csbg.formatMoney(0) +"</br>" +
+          "CTF: $" + ctf.formatMoney(0) +"</br>" ;
+      
+        layer.bindPopup(popuphtml);
+    }
+});     
+        
+        
+ district_federal = L.geoJson(sumtotal, {
+    filter: function(feature, layer) {
+      
+      //filter out if no projects
+      var cdbgexist=(feature.properties.projects.federal.cdbg).length;
+      var csbgexist=(feature.properties.projects.federal.csbg).length;
+      if((cdbgexist+csbgexist)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(cdbgexist>0){
+        for(i=0;i<cdbgexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.federal.cdbg[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(csbgexist>0){
+        for(i=0;i<csbgexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.federal.csbg[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(countprojinrange===0){return false;}
+      
+      //filter by geography
+      if(feature.properties.lgtype!==1 && feature.properties.lgtype!==61 && feature.properties.lgtype!==70 && feature.properties.lgtype!==2 && feature.properties.lgtype!==3 && feature.properties.lgtype!==4 && feature.properties.lgtype!==5){return true;}else{return false;}
+
+    },
+//     style: function(feature) {
+//         return {color: 'green'};
+//     },
+    pointToLayer: function(feature, latlng) {
+        return new L.Marker(latlng, {icon: greyIcon});
+    },
+    onEachFeature: function (feature, layer) {
+      var yearstart='start';  //get these from date slider eventually
+      var yearend='end';
+      
+      var csbg=sum(feature.properties.CSBG);
+      var ctf=sum(feature.properties.CTF);
+      
+      var popuphtml=feature.properties.govname + "<br />" + 
+          yearstart + "-" + yearend +"</br>" + 
+          "Total Awarded: $" + (feature.properties.total).formatMoney(0)  +"</br>" +
+          "CSBG: $" + csbg.formatMoney(0) +"</br>" +
+          "CTF: $" + ctf.formatMoney(0) +"</br>" ;
+      
+        layer.bindPopup(popuphtml);
+    }
+});            
+      
+        
+        
+//geojsonLayer
+ city_state = L.geoJson(sumtotal, {
+    filter: function(feature, layer) {
+      
+      //filter out if no projects
+      var eiafexist=(feature.properties.projects.state.eiaf).length;
+      var gameexist=(feature.properties.projects.state.game).length;
+      var rediexist=(feature.properties.projects.state.redi).length;      
+      if((eiafexist+gameexist+rediexist)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(eiafexist>0){
+        for(i=0;i<eiafexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.state.eiaf[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(gameexist>0){
+        for(i=0;i<gameexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.state.game[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(rediexist>0){
+        for(i=0;i<rediexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.state.redi[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }      
+      if(countprojinrange===0){return false;}
+      
+      //filter by geography
+      if(feature.properties.lgtype==2 || feature.properties.lgtype==3 || feature.properties.lgtype==4 || feature.properties.lgtype==5 ){return true;}else{return false;}
+
     },
 //     style: function(feature) {
 //         return {color: 'green'};
@@ -328,9 +456,162 @@ var federalgrants = L.geoJson(sumtotal, {
     }
 });
         
-var formulafunds = L.geoJson(sumtotal, {
+ county_state = L.geoJson(sumtotal, {
     filter: function(feature, layer) {
-      if((Number(sum(feature.properties.FMLDD))+Number(sum(feature.properties.FMLDDSB106))+Number(sum(feature.properties.CTF))+Number(sum(feature.properties.SEVEDD)))>0){return true;}else{return false;}
+      
+      //filter out if no projects
+      var eiafexist=(feature.properties.projects.state.eiaf).length;
+      var gameexist=(feature.properties.projects.state.game).length;
+      var rediexist=(feature.properties.projects.state.redi).length;      
+      if((eiafexist+gameexist+rediexist)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(eiafexist>0){
+        for(i=0;i<eiafexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.state.eiaf[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(gameexist>0){
+        for(i=0;i<gameexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.state.game[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(rediexist>0){
+        for(i=0;i<rediexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.state.redi[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }      
+      if(countprojinrange===0){return false;}
+            
+      if(feature.properties.lgtype==1 || feature.properties.lgtype==61 || feature.properties.lgtype==70  ){return true;}else{return false;}
+
+    },
+//     style: function(feature) {
+//         return {color: 'green'};
+//     },
+    pointToLayer: function(feature, latlng) {
+        return new L.Marker(latlng, {icon: greyIcon});
+    },
+    onEachFeature: function (feature, layer) {
+      var yearstart='start';  //get these from date slider eventually
+      var yearend='end';
+      
+      var csbg=sum(feature.properties.CSBG);
+      var ctf=sum(feature.properties.CTF);
+      
+      var popuphtml=feature.properties.govname + "<br />" + 
+          yearstart + "-" + yearend +"</br>" + 
+          "Total Awarded: $" + (feature.properties.total).formatMoney(0)  +"</br>" +
+          "CSBG: $" + csbg.formatMoney(0) +"</br>" +
+          "CTF: $" + ctf.formatMoney(0) +"</br>" ;
+      
+        layer.bindPopup(popuphtml);
+    }
+});     
+        
+        
+ district_state = L.geoJson(sumtotal, {
+    filter: function(feature, layer) {
+      
+      //filter out if no projects
+      var eiafexist=(feature.properties.projects.state.eiaf).length;
+      var gameexist=(feature.properties.projects.state.game).length;
+      var rediexist=(feature.properties.projects.state.redi).length;      
+      if((eiafexist+gameexist+rediexist)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(eiafexist>0){
+        for(i=0;i<eiafexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.state.eiaf[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(gameexist>0){
+        for(i=0;i<gameexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.state.game[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(rediexist>0){
+        for(i=0;i<rediexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.state.redi[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }      
+      if(countprojinrange===0){return false;}
+            
+      if(feature.properties.lgtype!==1 && feature.properties.lgtype!==61 && feature.properties.lgtype!==70 && feature.properties.lgtype!==2 && feature.properties.lgtype!==3 && feature.properties.lgtype!==4 && feature.properties.lgtype!==5){return true;}else{return false;}
+
+    },
+//     style: function(feature) {
+//         return {color: 'green'};
+//     },
+    pointToLayer: function(feature, latlng) {
+        return new L.Marker(latlng, {icon: greyIcon});
+    },
+    onEachFeature: function (feature, layer) {
+      var yearstart='start';  //get these from date slider eventually
+      var yearend='end';
+      
+      var csbg=sum(feature.properties.CSBG);
+      var ctf=sum(feature.properties.CTF);
+      
+      var popuphtml=feature.properties.govname + "<br />" + 
+          yearstart + "-" + yearend +"</br>" + 
+          "Total Awarded: $" + (feature.properties.total).formatMoney(0)  +"</br>" +
+          "CSBG: $" + csbg.formatMoney(0) +"</br>" +
+          "CTF: $" + ctf.formatMoney(0) +"</br>" ;
+      
+        layer.bindPopup(popuphtml);
+    }
+});            
+              
+//geojsonLayer
+ city_formula = L.geoJson(sumtotal, {
+    filter: function(feature, layer) {
+      
+      //filter out if no projects
+      var ctfexist=(feature.properties.projects.formula.ctf).length;
+      var fmlddexist=(feature.properties.projects.formula.fmldd).length;
+      var fmlddsb106exist=(feature.properties.projects.formula.fmlddsb106).length;      
+      var sevedd=(feature.properties.projects.formula.sevedd).length;            
+      if((ctfexist+fmlddexist+fmlddsb106exist+sevedd)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(ctfexist>0){
+        for(i=0;i<ctfexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.ctf[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(fmlddexist>0){
+        for(i=0;i<fmlddexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.fmldd[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(fmlddsb106exist>0){
+        for(i=0;i<fmlddsb106exist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.fmlddsb106[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }      
+      if(sevedd>0){
+        for(i=0;i<sevedd;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.sevedd[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }            
+      if(countprojinrange===0){return false;}
+            
+      if(feature.properties.lgtype==2 || feature.properties.lgtype==3 || feature.properties.lgtype==4 || feature.properties.lgtype==5 ){return true;}else{return false;}
+
     },
 //     style: function(feature) {
 //         return {color: 'green'};
@@ -355,9 +636,169 @@ var formulafunds = L.geoJson(sumtotal, {
     }
 });
         
-var specialfunding = L.geoJson(sumtotal, {
+ county_formula = L.geoJson(sumtotal, {
     filter: function(feature, layer) {
-      if((Number(sum(feature.properties.SAR))+Number(sum(feature.properties.VFP))+Number(sum(feature.properties.FFB)))>0){return true;}else{return false;}
+      
+      //filter out if no projects
+      var ctfexist=(feature.properties.projects.formula.ctf).length;
+      var fmlddexist=(feature.properties.projects.formula.fmldd).length;
+      var fmlddsb106exist=(feature.properties.projects.formula.fmlddsb106).length;      
+      var sevedd=(feature.properties.projects.formula.sevedd).length;            
+      if((ctfexist+fmlddexist+fmlddsb106exist+sevedd)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(ctfexist>0){
+        for(i=0;i<ctfexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.ctf[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(fmlddexist>0){
+        for(i=0;i<fmlddexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.fmldd[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(fmlddsb106exist>0){
+        for(i=0;i<fmlddsb106exist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.fmlddsb106[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }      
+      if(sevedd>0){
+        for(i=0;i<sevedd;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.sevedd[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }            
+      if(countprojinrange===0){return false;}
+                  
+      if(feature.properties.lgtype==1 || feature.properties.lgtype==61 || feature.properties.lgtype==70  ){return true;}else{return false;}
+
+    },
+//     style: function(feature) {
+//         return {color: 'green'};
+//     },
+    pointToLayer: function(feature, latlng) {
+        return new L.Marker(latlng, {icon: greyIcon});
+    },
+    onEachFeature: function (feature, layer) {
+      var yearstart='start';  //get these from date slider eventually
+      var yearend='end';
+      
+      var csbg=sum(feature.properties.CSBG);
+      var ctf=sum(feature.properties.CTF);
+      
+      var popuphtml=feature.properties.govname + "<br />" + 
+          yearstart + "-" + yearend +"</br>" + 
+          "Total Awarded: $" + (feature.properties.total).formatMoney(0)  +"</br>" +
+          "CSBG: $" + csbg.formatMoney(0) +"</br>" +
+          "CTF: $" + ctf.formatMoney(0) +"</br>" ;
+      
+        layer.bindPopup(popuphtml);
+    }
+});     
+        
+        
+ district_formula = L.geoJson(sumtotal, {
+    filter: function(feature, layer) {
+      
+      //filter out if no projects
+      var ctfexist=(feature.properties.projects.formula.ctf).length;
+      var fmlddexist=(feature.properties.projects.formula.fmldd).length;
+      var fmlddsb106exist=(feature.properties.projects.formula.fmlddsb106).length;      
+      var sevedd=(feature.properties.projects.formula.sevedd).length;            
+      if((ctfexist+fmlddexist+fmlddsb106exist+sevedd)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(ctfexist>0){
+        for(i=0;i<ctfexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.ctf[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(fmlddexist>0){
+        for(i=0;i<fmlddexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.fmldd[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(fmlddsb106exist>0){
+        for(i=0;i<fmlddsb106exist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.fmlddsb106[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }      
+      if(sevedd>0){
+        for(i=0;i<sevedd;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.formula.sevedd[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }            
+      if(countprojinrange===0){return false;}
+            
+      if(feature.properties.lgtype!==1 && feature.properties.lgtype!==61 && feature.properties.lgtype!==70 && feature.properties.lgtype!==2 && feature.properties.lgtype!==3 && feature.properties.lgtype!==4 && feature.properties.lgtype!==5){return true;}else{return false;}
+  
+    },
+//     style: function(feature) {
+//         return {color: 'green'};
+//     },
+    pointToLayer: function(feature, latlng) {
+        return new L.Marker(latlng, {icon: greyIcon});
+    },
+    onEachFeature: function (feature, layer) {
+      var yearstart='start';  //get these from date slider eventually
+      var yearend='end';
+      
+      var csbg=sum(feature.properties.CSBG);
+      var ctf=sum(feature.properties.CTF);
+      
+      var popuphtml=feature.properties.govname + "<br />" + 
+          yearstart + "-" + yearend +"</br>" + 
+          "Total Awarded: $" + (feature.properties.total).formatMoney(0)  +"</br>" +
+          "CSBG: $" + csbg.formatMoney(0) +"</br>" +
+          "CTF: $" + ctf.formatMoney(0) +"</br>" ;
+      
+        layer.bindPopup(popuphtml);
+    }
+});            
+
+//geojsonLayer
+ city_special = L.geoJson(sumtotal, {
+    filter: function(feature, layer) {
+      
+      //filter out if no projects
+      var ffbexist=(feature.properties.projects.special.ffb).length;
+      var sarexist=(feature.properties.projects.special.sar).length;
+      var vfpexist=(feature.properties.projects.special.vfp).length;      
+      if((ffbexist+sarexist+vfpexist)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(ffbexist>0){
+        for(i=0;i<ffbexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.special.ffb[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(sarexist>0){
+        for(i=0;i<sarexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.special.sar[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(vfpexist>0){
+        for(i=0;i<vfpexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.special.vfp[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }      
+      if(countprojinrange===0){return false;}
+                  
+      if(feature.properties.lgtype==2 || feature.properties.lgtype==3 || feature.properties.lgtype==4 || feature.properties.lgtype==5 ){return true;}else{return false;}
+
     },
 //     style: function(feature) {
 //         return {color: 'green'};
@@ -381,28 +822,208 @@ var specialfunding = L.geoJson(sumtotal, {
         layer.bindPopup(popuphtml);
     }
 });
-                
- var groupedOverlays = {
-  "Grants": {
-    "All": geojsonLayer
-    ,"State Grants": stategrants
-     ,"Federal Grants": federalgrants
-     ,"Formula Funds": formulafunds
-     ,"Special Funding": specialfunding
-  },
-     "Geo": {
-    "Cities": []
-    ,"Counties": []
-     ,"Districts": []
-  }
+        
+ county_special = L.geoJson(sumtotal, {
+    filter: function(feature, layer) {
+      
+      //filter out if no projects
+      var ffbexist=(feature.properties.projects.special.ffb).length;
+      var sarexist=(feature.properties.projects.special.sar).length;
+      var vfpexist=(feature.properties.projects.special.vfp).length;      
+      if((ffbexist+sarexist+vfpexist)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(ffbexist>0){
+        for(i=0;i<ffbexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.special.ffb[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(sarexist>0){
+        for(i=0;i<sarexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.special.sar[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(vfpexist>0){
+        for(i=0;i<vfpexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.special.vfp[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }      
+      if(countprojinrange===0){return false;}
+                 
+      if(feature.properties.lgtype==1 || feature.properties.lgtype==61 || feature.properties.lgtype==70  ){return true;}else{return false;}
+
+    },
+//     style: function(feature) {
+//         return {color: 'green'};
+//     },
+    pointToLayer: function(feature, latlng) {
+        return new L.Marker(latlng, {icon: greyIcon});
+    },
+    onEachFeature: function (feature, layer) {
+      var yearstart='start';  //get these from date slider eventually
+      var yearend='end';
+      
+      var csbg=sum(feature.properties.CSBG);
+      var ctf=sum(feature.properties.CTF);
+      
+      var popuphtml=feature.properties.govname + "<br />" + 
+          yearstart + "-" + yearend +"</br>" + 
+          "Total Awarded: $" + (feature.properties.total).formatMoney(0)  +"</br>" +
+          "CSBG: $" + csbg.formatMoney(0) +"</br>" +
+          "CTF: $" + ctf.formatMoney(0) +"</br>" ;
+      
+        layer.bindPopup(popuphtml);
+    }
+});     
+        
+        
+ district_special = L.geoJson(sumtotal, {
+    filter: function(feature, layer) {
+      
+      //filter out if no projects
+      var ffbexist=(feature.properties.projects.special.ffb).length;
+      var sarexist=(feature.properties.projects.special.sar).length;
+      var vfpexist=(feature.properties.projects.special.vfp).length;      
+      if((ffbexist+sarexist+vfpexist)==0){return false;}
+      
+      //filter out if no projects in date range
+      var countprojinrange=0;
+      if(ffbexist>0){
+        for(i=0;i<ffbexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.special.ffb[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(sarexist>0){
+        for(i=0;i<sarexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.special.sar[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }
+      if(vfpexist>0){
+        for(i=0;i<vfpexist;i=i+1){
+          var dateofproj = new Date(feature.properties.projects.special.vfp[i].dateofaward);
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
+            }
+      }      
+      if(countprojinrange===0){return false;}
+                 
+      if(feature.properties.lgtype!==1 && feature.properties.lgtype!==61 && feature.properties.lgtype!==70 && feature.properties.lgtype!==2 && feature.properties.lgtype!==3 && feature.properties.lgtype!==4 && feature.properties.lgtype!==5){return true;}else{return false;}
+
+    },
+//     style: function(feature) {
+//         return {color: 'green'};
+//     },
+    pointToLayer: function(feature, latlng) {
+        return new L.Marker(latlng, {icon: greyIcon});
+    },
+    onEachFeature: function (feature, layer) {
+      var yearstart='start';  //get these from date slider eventually
+      var yearend='end';
+      
+      var csbg=sum(feature.properties.CSBG);
+      var ctf=sum(feature.properties.CTF);
+      
+      var popuphtml=feature.properties.govname + "<br />" + 
+          yearstart + "-" + yearend +"</br>" + 
+          "Total Awarded: $" + (feature.properties.total).formatMoney(0)  +"</br>" + 
+          "CSBG: $" + csbg.formatMoney(0) +"</br>" + 
+          "CTF: $" + ctf.formatMoney(0) +"</br>" ;
+      
+        layer.bindPopup(popuphtml);
+    }
+});            
+
 };
+        
+        
+        
+        refreshdata();
+        
+//  var groupedOverlays = {
+//   "Grants": {
+//     "All": geojsonLayer
+//     ,"State Grants": stategrants
+//      ,"Federal Grants": federalgrants
+//      ,"Formula Funds": formulafunds
+//      ,"Special Funding": specialfunding
+//   },
+//      "Geo": {
+//     "Cities": []
+//     ,"Counties": []
+//      ,"Districts": []
+//   }
+// };
 
-var options = { exclusiveGroups: ["Grants"] };
+// var options = { exclusiveGroups: ["Grants"] };
 
-L.control.groupedLayers(null, groupedOverlays, options).addTo(map);       
+// L.control.groupedLayers(null, groupedOverlays, options).addTo(map);       
    
         
+        //addLayer, removeLayer and clearLayers are supported and they should work for most uses.
+        
         console.log(sumtotal);
+        
+        var markers = new L.MarkerClusterGroup();
+        
+        markers.addLayer(city_federal);    
+        markers.addLayer(county_federal); 
+        markers.addLayer(district_federal);         
+        markers.addLayer(city_state);    
+        markers.addLayer(county_state); 
+        markers.addLayer(district_state);   
+        markers.addLayer(city_formula);    
+        markers.addLayer(county_formula); 
+        markers.addLayer(district_formula);   
+        markers.addLayer(city_special);    
+        markers.addLayer(county_special); 
+        markers.addLayer(district_special);   
+        
+        map.addLayer(markers);
+
+
+
+
+     $("#slider").dateRangeSlider({
+  bounds:{
+    min: new Date("Thu Jan 01 2010 00:00:00 GMT-0700"),
+    max: maxdate
+  },
+       defaultValues:{
+    min: mindate,
+    max: maxdate
+  }
+     
+     });
+        
+$("#slider").bind("valuesChanged", function(e, data){
+  mindate = data.values.min;
+  maxdate = data.values.max;
+  
+    markers.clearLayers();
+   
+  refreshdata();
+   
+        markers.addLayer(city_federal);    
+        markers.addLayer(county_federal); 
+        markers.addLayer(district_federal);         
+        markers.addLayer(city_state);    
+        markers.addLayer(county_state); 
+        markers.addLayer(district_state);   
+        markers.addLayer(city_formula);    
+        markers.addLayer(county_formula); 
+        markers.addLayer(district_formula);   
+        markers.addLayer(city_special);    
+        markers.addLayer(county_special); 
+        markers.addLayer(district_special);   
+   
+  map.addLayer(markers); 
+  
+});
         
       });
     </script>
