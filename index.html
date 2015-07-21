@@ -1,7 +1,19 @@
 <html>
-  <body>
+  <head>
+    <title>Colorado Grants</title>
+    
+    <!-- Deferred
 
-     <link rel="stylesheet" href="jquery/jquery-ui.min.css" />    
+XY and BoundingBox?? for all Cities, Counties, Districts
+
+Correct Dates for Certain Programs:
+
+Yes, August 31 is statutory deadline.
+
+SB 106 was a onetime deal, April 30, 2014
+-->
+    
+         <link rel="stylesheet" href="jquery/jquery-ui.min.css" />    
      <link rel="stylesheet" href="jquery/jquery-ui.structure.min.css" />        
      <link rel="stylesheet" href="jquery/jquery-ui.theme.min.css" />     
      <link rel="stylesheet" href="css/classic-min.css" />  
@@ -10,8 +22,8 @@
     <link rel="stylesheet" href="css/leaflet.groupedlayercontrol.css" />
     <link rel="stylesheet" href="css/MarkerCluster.Default.css" />    
    
-
-
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/leaflet.extra-markers.css">
     
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="jquery/jquery-ui.min.js"></script>
@@ -21,10 +33,15 @@
     <script src="js/leaflet.groupedlayercontrol.min.js"></script>
     <script src="js/leaflet.markercluster.js"></script> 
 
-
+<script src="js/leaflet.extra-markers.js"></script>
     
     <script type="text/javascript" src="data/convertcsv.json"></script>
     <script type="text/javascript" src="data/stratfunding.json"></script>
+    
+  </head>
+  <body>
+
+
     
     <div id="map"></div>
 
@@ -66,7 +83,7 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
     center: [39, -105.5],
     zoom: 7,
     minZoom: 6,
-    maxZoom: 13, 
+    maxZoom: 12, 
 			layers: [grayscale]
 		});
 
@@ -227,15 +244,35 @@ var n = this,
   return sum;
 }       
         
-var greyIcon = L.icon({
-    iconUrl: 'img/grey.png',
-    //shadowUrl: 'leaf-shadow.png',
-    iconSize:     [18, 16], // size of the icon
-    //shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
-    //shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [32, 0] // point from which the popup should open relative to the iconAnchor
-});  
+  var redMarker = L.ExtraMarkers.icon({
+    icon: 'fa-usd',
+    markerColor: 'red',
+    shape: 'circle',
+    prefix: 'fa'
+  });
+        
+  var blueMarker = L.ExtraMarkers.icon({
+    icon: 'fa-usd',
+    markerColor: 'blue',
+    shape: 'circle',
+    prefix: 'fa'
+  });
+        
+  var greenMarker = L.ExtraMarkers.icon({
+    icon: 'fa-usd',
+    markerColor: 'green',
+    shape: 'circle',
+    prefix: 'fa'
+  });
+        
+  var purpleMarker = L.ExtraMarkers.icon({
+    icon: 'fa-usd',
+    markerColor: 'purple',
+    shape: 'circle',
+    prefix: 'fa'
+  });
+
+
         
         
         
@@ -273,7 +310,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: blueMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -324,7 +361,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: blueMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -376,7 +413,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: blueMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -437,7 +474,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: redMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -494,7 +531,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: redMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -552,7 +589,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: redMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -617,7 +654,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: greenMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -681,7 +718,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: greenMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -746,7 +783,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: greenMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -804,7 +841,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: purpleMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -861,7 +898,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: purpleMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
@@ -919,7 +956,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greyIcon});
+        return new L.Marker(latlng, {icon: purpleMarker});
     },
     onEachFeature: function (feature, layer) {
       var yearstart='start';  //get these from date slider eventually
