@@ -51,8 +51,8 @@ a.btn span
         border-radius: 10px;
         background: white;
         padding-top: 7px;
-        padding-left: 10px;
-        padding-right: 14px;
+        padding-left: 15px;
+        padding-right: 16px;
         padding-bottom: 2px;        
         border: 1px solid rgb(221,221,221);
         color: rgb(110,110,110);
@@ -84,4 +84,7 @@ input {
     top: -3px;
     *overflow: hidden;
 }
-      
+
+.desctext{
+  color: grey;
+}

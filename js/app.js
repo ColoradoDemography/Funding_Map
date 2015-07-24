@@ -7,6 +7,7 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
         
         var city_federal, county_federal, district_federal, city_state, county_state, district_state, city_formula, county_formula, district_formula, city_special, county_special, district_special;
         
+        var city_flag=1, county_flag=1, district_flag=1, federal_flag=1, state_flag=1, formula_flag=1, special_flag=1;
         
         var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
 				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -22,7 +23,8 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
     minZoom: 6,
     maxZoom: 12, 
 			layers: [grayscale],
-      zoomControl:false
+      zoomControl:false,
+      fullscreenControl: true
 		});
 
 // create the control
@@ -35,17 +37,17 @@ sliderctrl.onAdd = function (map) {
 };
 sliderctrl.addTo(map);
 
-        //disable click propogation to map below
-  var diva = L.DomUtil.get('slider');
-  L.DomEvent.disableClickPropagation(diva);   
+        
+//disable click propogation to map below
+var diva = L.DomUtil.get('slider');
+L.DomEvent.disableClickPropagation(diva);   
 
-        var browserwidth = $(window).width();        
+var browserwidth = $(window).width();        
 $('.sl').width((browserwidth-100)+"px");
   
 $( window ).resize(function() {
-          var browserwidth = $(window).width();        
-$('.sl').width((browserwidth-100)+"px");
-console.log('changed');
+     var browserwidth = $(window).width();        
+    $('.sl').width((browserwidth-100)+"px");
 });
         
         
@@ -59,7 +61,7 @@ var command = L.control({position: 'topleft'});
 
 command.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'command');
-    div.innerHTML = '<form><h4>Programs</h4><input id="federal" type="checkbox" checked />&nbsp;&nbsp;Federal<br /><input id="state" type="checkbox" checked />&nbsp;&nbsp;State<br /><input id="formula" type="checkbox" checked />&nbsp;&nbsp;Formula<br /><input id="special" type="checkbox" checked />&nbsp;&nbsp;Special<h4>Geo</h4><input id="city" type="checkbox" checked />&nbsp;&nbsp;City<br /><input id="county" type="checkbox" checked />&nbsp;&nbsp;County<br /><input id="district" type="checkbox" checked />&nbsp;&nbsp;District</form>'; 
+    div.innerHTML = '<form><h4>Programs</h4><input id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Federal<br /><input id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;State<br /><input id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Formula<br /><input id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Special<h4>Geo</h4><input id="city" type="checkbox" checked />&nbsp;&nbsp;City<br /><input id="county" type="checkbox" checked />&nbsp;&nbsp;County<br /><input id="district" type="checkbox" checked />&nbsp;&nbsp;District</form>'; 
     return div;
 };
 
@@ -68,26 +70,33 @@ command.addTo(map);
         
         
 function click_federal() {
-   console.log("click_federal");
+   if($('#federal').is(':checked')){federal_flag=1;}else{federal_flag=0;}
+  updatedata();
 }
 function click_state() {
-   console.log("click_federal");
+      if($('#state').is(':checked')){state_flag=1;}else{state_flag=0;}
+  updatedata();
 }
 function click_formula() {
-   console.log("click_federal");
+      if($('#formula').is(':checked')){formula_flag=1;}else{formula_flag=0;}
+  updatedata();
 }
 function click_special() {
-   console.log("click_federal");
+      if($('#special').is(':checked')){special_flag=1;}else{special_flag=0;}
+  updatedata();
 }
 
 function click_city() {
-   console.log("click_federal");
+      if($('#city').is(':checked')){city_flag=1;}else{city_flag=0;}
+  updatedata();
 }
 function click_county() {
-   console.log("click_federal");
+      if($('#county').is(':checked')){county_flag=1;}else{county_flag=0;}
+  updatedata();
 }
 function click_district() {
-   console.log("click_federal");
+      if($('#district').is(':checked')){district_flag=1;}else{district_flag=0;}
+  updatedata();
 }
         
         document.getElementById("federal").addEventListener ("click", click_federal, false);
@@ -2308,24 +2317,50 @@ function refreshdata(){
         
         var markers = new L.MarkerClusterGroup();
         
-        markers.addLayer(city_federal);    
-        markers.addLayer(county_federal); 
-        markers.addLayer(district_federal);         
-        markers.addLayer(city_state);    
-        markers.addLayer(county_state); 
-        markers.addLayer(district_state);   
-        markers.addLayer(city_formula);    
-        markers.addLayer(county_formula); 
-        markers.addLayer(district_formula);   
-        markers.addLayer(city_special);    
-        markers.addLayer(county_special); 
-        markers.addLayer(district_special);   
         
-        map.addLayer(markers);
+function updatedata(){
+
+  markers.clearLayers();
+  refreshdata();
+
+        if(city_flag===1 && federal_flag===1){markers.addLayer(city_federal); }
+        if(county_flag===1 && federal_flag===1){markers.addLayer(county_federal); }
+        if(district_flag===1 && federal_flag===1){markers.addLayer(district_federal); }
+  
+        if(city_flag===1 && state_flag===1){markers.addLayer(city_state); }
+        if(county_flag===1 && state_flag===1){markers.addLayer(county_state); }
+        if(district_flag===1 && state_flag===1){markers.addLayer(district_state); }
+  
+        if(city_flag===1 && formula_flag===1){markers.addLayer(city_formula); }
+        if(county_flag===1 && formula_flag===1){markers.addLayer(county_formula); }
+        if(district_flag===1 && formula_flag===1){markers.addLayer(district_formula); }
+  
+        if(city_flag===1 && special_flag===1){markers.addLayer(city_special); }
+        if(county_flag===1 && special_flag===1){markers.addLayer(county_special); }
+        if(district_flag===1 && special_flag===1){markers.addLayer(district_special); }
+  
+  map.addLayer(markers); 
+        }
+        
+        
+        
+        
+updatedata();
 
 
 
+        
 
+
+  L.easyButton('fa-question', function(btn, map){
+    
+map.openModal({ content: '<h4>Abbreviations</h4><table><tr><td><span class="ttext">CDBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Development Block Grants</span></td></tr><tr><td><span class="ttext">CSBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Services Block Grants</span></td></tr><tr><td><span class="ttext">CTF:</span></td><td><span class="desctext">&nbsp;&nbsp;Conservation Trust Fund</span></td></tr><tr><td><span class="ttext">EIAF:</span></td><td><span class="desctext">&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</span></td></tr><tr><td><span class="ttext">FFB:</span></td><td><span class="desctext">&nbsp;&nbsp;Firefighter Cardiac Benefit Program</span></td></tr><tr><td><span class="ttext">FMLDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</span></td></tr><tr><td><span class="ttext">FMLDDSB106:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</span></td></tr><tr><td><span class="ttext">GAME:</span></td><td><span class="desctext">&nbsp;&nbsp;Limited Gaming Impact Program</span></td></tr><tr><td><span class="ttext">REDI:</span></td><td><span class="desctext">&nbsp;&nbsp;Rural Economic Development Initiative</span></td></tr><tr><td><span class="ttext">SAR:</span></td><td><span class="desctext">&nbsp;&nbsp;Search and Rescue</span></td></tr><tr><td><span class="ttext">SEVEDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Severance Direct Distribution</span></td></tr><tr><td><span class="ttext">VFP:</span></td><td><span class="desctext">&nbsp;&nbsp;Volunteer Firefighter Pension Fund</span></td></tr></table><br /><h4>Development</h4><p><a href="https://jqueryui.com/">JQuery UI</a>, <a href="http://leafletjs.com/">Leaflet</a>, <a href="http://fortawesome.github.io/Font-Awesome/">Font-Awesome</a>, <a href="https://github.com/Leaflet/Leaflet.markercluster">Leaflet Marker Cluster</a>, <a href="https://github.com/coryasilva/Leaflet.ExtraMarkers">Leaflet Extra-Markers</a>, <a href="https://github.com/Leaflet/Leaflet.fullscreen">Leaflet Fullscreen</a>, <a href="https://github.com/CliffCloud/Leaflet.EasyButton">Leaflet Easy Button</a>, <a href="https://github.com/w8r/Leaflet.Modal">Leaflet Modal</a>, <a href="http://ghusse.github.io/jQRangeSlider/index.html">JQRangeSlider</a>, <a href="http://www.menucool.com/tooltip/css-tooltip">CSS Tooltip</a> </p>' }); 
+    
+  }).addTo( map ); // probably just `map`
+
+        
+        
+        
      $("#slider").dateRangeSlider({
   bounds:{
     min: new Date("Thu Jan 01 2010 00:00:00 GMT-0700"),
@@ -2337,30 +2372,13 @@ function refreshdata(){
   }
      
      });
+  
+        
         
 $("#slider").bind("valuesChanged", function(e, data){
-  mindate = data.values.min;
+    mindate = data.values.min;
   maxdate = data.values.max;
-  
-    markers.clearLayers();
-   
-  refreshdata();
-   
-        markers.addLayer(city_federal);    
-        markers.addLayer(county_federal); 
-        markers.addLayer(district_federal);         
-        markers.addLayer(city_state);    
-        markers.addLayer(county_state); 
-        markers.addLayer(district_state);   
-        markers.addLayer(city_formula);    
-        markers.addLayer(county_formula); 
-        markers.addLayer(district_formula);   
-        markers.addLayer(city_special);    
-        markers.addLayer(county_special); 
-        markers.addLayer(district_special);   
-   
-  map.addLayer(markers); 
-  
-});
+  updatedata();
+  });
         
       });
