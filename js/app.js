@@ -1,4 +1,10 @@
-      $(document).ready( function() {
+var map;  
+
+function popopen(table){
+        map.openModal({ content: table.replace(/\?/g, "'") });
+      }     
+
+$(document).ready( function() {
 
 
         
@@ -17,7 +23,7 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
 	    var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
 		    streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
         
-		var map = L.map('map', {
+		map = L.map('map', {
     center: [39, -105.5],
     zoom: 7,
     minZoom: 6,
@@ -153,6 +159,7 @@ var n = this,
     prefix: 'fa'
   });
 
+
         
 function refreshdata(){        
 //geojsonLayer
@@ -232,16 +239,21 @@ function refreshdata(){
         }
       }
 
+      function popopen(){
+        console.log('pop');
+        //map.openModal({ content: "<h4>Abbreviations</h4><p>Hi!</p>" });
+      }
+      
       var csbg_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.csbg).length;j=j+1){
           var datepj=new Date(feature.properties.projects.federal.csbg[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+'<tr><td>'+feature.properties.projects.federal.csbg[j].projname+'</td><td>' + $.datepicker.formatDate("mm/dd/y", datepj) + '</td><td align="right">$'+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+'</td></tr>'; 
           }
         }
         temptable = temptable + "</table>";
-        if(csbg_class == ''){ return ""; }else{ return '<a href="#" class="' + csbg_class + '">CSBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />'; }
+        if(csbg_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + csbg_class + '">CSBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var cdbg_text = function(){
@@ -253,7 +265,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(cdbg_class == ''){ return ""; }else{ return '<a href="#" class="' + cdbg_class + '">CDBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + cdbg_temptotal.formatMoney(0) + '<br />'; }
+        if(cdbg_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');"  class="' + cdbg_class + '">CDBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + cdbg_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       
@@ -353,7 +365,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(csbg_class == ''){ return ""; }else{ return '<a href="#" class="' + csbg_class + '">CSBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />'; }
+        if(csbg_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + csbg_class + '">CSBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var cdbg_text = function(){
@@ -365,7 +377,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(cdbg_class == ''){ return ""; }else{ return '<a href="#" class="' + cdbg_class + '">CDBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + cdbg_temptotal.formatMoney(0) + '<br />'; }
+        if(cdbg_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + cdbg_class + '">CDBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + cdbg_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       
@@ -463,7 +475,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(csbg_class == ''){ return ""; }else{ return '<a href="#" class="' + csbg_class + '">CSBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />'; }
+        if(csbg_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + csbg_class + '">CSBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var cdbg_text = function(){
@@ -475,7 +487,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(cdbg_class == ''){ return ""; }else{ return '<a href="#" class="' + cdbg_class + '">CDBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + cdbg_temptotal.formatMoney(0) + '<br />'; }
+        if(cdbg_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + cdbg_class + '">CDBG:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + cdbg_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       
@@ -607,7 +619,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(eiaf_class == ''){ return ""; }else{ return '<a href="#" class="' + eiaf_class + '">EIAF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + eiaf_temptotal.formatMoney(0) + '<br />'; }
+        if(eiaf_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + eiaf_class + '">EIAF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + eiaf_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var game_text = function(){
@@ -619,7 +631,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(game_class == ''){ return ""; }else{ return '<a href="#" class="' + game_class + '">GAME:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + game_temptotal.formatMoney(0) + '<br />'; }
+        if(game_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + game_class + '">GAME:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + game_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       var redi_text = function(){
@@ -631,7 +643,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(redi_class == ''){ return ""; }else{ return '<a href="#" class="' + redi_class + '">REDI:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + redi_temptotal.formatMoney(0) + '<br />'; }
+        if(redi_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + redi_class + '">REDI:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + redi_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       
@@ -757,7 +769,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(eiaf_class == ''){ return ""; }else{ return '<a href="#" class="' + eiaf_class + '">EIAF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + eiaf_temptotal.formatMoney(0) + '<br />'; }
+        if(eiaf_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + eiaf_class + '">EIAF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + eiaf_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var game_text = function(){
@@ -769,7 +781,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(game_class == ''){ return ""; }else{ return '<a href="#" class="' + game_class + '">GAME:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + game_temptotal.formatMoney(0) + '<br />'; }
+        if(game_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + game_class + '">GAME:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + game_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       var redi_text = function(){
@@ -781,7 +793,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(redi_class == ''){ return ""; }else{ return '<a href="#" class="' + redi_class + '">REDI:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + redi_temptotal.formatMoney(0) + '<br />'; }
+        if(redi_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + redi_class + '">REDI:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + redi_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       
@@ -905,7 +917,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(eiaf_class == ''){ return ""; }else{ return '<a href="#" class="' + eiaf_class + '">EIAF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + eiaf_temptotal.formatMoney(0) + '<br />'; }
+        if(eiaf_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + eiaf_class + '">EIAF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + eiaf_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var game_text = function(){
@@ -917,7 +929,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(game_class == ''){ return ""; }else{ return '<a href="#" class="' + game_class + '">GAME:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + game_temptotal.formatMoney(0) + '<br />'; }
+        if(game_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + game_class + '">GAME:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + game_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       var redi_text = function(){
@@ -929,7 +941,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(redi_class == ''){ return ""; }else{ return '<a href="#" class="' + redi_class + '">REDI:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + redi_temptotal.formatMoney(0) + '<br />'; }
+        if(redi_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + redi_class + '">REDI:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + redi_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       
@@ -1132,7 +1144,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(ctf_class == ''){ return ""; }else{ return '<a href="#" class="' + ctf_class + '">CTF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ctf_temptotal.formatMoney(0) + '<br />'; }
+        if(ctf_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + ctf_class + '">CTF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ctf_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var fmldd_text = function(){
@@ -1154,7 +1166,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(fmldd_class == ''){ return ""; }else{ return '<a href="#" class="' + fmldd_class + '">FMLDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmldd_temptotal.formatMoney(0) + '<br />'; }
+        if(fmldd_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + fmldd_class + '">FMLDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmldd_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       var fmlddsb106_text = function(){
@@ -1168,7 +1180,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(fmlddsb106_class == ''){ return ""; }else{ return '<a href="#" class="' + fmlddsb106_class + '">FMLDDSB106:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmlddsb106_temptotal.formatMoney(0) + '<br />'; }
+        if(fmlddsb106_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + fmlddsb106_class + '">FMLDDSB106:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmlddsb106_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var sevedd_text = function(){
@@ -1190,7 +1202,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(sevedd_class == ''){ return ""; }else{ return '<a href="#" class="' + sevedd_class + '">SEVEDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sevedd_temptotal.formatMoney(0) + '<br />'; }
+        if(sevedd_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + sevedd_class + '">SEVEDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sevedd_temptotal.formatMoney(0) + '<br />'; }
       }();          
       
       var popuphtml= "<h3>" + feature.properties.govname + "</h3>" + 
@@ -1388,7 +1400,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(ctf_class == ''){ return ""; }else{ return '<a href="#" class="' + ctf_class + '">CTF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ctf_temptotal.formatMoney(0) + '<br />'; }
+        if(ctf_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + ctf_class + '">CTF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ctf_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var fmldd_text = function(){
@@ -1410,7 +1422,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(fmldd_class == ''){ return ""; }else{ return '<a href="#" class="' + fmldd_class + '">FMLDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmldd_temptotal.formatMoney(0) + '<br />'; }
+        if(fmldd_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + fmldd_class + '">FMLDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmldd_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       var fmlddsb106_text = function(){
@@ -1424,7 +1436,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(fmlddsb106_class == ''){ return ""; }else{ return '<a href="#" class="' + fmlddsb106_class + '">FMLDDSB106:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmlddsb106_temptotal.formatMoney(0) + '<br />'; }
+        if(fmlddsb106_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + fmlddsb106_class + '">FMLDDSB106:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmlddsb106_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var sevedd_text = function(){
@@ -1446,7 +1458,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(sevedd_class == ''){ return ""; }else{ return '<a href="#" class="' + sevedd_class + '">SEVEDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sevedd_temptotal.formatMoney(0) + '<br />'; }
+        if(sevedd_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + sevedd_class + '">SEVEDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sevedd_temptotal.formatMoney(0) + '<br />'; }
       }();          
       
       var popuphtml= "<h3>" + feature.properties.govname + "</h3>" + 
@@ -1645,7 +1657,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(ctf_class == ''){ return ""; }else{ return '<a href="#" class="' + ctf_class + '">CTF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ctf_temptotal.formatMoney(0) + '<br />'; }
+        if(ctf_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + ctf_class + '">CTF:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ctf_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var fmldd_text = function(){
@@ -1667,7 +1679,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(fmldd_class == ''){ return ""; }else{ return '<a href="#" class="' + fmldd_class + '">FMLDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmldd_temptotal.formatMoney(0) + '<br />'; }
+        if(fmldd_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + fmldd_class + '">FMLDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmldd_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       var fmlddsb106_text = function(){
@@ -1681,7 +1693,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(fmlddsb106_class == ''){ return ""; }else{ return '<a href="#" class="' + fmlddsb106_class + '">FMLDDSB106:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmlddsb106_temptotal.formatMoney(0) + '<br />'; }
+        if(fmlddsb106_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + fmlddsb106_class + '">FMLDDSB106:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + fmlddsb106_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var sevedd_text = function(){
@@ -1703,7 +1715,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(sevedd_class == ''){ return ""; }else{ return '<a href="#" class="' + sevedd_class + '">SEVEDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sevedd_temptotal.formatMoney(0) + '<br />'; }
+        if(sevedd_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + sevedd_class + '">SEVEDD:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sevedd_temptotal.formatMoney(0) + '<br />'; }
       }();          
       
       var popuphtml= "<h3>" + feature.properties.govname + "</h3>" + 
@@ -1830,7 +1842,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(ffb_class == ''){ return ""; }else{ return '<a href="#" class="' + ffb_class + '">FFB:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ffb_temptotal.formatMoney(0) + '<br />'; }
+        if(ffb_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + ffb_class + '">FFB:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ffb_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var sar_text = function(){
@@ -1842,7 +1854,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(sar_class == ''){ return ""; }else{ return '<a href="#" class="' + sar_class + '">SAR:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sar_temptotal.formatMoney(0) + '<br />'; }
+        if(sar_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + sar_class + '">SAR:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sar_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       var vfp_text = function(){
@@ -1854,7 +1866,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(vfp_class == ''){ return ""; }else{ return '<a href="#" class="' + vfp_class + '">VFP:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + vfp_temptotal.formatMoney(0) + '<br />'; }
+        if(vfp_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + vfp_class + '">VFP:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + vfp_temptotal.formatMoney(0) + '<br />'; }
       }();      
 
       
@@ -1977,7 +1989,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(ffb_class == ''){ return ""; }else{ return '<a href="#" class="' + ffb_class + '">FFB:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ffb_temptotal.formatMoney(0) + '<br />'; }
+        if(ffb_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + ffb_class + '">FFB:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ffb_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var sar_text = function(){
@@ -1989,7 +2001,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(sar_class == ''){ return ""; }else{ return '<a href="#" class="' + sar_class + '">SAR:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sar_temptotal.formatMoney(0) + '<br />'; }
+        if(sar_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + sar_class + '">SAR:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sar_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       var vfp_text = function(){
@@ -2001,7 +2013,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(vfp_class == ''){ return ""; }else{ return '<a href="#" class="' + vfp_class + '">VFP:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + vfp_temptotal.formatMoney(0) + '<br />'; }
+        if(vfp_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + vfp_class + '">VFP:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + vfp_temptotal.formatMoney(0) + '<br />'; }
       }();      
 
       
@@ -2125,7 +2137,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(ffb_class == ''){ return ""; }else{ return '<a href="#" class="' + ffb_class + '">FFB:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ffb_temptotal.formatMoney(0) + '<br />'; }
+        if(ffb_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + ffb_class + '">FFB:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + ffb_temptotal.formatMoney(0) + '<br />'; }
       }();      
       
       var sar_text = function(){
@@ -2137,7 +2149,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(sar_class == ''){ return ""; }else{ return '<a href="#" class="' + sar_class + '">SAR:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sar_temptotal.formatMoney(0) + '<br />'; }
+        if(sar_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + sar_class + '">SAR:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + sar_temptotal.formatMoney(0) + '<br />'; }
       }();
       
       var vfp_text = function(){
@@ -2149,7 +2161,7 @@ function refreshdata(){
           }
         }
         temptable = temptable + "</table>";
-        if(vfp_class == ''){ return ""; }else{ return '<a href="#" class="' + vfp_class + '">VFP:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + vfp_temptotal.formatMoney(0) + '<br />'; }
+        if(vfp_class == ''){ return ""; }else{ return '<a href="#" onclick="popopen(\''+temptable.replace(/'/g, "?")+'\');" class="' + vfp_class + '">VFP:<span><img class="callout" src="cssttp/callout.gif" />' + temptable + '</span></a>  $' + vfp_temptotal.formatMoney(0) + '<br />'; }
       }();      
 
       
