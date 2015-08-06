@@ -249,7 +249,7 @@ function refreshdata(){
         for(j=0;j<(feature.properties.projects.federal.csbg).length;j=j+1){
           var datepj=new Date(feature.properties.projects.federal.csbg[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+'<tr><td>'+feature.properties.projects.federal.csbg[j].projname+'</td><td>' + $.datepicker.formatDate("mm/dd/y", datepj) + '</td><td align="right">$'+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+'</td></tr>'; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
