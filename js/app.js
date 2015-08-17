@@ -32,7 +32,80 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
       zoomControl:false,
       fullscreenControl: true
 		});
+  
+    L.easyButton('fa-question', function(btn, map){
+    
+map.openModal({ content: '<h4>Abbreviations</h4><table><tr><td><span class="ttext">CDBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Development Block Grants</span></td></tr><tr><td><span class="ttext">CSBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Services Block Grants</span></td></tr><tr><td><span class="ttext">CTF:</span></td><td><span class="desctext">&nbsp;&nbsp;Conservation Trust Fund</span></td></tr><tr><td><span class="ttext">EIAF:</span></td><td><span class="desctext">&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</span></td></tr><tr><td><span class="ttext">FFB:</span></td><td><span class="desctext">&nbsp;&nbsp;Firefighter Cardiac Benefit Program</span></td></tr><tr><td><span class="ttext">FMLDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</span></td></tr><tr><td><span class="ttext">FMLDDSB106:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</span></td></tr><tr><td><span class="ttext">GAME:</span></td><td><span class="desctext">&nbsp;&nbsp;Limited Gaming Impact Program</span></td></tr><tr><td><span class="ttext">REDI:</span></td><td><span class="desctext">&nbsp;&nbsp;Rural Economic Development Initiative</span></td></tr><tr><td><span class="ttext">SAR:</span></td><td><span class="desctext">&nbsp;&nbsp;Search and Rescue</span></td></tr><tr><td><span class="ttext">SEVEDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Severance Direct Distribution</span></td></tr><tr><td><span class="ttext">VFP:</span></td><td><span class="desctext">&nbsp;&nbsp;Volunteer Firefighter Pension Fund</span></td></tr></table><br /><h4>Development</h4><p><a href="https://jqueryui.com/">JQuery UI</a>, <a href="http://leafletjs.com/">Leaflet</a>, <a href="http://fortawesome.github.io/Font-Awesome/">Font-Awesome</a>, <a href="https://github.com/Leaflet/Leaflet.markercluster">Leaflet Marker Cluster</a>, <a href="https://github.com/coryasilva/Leaflet.ExtraMarkers">Leaflet Extra-Markers</a>, <a href="https://github.com/Leaflet/Leaflet.fullscreen">Leaflet Fullscreen</a>, <a href="https://github.com/CliffCloud/Leaflet.EasyButton">Leaflet Easy Button</a>, <a href="https://github.com/w8r/Leaflet.Modal">Leaflet Modal</a>, <a href="http://ghusse.github.io/jQRangeSlider/index.html">JQRangeSlider</a>, <a href="http://www.menucool.com/tooltip/css-tooltip">CSS Tooltip</a> </p>' }); 
+    
+  }).addTo( map ); // probably just `map`
 
+  function field_onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.FieldReg_N) {
+        layer.bindPopup(feature.properties.FieldReg_N+" Region");
+    }
+}
+
+    function plan_onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.PlanRgn) {
+        layer.bindPopup("Region "+ feature.properties.PlanRgn);
+    }
+}
+  
+  var field = new L.geoJson(null, {
+    style: function(feature) {
+        switch (feature.properties.fieldreg) {
+          case "sc": return {stroke: false, color: "rgb(102,237,100)"};
+            case "sw":   return {stroke: false, color: "rgb(176,118,79)"};
+            case "se":   return {stroke: false, color: "rgb(116,68,194)"};
+            case "nw":   return {stroke: false, color: "rgb(81,197,232)"};   
+            case "nm": return {stroke: false, color: "rgb(250,105,173)"};
+            case "ne":   return {stroke: false, color: "rgb(73,128,74)"};
+            case "c":   return {stroke: false, color: "rgb(255,255,115)"};
+            case "nc":   return {stroke: false, color: "rgb(47,80,130)"};              
+        }          
+    },
+    onEachFeature: field_onEachFeature
+    });
+
+$.ajax({
+dataType: "json",
+url: "data/fieldregions_500.geojson",
+success: function(data) {
+    $(data.features).each(function(key, data) {
+        field.addData(data);
+    });
+}
+}).error(function() {});
+
+  
+  var plan = new L.geoJson(null, {
+    style: function(feature){return {weight:2, color: "#000", fillOpacity: 0};
+    },
+    onEachFeature: plan_onEachFeature
+    });
+
+$.ajax({
+dataType: "json",
+url: "data/plan001.geojson",
+success: function(data) {
+    $(data.features).each(function(key, data) {
+        plan.addData(data);
+    });
+}
+}).error(function() {});
+
+    
+
+var overlays = {
+    "Field Regions": field,
+    "Planning Regions": plan
+};
+
+L.control.layers(null, overlays).addTo(map);  
+  
+  
 // create the control
 var sliderctrl = L.control({position: 'bottomleft'});
 sliderctrl.onAdd = function (map) {
@@ -58,6 +131,8 @@ $( window ).resize(function() {
         
         
         
+  
+  
         
         
         
@@ -67,27 +142,27 @@ var command = L.control({position: 'topleft'});
 
 command.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'command');
-    div.innerHTML = '<form><h4>Programs</h4><input id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Federal<br /><span class="spanindent">' +
+    div.innerHTML = '<form><h4>Programs</h4><input class="leg" id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Federal<br /><span class="spanindent">' +
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>CDBG:</td><td>&nbsp;&nbsp;Community Development Block Grants</td></tr></table>\')">CDBG<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>CDBG:</td><td>&nbsp;&nbsp;Community Development Block Grants</td></tr></table></span></a>, ' + 
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>CSBG:</td><td>&nbsp;&nbsp;Community Services Block Grants</td></tr></table>\')">CSBG<span><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>CSBG:</td><td>&nbsp;&nbsp;Community Services Block Grants</td></tr></table></span></a></span><br />' + 
       
-      '<input id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;State<br /><span class="spanindent">' +
+      '<input class="leg" id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;State<br /><span class="spanindent">' +
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>EIAF:</td><td>&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</td></tr></table>\')">EIAF<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>EIAF:</td><td>&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>GAME:</td><td>&nbsp;&nbsp;Limited Gaming Impact Program</td></tr></table>\')">GAME<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>GAME:</td><td>&nbsp;&nbsp;Limited Gaming Impact Program</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>REDI:</td><td>&nbsp;&nbsp;Rural Economic Development Initiative</td></tr></table>\')">REDI<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>REDI:</td><td>&nbsp;&nbsp;Rural Economic Development Initiative</td></tr></table></span></a></span><br />'+
       
-      '<input id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Formula<br /><span class="spanindent">'+
+      '<input class="leg" id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Formula<br /><span class="spanindent">'+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>CTF:</td><td>&nbsp;&nbsp;Conservation Trust Fund</td></tr></table>\')">CTF<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>CTF:</td><td>&nbsp;&nbsp;Conservation Trust Fund</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>SEVEDD:</td><td>&nbsp;&nbsp;Severance Direct Distribution</td></tr></table>\')">SEVEDD<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>SEVEDD:</td><td>&nbsp;&nbsp;Severance Direct Distribution</td></tr></table></span></a></span><br /><span class="spanindent">'+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>FMLDD:</td><td>&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</td></tr></table>\')">FMLDD<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>FMLDD:</td><td>&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>FMLDDSB106:</td><td>&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</td></tr></table>\')">FMLDDSB106<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>FMLDDSB106:</td><td>&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</td></tr></table></span></a></span><br />'+
       
-      '<input id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Special<br /><span class="spanindent">'+
+      '<input class="leg" id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Special<br /><span class="spanindent">'+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>FFB:</td><td>&nbsp;&nbsp;Firefighter Cardiac Benefit Program</td></tr></table>\')">FFB<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>FFB:</td><td>&nbsp;&nbsp;Firefighter Cardiac Benefit Program</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>SAR:</td><td>&nbsp;&nbsp;Search and Rescue</td></tr></table>\')">SAR<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>SAR:</td><td>&nbsp;&nbsp;Search and Rescue</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>VFP:</td><td>&nbsp;&nbsp;Volunteer Firefighter Pension Fund</td></tr></table>\')">VFP<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>VFP:</td><td>&nbsp;&nbsp;Volunteer Firefighter Pension Fund</td></tr></table></span></a></span><br />'+
       
-      '<h4>Government Type</h4><input id="city" type="checkbox" checked />&nbsp;&nbsp;City<br /><input id="county" type="checkbox" checked />&nbsp;&nbsp;County<br /><input id="district" type="checkbox" checked />&nbsp;&nbsp;District</form>'; 
+      '<h4>Government Type</h4><input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;City<br /><input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;County<br /><input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;District</form>'; 
     return div;
 };
 
@@ -2244,11 +2319,6 @@ updatedata();
         
 
 
-  L.easyButton('fa-question', function(btn, map){
-    
-map.openModal({ content: '<h4>Abbreviations</h4><table><tr><td><span class="ttext">CDBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Development Block Grants</span></td></tr><tr><td><span class="ttext">CSBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Services Block Grants</span></td></tr><tr><td><span class="ttext">CTF:</span></td><td><span class="desctext">&nbsp;&nbsp;Conservation Trust Fund</span></td></tr><tr><td><span class="ttext">EIAF:</span></td><td><span class="desctext">&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</span></td></tr><tr><td><span class="ttext">FFB:</span></td><td><span class="desctext">&nbsp;&nbsp;Firefighter Cardiac Benefit Program</span></td></tr><tr><td><span class="ttext">FMLDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</span></td></tr><tr><td><span class="ttext">FMLDDSB106:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</span></td></tr><tr><td><span class="ttext">GAME:</span></td><td><span class="desctext">&nbsp;&nbsp;Limited Gaming Impact Program</span></td></tr><tr><td><span class="ttext">REDI:</span></td><td><span class="desctext">&nbsp;&nbsp;Rural Economic Development Initiative</span></td></tr><tr><td><span class="ttext">SAR:</span></td><td><span class="desctext">&nbsp;&nbsp;Search and Rescue</span></td></tr><tr><td><span class="ttext">SEVEDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Severance Direct Distribution</span></td></tr><tr><td><span class="ttext">VFP:</span></td><td><span class="desctext">&nbsp;&nbsp;Volunteer Firefighter Pension Fund</span></td></tr></table><br /><h4>Development</h4><p><a href="https://jqueryui.com/">JQuery UI</a>, <a href="http://leafletjs.com/">Leaflet</a>, <a href="http://fortawesome.github.io/Font-Awesome/">Font-Awesome</a>, <a href="https://github.com/Leaflet/Leaflet.markercluster">Leaflet Marker Cluster</a>, <a href="https://github.com/coryasilva/Leaflet.ExtraMarkers">Leaflet Extra-Markers</a>, <a href="https://github.com/Leaflet/Leaflet.fullscreen">Leaflet Fullscreen</a>, <a href="https://github.com/CliffCloud/Leaflet.EasyButton">Leaflet Easy Button</a>, <a href="https://github.com/w8r/Leaflet.Modal">Leaflet Modal</a>, <a href="http://ghusse.github.io/jQRangeSlider/index.html">JQRangeSlider</a>, <a href="http://www.menucool.com/tooltip/css-tooltip">CSS Tooltip</a> </p>' }); 
-    
-  }).addTo( map ); // probably just `map`
 
         
         
