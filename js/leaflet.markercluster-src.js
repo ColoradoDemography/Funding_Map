@@ -592,14 +592,18 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 		var childCount = cluster.getChildCount();
 
 		var c = ' marker-cluster-';
-		if (childCount < 10) {
+		if (childCount < 5) {
 			c += 'small';
-		} else if (childCount < 100) {
+		} else if (childCount < 30) {
 			c += 'medium';
 		} else {
 			c += 'large';
 		}
 
+    //custom eliminate marker numbers
+    childCount="";
+    
+    
 		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
 	},
 

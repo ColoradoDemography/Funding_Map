@@ -67,10 +67,31 @@ var command = L.control({position: 'topleft'});
 
 command.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'command');
-    div.innerHTML = '<form><h4>Programs</h4><input id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Federal<br /><input id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;State<br /><input id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Formula<br /><input id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Special<h4>Geo</h4><input id="city" type="checkbox" checked />&nbsp;&nbsp;City<br /><input id="county" type="checkbox" checked />&nbsp;&nbsp;County<br /><input id="district" type="checkbox" checked />&nbsp;&nbsp;District</form>'; 
+    div.innerHTML = '<form><h4>Programs</h4><input id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Federal<br /><span class="spanindent">' +
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>CDBG:</td><td>&nbsp;&nbsp;Community Development Block Grants</td></tr></table>\')">CDBG<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>CDBG:</td><td>&nbsp;&nbsp;Community Development Block Grants</td></tr></table></span></a>, ' + 
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>CSBG:</td><td>&nbsp;&nbsp;Community Services Block Grants</td></tr></table>\')">CSBG<span><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>CSBG:</td><td>&nbsp;&nbsp;Community Services Block Grants</td></tr></table></span></a></span><br />' + 
+      
+      '<input id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;State<br /><span class="spanindent">' +
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>EIAF:</td><td>&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</td></tr></table>\')">EIAF<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>EIAF:</td><td>&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</td></tr></table></span></a>, '+
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>GAME:</td><td>&nbsp;&nbsp;Limited Gaming Impact Program</td></tr></table>\')">GAME<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>GAME:</td><td>&nbsp;&nbsp;Limited Gaming Impact Program</td></tr></table></span></a>, '+
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>REDI:</td><td>&nbsp;&nbsp;Rural Economic Development Initiative</td></tr></table>\')">REDI<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>REDI:</td><td>&nbsp;&nbsp;Rural Economic Development Initiative</td></tr></table></span></a></span><br />'+
+      
+      '<input id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Formula<br /><span class="spanindent">'+
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>CTF:</td><td>&nbsp;&nbsp;Conservation Trust Fund</td></tr></table>\')">CTF<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>CTF:</td><td>&nbsp;&nbsp;Conservation Trust Fund</td></tr></table></span></a>, '+
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>SEVEDD:</td><td>&nbsp;&nbsp;Severance Direct Distribution</td></tr></table>\')">SEVEDD<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>SEVEDD:</td><td>&nbsp;&nbsp;Severance Direct Distribution</td></tr></table></span></a></span><br /><span class="spanindent">'+
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>FMLDD:</td><td>&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</td></tr></table>\')">FMLDD<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>FMLDD:</td><td>&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</td></tr></table></span></a>, '+
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>FMLDDSB106:</td><td>&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</td></tr></table>\')">FMLDDSB106<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>FMLDDSB106:</td><td>&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</td></tr></table></span></a></span><br />'+
+      
+      '<input id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Special<br /><span class="spanindent">'+
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>FFB:</td><td>&nbsp;&nbsp;Firefighter Cardiac Benefit Program</td></tr></table>\')">FFB<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>FFB:</td><td>&nbsp;&nbsp;Firefighter Cardiac Benefit Program</td></tr></table></span></a>, '+
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>SAR:</td><td>&nbsp;&nbsp;Search and Rescue</td></tr></table>\')">SAR<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>SAR:</td><td>&nbsp;&nbsp;Search and Rescue</td></tr></table></span></a>, '+
+      '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>VFP:</td><td>&nbsp;&nbsp;Volunteer Firefighter Pension Fund</td></tr></table>\')">VFP<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>VFP:</td><td>&nbsp;&nbsp;Volunteer Firefighter Pension Fund</td></tr></table></span></a></span><br />'+
+      
+      '<h4>Government Type</h4><input id="city" type="checkbox" checked />&nbsp;&nbsp;City<br /><input id="county" type="checkbox" checked />&nbsp;&nbsp;County<br /><input id="district" type="checkbox" checked />&nbsp;&nbsp;District</form>'; 
     return div;
 };
 
+  
 command.addTo(map);
         
         
@@ -245,11 +266,11 @@ function refreshdata(){
       }
       
       var csbg_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.csbg).length;j=j+1){
           var datepj=new Date(feature.properties.projects.federal.csbg[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>"+feature.properties.projects.federal.csbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -257,11 +278,11 @@ function refreshdata(){
       }();      
       
       var cdbg_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.cdbg).length;j=j+1){
           var datepj=new Date(feature.properties.projects.federal.cdbg[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.cdbg[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.cdbg[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.cdbg[j].projname+"</td><td>"+feature.properties.projects.federal.cdbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.cdbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -357,11 +378,11 @@ function refreshdata(){
       }
 
       var csbg_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.csbg).length;j=j+1){
           var datepj=new Date(feature.properties.projects.federal.csbg[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>"+feature.properties.projects.federal.csbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -369,11 +390,11 @@ function refreshdata(){
       }();      
       
       var cdbg_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.cdbg).length;j=j+1){
           var datepj=new Date(feature.properties.projects.federal.cdbg[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.cdbg[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.cdbg[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.cdbg[j].projname+"</td><td>"+feature.properties.projects.federal.cdbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.cdbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -467,11 +488,11 @@ function refreshdata(){
       }
 
       var csbg_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.csbg).length;j=j+1){
           var datepj=new Date(feature.properties.projects.federal.csbg[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>"+feature.properties.projects.federal.csbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -479,11 +500,11 @@ function refreshdata(){
       }();      
       
       var cdbg_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.cdbg).length;j=j+1){
           var datepj=new Date(feature.properties.projects.federal.cdbg[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.cdbg[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.cdbg[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.federal.cdbg[j].projname+"</td><td>"+feature.properties.projects.federal.cdbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.cdbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -611,11 +632,11 @@ function refreshdata(){
                                               
                                               
       var eiaf_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.eiaf).length;j=j+1){
           var datepj=new Date(feature.properties.projects.state.eiaf[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.state.eiaf[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.eiaf[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.state.eiaf[j].projname+"</td><td>"+feature.properties.projects.state.eiaf[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.eiaf[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -623,11 +644,11 @@ function refreshdata(){
       }();      
       
       var game_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.game).length;j=j+1){
           var datepj=new Date(feature.properties.projects.state.game[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.state.game[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.game[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.state.game[j].projname+"</td><td>"+feature.properties.projects.state.game[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.game[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -635,11 +656,11 @@ function refreshdata(){
       }();
       
       var redi_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.redi).length;j=j+1){
           var datepj=new Date(feature.properties.projects.state.redi[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.state.redi[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.redi[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.state.redi[j].projname+"</td><td>"+feature.properties.projects.state.redi[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.redi[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -761,11 +782,11 @@ function refreshdata(){
                                               
                                               
       var eiaf_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.eiaf).length;j=j+1){
           var datepj=new Date(feature.properties.projects.state.eiaf[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.state.eiaf[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.eiaf[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.state.eiaf[j].projname+"</td><td>"+feature.properties.projects.state.eiaf[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.eiaf[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -773,11 +794,11 @@ function refreshdata(){
       }();      
       
       var game_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.game).length;j=j+1){
           var datepj=new Date(feature.properties.projects.state.game[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.state.game[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.game[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.state.game[j].projname+"</td><td>"+feature.properties.projects.state.game[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.game[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -785,11 +806,11 @@ function refreshdata(){
       }();
       
       var redi_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.redi).length;j=j+1){
           var datepj=new Date(feature.properties.projects.state.redi[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.state.redi[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.redi[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.state.redi[j].projname+"</td><td>"+feature.properties.projects.state.redi[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.redi[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -909,11 +930,11 @@ function refreshdata(){
                                               
                                               
       var eiaf_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.eiaf).length;j=j+1){
           var datepj=new Date(feature.properties.projects.state.eiaf[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.state.eiaf[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.eiaf[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.state.eiaf[j].projname+"</td><td>"+feature.properties.projects.state.eiaf[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.eiaf[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -921,11 +942,11 @@ function refreshdata(){
       }();      
       
       var game_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.game).length;j=j+1){
           var datepj=new Date(feature.properties.projects.state.game[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.state.game[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.game[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.state.game[j].projname+"</td><td>"+feature.properties.projects.state.game[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.game[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -933,11 +954,11 @@ function refreshdata(){
       }();
       
       var redi_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.redi).length;j=j+1){
           var datepj=new Date(feature.properties.projects.state.redi[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.state.redi[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.redi[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.state.redi[j].projname+"</td><td>"+feature.properties.projects.state.redi[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.redi[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -1834,11 +1855,11 @@ function refreshdata(){
                                       
                                               
       var ffb_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.ffb).length;j=j+1){
           var datepj=new Date(feature.properties.projects.special.ffb[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.special.ffb[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.ffb[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.special.ffb[j].projname+"</td><td>"+feature.properties.projects.special.ffb[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.ffb[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -1981,11 +2002,11 @@ function refreshdata(){
                                       
                                               
       var ffb_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.ffb).length;j=j+1){
           var datepj=new Date(feature.properties.projects.special.ffb[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.special.ffb[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.ffb[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.special.ffb[j].projname+"</td><td>"+feature.properties.projects.special.ffb[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.ffb[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
@@ -2129,11 +2150,11 @@ function refreshdata(){
                                       
                                               
       var ffb_text = function(){
-        var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
+        var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.ffb).length;j=j+1){
           var datepj=new Date(feature.properties.projects.special.ffb[j].dateofaward); 
           if(datepj>mindate && datepj<maxdate){
-          temptable = temptable+"<tr><td>"+feature.properties.projects.special.ffb[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.ffb[j].award).formatMoney(0)+"</td></tr>"; 
+          temptable = temptable+"<tr><td>"+feature.properties.projects.special.ffb[j].projname+"</td><td>"+feature.properties.projects.special.ffb[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.ffb[j].award).formatMoney(0)+"</td></tr>"; 
           }
         }
         temptable = temptable + "</table>";
