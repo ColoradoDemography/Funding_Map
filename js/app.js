@@ -304,7 +304,7 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-
+      var icon;
       var zl=map.getZoom();
       if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng+const_z6;}
       if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng+const_z7;}      
@@ -313,8 +313,9 @@ function refreshdata(){
       if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng+const_z10;} 
       if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng+const_z11;}  
       if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng+const_z12;}   
-      
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});
+      icon=blueMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -434,6 +435,7 @@ function refreshdata(){
 //     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
+      var icon;
       
       if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng+const_z6;}
       if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng+const_z7;}      
@@ -443,7 +445,10 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng+const_z11;}  
       if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng+const_z12;}
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});
+      
+            icon=blueMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -555,6 +560,7 @@ function refreshdata(){
     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
+      var icon;
       if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng+const_z6;}
       if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng+const_z7;}      
       if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng+const_z8;}
@@ -563,7 +569,9 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng+const_z11;}  
       if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng+const_z12;}
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});
+      icon=blueMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -687,6 +695,8 @@ function refreshdata(){
 //     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
+      var icon;
+      
       if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng+const_z6;}
       if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng+const_z7;}      
       if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng+const_z8;}
@@ -695,7 +705,9 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng+const_z11;}  
       if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng+const_z12;} 
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});
+            icon=redMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {      
@@ -848,6 +860,8 @@ function refreshdata(){
 //     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
+      var icon;
+      
       if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng+const_z6;}
       if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng+const_z7;}      
       if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng+const_z8;}
@@ -856,7 +870,9 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng+const_z11;}  
       if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng+const_z12;}
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});
+            icon=redMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});}
+      
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -1006,6 +1022,8 @@ function refreshdata(){
     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
+      var icon;
+      
       if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng+const_z6;}
       if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng+const_z7;}      
       if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng+const_z8;}
@@ -1014,7 +1032,9 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng+const_z11;}  
       if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng+const_z12;}
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});
+            icon=redMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});}
+      
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -1190,6 +1210,8 @@ function refreshdata(){
 //     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
+      var icon;
+      
       if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng-const_z6;}
       if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng-const_z7;}      
       if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng-const_z8;}
@@ -1198,7 +1220,9 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng-const_z11;}  
       if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng-const_z12;}
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});
+      icon=greenMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -1455,6 +1479,7 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
+      var icon;
       var zl=map.getZoom();
       if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng-const_z6;}
       if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng-const_z7;}      
@@ -1464,7 +1489,9 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng-const_z11;}  
       if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng-const_z12;}
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});
+        icon=greenMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});}    
+      
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -1722,6 +1749,7 @@ function refreshdata(){
   
     },
     pointToLayer: function(feature, latlng) {
+      var icon;
       var zl=map.getZoom();
       if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng-const_z6;}
       if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng-const_z7;}      
@@ -1731,7 +1759,9 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng-const_z11;}  
       if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng-const_z12;}
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});
+            icon=greenMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});}
+      
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -1970,6 +2000,8 @@ function refreshdata(){
 //     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
+      var icon;
+      
       if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng-const_z6;}
       if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng-const_z7;}      
       if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng-const_z8;}
@@ -1978,7 +2010,9 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng-const_z11;}  
       if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng-const_z12;}
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});
+            icon=purpleMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});}
+      
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -2127,6 +2161,7 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
+      var icon;
       var zl=map.getZoom();
       if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng-const_z6;}
       if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng-const_z7;}      
@@ -2136,7 +2171,9 @@ function refreshdata(){
       if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng-const_z11;}  
       if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng-const_z12;}
       
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});
+             icon=purpleMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});}
+      
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -2285,7 +2322,9 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
+      var icon;
       var zl=map.getZoom();
+      
       if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng-const_z6;}
       if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng-const_z7;}      
       if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng-const_z8;}
@@ -2293,8 +2332,10 @@ function refreshdata(){
       if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng-const_z10;} 
       if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng-const_z11;}  
       if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng-const_z12;}
-      
-      var icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});
+
+            icon=purpleMarker;
+      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});}      
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
