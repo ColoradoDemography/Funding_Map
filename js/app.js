@@ -6,6 +6,15 @@ function popopen(table){
 
 $(document).ready( function() {
 
+  //icon offset constants
+  var const_z6=0.05;
+  var const_z7=0.04;
+  var const_z8=0.03;
+  var const_z9=0.02;
+  var const_z10=0.01;
+  var const_z11=0.005;
+  var const_z12=0.0025;
+
 
         
 var mindate=new Date("Thu Jan 01 2014 00:00:00 GMT-0700");
@@ -32,6 +41,11 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
       zoomControl:false,
       fullscreenControl: true
 		});
+  
+  map.on('zoomend', function() {
+    updatedata();
+});
+  
   
     L.easyButton('fa-question', function(btn, map){
     
@@ -225,8 +239,6 @@ var n = this,
    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
  };
         
-
-        
   var redMarker = L.ExtraMarkers.icon({
     icon: 'fa-usd',
     markerColor: 'red',
@@ -254,6 +266,7 @@ var n = this,
     shape: 'circle',
     prefix: 'fa'
   });
+
 
 
         
@@ -291,7 +304,18 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: blueMarker});
+
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng+const_z6;}
+      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng+const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng+const_z8;}
+      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng+const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng+const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng+const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng+const_z12;}   
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -373,6 +397,7 @@ function refreshdata(){
 
       
         layer.bindPopup(popuphtml);
+
     }
 });
         
@@ -408,7 +433,18 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: blueMarker});
+      var zl=map.getZoom();
+      
+      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng+const_z6;}
+      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng+const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng+const_z8;}
+      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng+const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng+const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng+const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng+const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -518,7 +554,17 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: blueMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng+const_z6;}
+      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng+const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng+const_z8;}
+      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng+const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng+const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng+const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng+const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -640,7 +686,17 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: redMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng+const_z6;}
+      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng+const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng+const_z8;}
+      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng+const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng+const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng+const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng+const_z12;} 
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {      
       var dateofproj;
@@ -791,7 +847,17 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: redMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng+const_z6;}
+      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng+const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng+const_z8;}
+      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng+const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng+const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng+const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng+const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -939,7 +1005,17 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: redMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng+const_z6;}
+      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng+const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng+const_z8;}
+      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng+const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng+const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng+const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng+const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -1113,7 +1189,17 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greenMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng-const_z6;}
+      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng-const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng-const_z8;}
+      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng-const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng-const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng-const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng-const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -1369,7 +1455,17 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greenMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng-const_z6;}
+      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng-const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng-const_z8;}
+      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng-const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng-const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng-const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng-const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -1626,7 +1722,17 @@ function refreshdata(){
   
     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: greenMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng-const_z6;}
+      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng-const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng-const_z8;}
+      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng-const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng-const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng-const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng-const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -1863,7 +1969,17 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: purpleMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng-const_z6;}
+      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng-const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng-const_z8;}
+      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng-const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng-const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng-const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng-const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
      var dateofproj;
@@ -2011,7 +2127,17 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: purpleMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng-const_z6;}
+      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng-const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng-const_z8;}
+      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng-const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng-const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng-const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng-const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
      var dateofproj;
@@ -2159,7 +2285,17 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
-        return new L.Marker(latlng, {icon: purpleMarker});
+      var zl=map.getZoom();
+      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng-const_z6;}
+      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng-const_z7;}      
+      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng-const_z8;}
+      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng-const_z9;}      
+      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng-const_z10;} 
+      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng-const_z11;}  
+      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng-const_z12;}
+      
+      var icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});
+        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
      var dateofproj;
@@ -2273,40 +2409,58 @@ function refreshdata(){
 
 };
         
-        
+
         
         refreshdata();
         
         
         
-        
-   
-        
-        var markers = new L.MarkerClusterGroup();
+
         
         
 function updatedata(){
 
-  markers.clearLayers();
+  //markers.clearLayers();
+  //map.clearLayers();
+  
+  map.removeLayer(city_federal);
+map.removeLayer(county_federal);
+map.removeLayer(district_federal);
+  
+map.removeLayer(city_state);
+map.removeLayer(county_state);
+map.removeLayer(district_state);
+  
+map.removeLayer(city_formula);
+map.removeLayer(county_formula);
+map.removeLayer(district_formula);
+  
+map.removeLayer(city_special);
+map.removeLayer(county_special);
+map.removeLayer(district_special);
+  
   refreshdata();
 
-        if(city_flag===1 && federal_flag===1){markers.addLayer(city_federal); }
-        if(county_flag===1 && federal_flag===1){markers.addLayer(county_federal); }
-        if(district_flag===1 && federal_flag===1){markers.addLayer(district_federal); }
+
   
-        if(city_flag===1 && state_flag===1){markers.addLayer(city_state); }
-        if(county_flag===1 && state_flag===1){markers.addLayer(county_state); }
-        if(district_flag===1 && state_flag===1){markers.addLayer(district_state); }
+        if(city_flag===1 && formula_flag===1){map.addLayer(city_formula); }
+        if(county_flag===1 && formula_flag===1){map.addLayer(county_formula); }
+        if(district_flag===1 && formula_flag===1){map.addLayer(district_formula); }
   
-        if(city_flag===1 && formula_flag===1){markers.addLayer(city_formula); }
-        if(county_flag===1 && formula_flag===1){markers.addLayer(county_formula); }
-        if(district_flag===1 && formula_flag===1){markers.addLayer(district_formula); }
+        if(city_flag===1 && special_flag===1){map.addLayer(city_special); }
+        if(county_flag===1 && special_flag===1){map.addLayer(county_special); }
+        if(district_flag===1 && special_flag===1){map.addLayer(district_special); }
   
-        if(city_flag===1 && special_flag===1){markers.addLayer(city_special); }
-        if(county_flag===1 && special_flag===1){markers.addLayer(county_special); }
-        if(district_flag===1 && special_flag===1){markers.addLayer(district_special); }
+        if(city_flag===1 && federal_flag===1){map.addLayer(city_federal); }
+        if(county_flag===1 && federal_flag===1){map.addLayer(county_federal); }
+        if(district_flag===1 && federal_flag===1){map.addLayer(district_federal); }
   
-  map.addLayer(markers); 
+        if(city_flag===1 && state_flag===1){map.addLayer(city_state); }
+        if(county_flag===1 && state_flag===1){map.addLayer(county_state); }
+        if(district_flag===1 && state_flag===1){map.addLayer(district_state); }  
+ 
+  
+  
         }
         
         
