@@ -6,16 +6,31 @@ function popopen(table){
 
 $(document).ready( function() {
 
-  //icon offset constants
-  var const_z6=0.05;
-  var const_z7=0.04;
-  var const_z8=0.03;
-  var const_z9=0.02;
-  var const_z10=0.01;
-  var const_z11=0.005;
-  var const_z12=0.0025;
-
-
+   //icon offset constants
+  var const_z6_lat=0.05;
+  var const_z7_lat=0.04;
+  var const_z8_lat=0.025;
+  var const_z9_lat=0.0175;
+  var const_z10_lat=0.01;
+  var const_z11_lat=0.00625;
+  var const_z12_lat=0.004; 
+  
+  var const_z6_lng=0.05;
+  var const_z7_lng=0.04;
+  var const_z8_lng=0.025;
+  var const_z9_lng=0.015;
+  var const_z10_lng=0.008;
+  var const_z11_lng=0.006;
+  var const_z12_lng=0.00375;   
+  
+  
+  var i6=  [4, 10];
+  var i7 = [6, 15];
+  var i8 = [8, 20];
+  var i9 = [10, 25];
+  var i10 = [12, 30];
+  var i11 = [16, 40];
+  var i12 = [20, 50];
         
 var mindate=new Date("Thu Jan 01 2014 00:00:00 GMT-0700");
 var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
@@ -44,6 +59,7 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
   
   map.on('zoomend', function() {
     updatedata();
+    console.log(map.getZoom());
 });
   
   
@@ -239,34 +255,6 @@ var n = this,
    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
  };
         
-  var redMarker = L.ExtraMarkers.icon({
-    icon: 'fa-usd',
-    markerColor: 'red',
-    shape: 'circle',
-    prefix: 'fa'
-  });
-        
-  var blueMarker = L.ExtraMarkers.icon({
-    icon: 'fa-usd',
-    markerColor: 'blue',
-    shape: 'circle',
-    prefix: 'fa'
-  });
-        
-  var greenMarker = L.ExtraMarkers.icon({
-    icon: 'fa-usd',
-    markerColor: 'green',
-    shape: 'circle',
-    prefix: 'fa'
-  });
-        
-  var purpleMarker = L.ExtraMarkers.icon({
-    icon: 'fa-usd',
-    markerColor: 'purple',
-    shape: 'circle',
-    prefix: 'fa'
-  });
-
 
 
         
@@ -304,17 +292,45 @@ function refreshdata(){
 //         return {color: 'green'};
 //     },
     pointToLayer: function(feature, latlng) {
-      var icon;
+
       var zl=map.getZoom();
-      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng+const_z6;}
-      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng+const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng+const_z8;}
-      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng+const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng+const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng+const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng+const_z12;}   
-      icon=blueMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});}
+      var icon;      
+      
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;
+      }
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;
+      }      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;
+      }
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;
+      }      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;
+      } 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;
+      }  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;
+      }
 
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
     },
@@ -437,19 +453,43 @@ function refreshdata(){
       var zl=map.getZoom();
       var icon;
       
-      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng+const_z6;}
-      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng+const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng+const_z8;}
-      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng+const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng+const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng+const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng+const_z12;}
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;
+      }
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i7;        
+        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;
+      }      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i8;        
+        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;
+      }
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;
+      }      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;
+      } 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;
+      }  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;
+      }
       
-      
-            icon=blueMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});}
-
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
+      return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -561,16 +601,35 @@ function refreshdata(){
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
       var icon;
-      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng+const_z6;}
-      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng+const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng+const_z8;}
-      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng+const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng+const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng+const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng+const_z12;}
       
-      icon=blueMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#006DB2", size: "s"});}
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;}
 
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
     },
@@ -697,16 +756,34 @@ function refreshdata(){
       var zl=map.getZoom();
       var icon;
       
-      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng+const_z6;}
-      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng+const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng+const_z8;}
-      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng+const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng+const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng+const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng+const_z12;} 
-      
-            icon=redMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});}
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;}
 
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
     },
@@ -862,17 +939,35 @@ function refreshdata(){
       var zl=map.getZoom();
       var icon;
       
-      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng+const_z6;}
-      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng+const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng+const_z8;}
-      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng+const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng+const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng+const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng+const_z12;}
-      
-            icon=redMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});}
-      
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -1024,17 +1119,35 @@ function refreshdata(){
       var zl=map.getZoom();
       var icon;
       
-      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng+const_z6;}
-      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng+const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng+const_z8;}
-      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng+const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng+const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng+const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng+const_z12;}
-      
-            icon=redMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#A02B31", size: "s"});}
-      
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -1212,16 +1325,34 @@ function refreshdata(){
       var zl=map.getZoom();
       var icon;
       
-      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng-const_z6;}
-      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng-const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng-const_z8;}
-      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng-const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng-const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng-const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng-const_z12;}
-      
-      icon=greenMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});}
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
 
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
     },
@@ -1479,18 +1610,38 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
-      var icon;
       var zl=map.getZoom();
-      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng-const_z6;}
-      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng-const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng-const_z8;}
-      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng-const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng-const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng-const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng-const_z12;}
+      var icon;
       
-        icon=greenMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});}    
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+
       
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
     },
@@ -1749,19 +1900,38 @@ function refreshdata(){
   
     },
     pointToLayer: function(feature, latlng) {
-      var icon;
       var zl=map.getZoom();
-      if(zl==6){latlng.lat=latlng.lat+const_z6;latlng.lng=latlng.lng-const_z6;}
-      if(zl==7){latlng.lat=latlng.lat+const_z7;latlng.lng=latlng.lng-const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat+const_z8;latlng.lng=latlng.lng-const_z8;}
-      if(zl==9){latlng.lat=latlng.lat+const_z9;latlng.lng=latlng.lng-const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat+const_z10;latlng.lng=latlng.lng-const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat+const_z11;latlng.lng=latlng.lng-const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat+const_z12;latlng.lng=latlng.lng-const_z12;}
+      var icon;
       
-            icon=greenMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#10914B", size: "s"});}
-      
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -2002,17 +2172,35 @@ function refreshdata(){
       var zl=map.getZoom();
       var icon;
       
-      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng-const_z6;}
-      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng-const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng-const_z8;}
-      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng-const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng-const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng-const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng-const_z12;}
-      
-            icon=purpleMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});}
-      
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -2161,19 +2349,38 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
-      var icon;
       var zl=map.getZoom();
-      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng-const_z6;}
-      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng-const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng-const_z8;}
-      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng-const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng-const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng-const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng-const_z12;}
+      var icon;
       
-             icon=purpleMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});}
-      
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
     },
     onEachFeature: function (feature, layer) {
@@ -2322,19 +2529,38 @@ function refreshdata(){
 
     },
     pointToLayer: function(feature, latlng) {
-      var icon;
       var zl=map.getZoom();
+      var icon;
       
-      if(zl==6){latlng.lat=latlng.lat-const_z6;latlng.lng=latlng.lng-const_z6;}
-      if(zl==7){latlng.lat=latlng.lat-const_z7;latlng.lng=latlng.lng-const_z7;}      
-      if(zl==8){latlng.lat=latlng.lat-const_z8;latlng.lng=latlng.lng-const_z8;}
-      if(zl==9){latlng.lat=latlng.lat-const_z9;latlng.lng=latlng.lng-const_z9;}      
-      if(zl==10){latlng.lat=latlng.lat-const_z10;latlng.lng=latlng.lng-const_z10;} 
-      if(zl==11){latlng.lat=latlng.lat-const_z11;latlng.lng=latlng.lng-const_z11;}  
-      if(zl==12){latlng.lat=latlng.lat-const_z12;latlng.lng=latlng.lng-const_z12;}
+      if(zl==6){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i6;
+        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      if(zl==7){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i7;
+        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      if(zl==8){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i8;
+        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      if(zl==9){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i9;
+        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      if(zl==10){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i10;
+        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      if(zl==11){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i11;
+        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      if(zl==12){
+        icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
+        icon.options.iconSize = i12;
+        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
 
-            icon=purpleMarker;
-      if(zl<11){icon = L.MakiMarkers.icon({icon: "marker", color: "#71567E", size: "s"});}      
 
         return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
     },
