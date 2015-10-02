@@ -5,33 +5,16 @@ function popopen(table){
       }     
 
 $(document).ready( function() {
-
-   //icon offset constants
-  var const_z6_lat=0.05;
-  var const_z7_lat=0.04;
-  var const_z8_lat=0.025;
-  var const_z9_lat=0.0175;
-  var const_z10_lat=0.01;
-  var const_z11_lat=0.00625;
-  var const_z12_lat=0.004; 
   
-  var const_z6_lng=0.05;
-  var const_z7_lng=0.04;
-  var const_z8_lng=0.025;
-  var const_z9_lng=0.015;
-  var const_z10_lng=0.008;
-  var const_z11_lng=0.006;
-  var const_z12_lng=0.00375;   
+  //var i6=  [6, 15];
+  var i6 = [8, 20];
+  var i7 = [10, 25];
+  var i8 = [12, 30];
+  var i9 = [16, 40];
+  var i10 = [20, 50];
+  var i11 = [24, 60];
+  var i12 = [28, 70];
   
-  
-  var i6=  [4, 10];
-  var i7 = [6, 15];
-  var i8 = [8, 20];
-  var i9 = [10, 25];
-  var i10 = [12, 30];
-  var i11 = [16, 40];
-  var i12 = [20, 50];
-        
 var mindate=new Date("Thu Jan 01 2014 00:00:00 GMT-0700");
 var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
         
@@ -44,22 +27,51 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
 				'Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
 			mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ';
 
-	    var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-		    streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+
+
+	    var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr});
+		  var  streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+
+      var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
+  maxZoom: 19,
+  subdomains: ["otile1", "otile2", "otile3", "otile4"],
+  attribution: 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
+});
         
 		map = L.map('map', {
     center: [39, -105.5],
     zoom: 7,
     minZoom: 6,
     maxZoom: 12, 
-			layers: [grayscale],
-      zoomControl:false,
-      fullscreenControl: true
+			layers: [mapquestOSM],
+      zoomControl:false
 		});
   
+  
+//trick add zoom control on right
+L.control.zoom({
+     position:'topright'
+}).addTo(map);
+         
+var a = new L.Control.Fullscreen();
+  a.addTo(map);
   map.on('zoomend', function() {
     updatedata();
-    console.log(map.getZoom());
+});
+  
+  var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied: true});
+  
+  
+  var popup = new L.Popup();
+oms.addListener('click', function(marker) {
+  popup.setContent(marker.desc);
+  popup.setLatLng(marker.getLatLng());
+  map.openPopup(popup);
+
+});
+
+  oms.addListener('spiderfy', function(markers) {
+  map.closePopup();
 });
   
   
@@ -133,8 +145,14 @@ var overlays = {
     "Planning Regions": plan
 };
 
-L.control.layers(null, overlays).addTo(map);  
   
+var basemaps = {
+  "Mapquest": mapquestOSM,
+  "Mapbox Streets": streets,
+  "Mapbox Grayscale": grayscale
+}; 
+
+L.control.layers(basemaps, overlays).addTo(map);  
   
 // create the control
 var sliderctrl = L.control({position: 'bottomleft'});
@@ -299,40 +317,35 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;
       }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;
       }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;
       }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;
       }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;
       } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;
       }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;
       }
 
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
+       var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -411,9 +424,9 @@ function refreshdata(){
           "<i>Federal Awards<br />" +
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           csbg_text + cdbg_text;
-
       
-        layer.bindPopup(popuphtml);
+      layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
 
     }
 });
@@ -456,40 +469,36 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;
       }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i7;        
-        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;
       }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i8;        
-        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;
       }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;
       }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;
       } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;
       }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;
       }
       
-      return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
+
+       var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -564,8 +573,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           csbg_text + cdbg_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });     
         
@@ -605,33 +614,36 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;}      
+      }
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;}      
+      }   
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;} 
+      }
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;}  
+      }
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#0000FF", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;}
+      }
 
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
+
+       var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:blue">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -706,8 +718,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           csbg_text + cdbg_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });            
       
@@ -759,33 +771,35 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;}      
+      }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;}      
+      }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;} 
+      } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;}  
+      }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;}
+      }
 
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
+             var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {      
       var dateofproj;
@@ -893,8 +907,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           eiaf_text + game_text + redi_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });
         
@@ -942,33 +956,35 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;}      
+      }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;}      
+      }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;} 
+      } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;}  
+      }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;}
+      }
 
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
+             var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -1075,8 +1091,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           eiaf_text + game_text + redi_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });     
         
@@ -1122,33 +1138,36 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng+const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng+const_z7_lng;}      
+      }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng+const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng+const_z9_lng;}      
+      }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng+const_z10_lng;} 
+      } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng+const_z11_lng;}  
+      }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#FF0000", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng+const_z12_lng;}
+      }
 
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
+             var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:red">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
+      
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -1255,8 +1274,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           eiaf_text + game_text + redi_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });            
               
@@ -1328,33 +1347,35 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+      }
 
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
+             var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -1547,8 +1568,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           ctf_text + fmldd_text + fmlddsb106_text + sevedd_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });
         
@@ -1616,34 +1637,35 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+      }
 
-      
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
+                   var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -1836,8 +1858,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           ctf_text + fmldd_text + fmlddsb106_text + sevedd_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });     
         
@@ -1906,33 +1928,35 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat+const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat+const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat+const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat+const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat+const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat+const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#008000", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat+const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+      }
 
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
+             var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
       var dateofproj;
@@ -2125,8 +2149,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           ctf_text + fmldd_text + fmlddsb106_text + sevedd_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });            
 
@@ -2175,33 +2199,35 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+      }
 
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
+             var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
      var dateofproj;
@@ -2309,8 +2335,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           ffb_text + sar_text + vfp_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });
         
@@ -2355,33 +2381,35 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+      }
 
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
+             var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
      var dateofproj;
@@ -2488,8 +2516,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           ffb_text + sar_text + vfp_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });     
         
@@ -2535,34 +2563,35 @@ function refreshdata(){
       if(zl==6){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i6;
-        latlng.lat=latlng.lat-const_z6_lat;latlng.lng=latlng.lng-const_z6_lng;}
+      }
       if(zl==7){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i7;
-        latlng.lat=latlng.lat-const_z7_lat;latlng.lng=latlng.lng-const_z7_lng;}      
+      }      
       if(zl==8){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i8;
-        latlng.lat=latlng.lat-const_z8_lat;latlng.lng=latlng.lng-const_z8_lng;}
+      }
       if(zl==9){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i9;
-        latlng.lat=latlng.lat-const_z9_lat;latlng.lng=latlng.lng-const_z9_lng;}      
+      }      
       if(zl==10){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i10;
-        latlng.lat=latlng.lat-const_z10_lat;latlng.lng=latlng.lng-const_z10_lng;} 
+      } 
       if(zl==11){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i11;
-        latlng.lat=latlng.lat-const_z11_lat;latlng.lng=latlng.lng-const_z11_lng;}  
+      }  
       if(zl==12){
         icon = L.MakiMarkers.icon({icon: null, color: "#800080", size: "s"});
         icon.options.iconSize = i12;
-        latlng.lat=latlng.lat-const_z12_lat;latlng.lng=latlng.lng-const_z12_lng;}
+      }
 
-
-        return new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
+             var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:purple">'+feature.properties.govname+'</span>');
+      oms.addMarker(marker);
+      return marker;
     },
     onEachFeature: function (feature, layer) {
      var dateofproj;
@@ -2669,8 +2698,8 @@ function refreshdata(){
           $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + 
           ffb_text + sar_text + vfp_text;
 
-      
-        layer.bindPopup(popuphtml);
+            layer.desc=popuphtml;
+       // layer.bindPopup(popuphtml);
     }
 });            
 
@@ -2718,14 +2747,14 @@ map.removeLayer(district_special);
         if(county_flag===1 && special_flag===1){map.addLayer(county_special); }
         if(district_flag===1 && special_flag===1){map.addLayer(district_special); }
   
-        if(city_flag===1 && federal_flag===1){map.addLayer(city_federal); }
-        if(county_flag===1 && federal_flag===1){map.addLayer(county_federal); }
-        if(district_flag===1 && federal_flag===1){map.addLayer(district_federal); }
   
         if(city_flag===1 && state_flag===1){map.addLayer(city_state); }
         if(county_flag===1 && state_flag===1){map.addLayer(county_state); }
         if(district_flag===1 && state_flag===1){map.addLayer(district_state); }  
- 
+
+        if(city_flag===1 && federal_flag===1){map.addLayer(city_federal); }
+        if(county_flag===1 && federal_flag===1){map.addLayer(county_federal); }
+        if(district_flag===1 && federal_flag===1){map.addLayer(district_federal); } 
   
   
         }
