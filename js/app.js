@@ -31,6 +31,8 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
 
 	    var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr});
 		  var  streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+		  var  classic  = L.tileLayer(mbUrl, {id: 'mapbox.streets-basic',   attribution: mbAttr});  
+		  var  emerald  = L.tileLayer(mbUrl, {id: 'mapbox.emerald',   attribution: mbAttr});  
 
       var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
   maxZoom: 19,
@@ -43,7 +45,7 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
     zoom: 7,
     minZoom: 6,
     maxZoom: 12, 
-			layers: [mapquestOSM],
+			layers: [emerald],
       zoomControl:false
 		});
   
@@ -53,8 +55,7 @@ L.control.zoom({
      position:'topright'
 }).addTo(map);
          
-var a = new L.Control.Fullscreen();
-  a.addTo(map);
+
   map.on('zoomend', function() {
     updatedata();
 });
@@ -77,7 +78,7 @@ oms.addListener('click', function(marker) {
   
     L.easyButton('fa-question', function(btn, map){
     
-map.openModal({ content: '<h4>Abbreviations</h4><table><tr><td><span class="ttext">CDBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Development Block Grants</span></td></tr><tr><td><span class="ttext">CSBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Services Block Grants</span></td></tr><tr><td><span class="ttext">CTF:</span></td><td><span class="desctext">&nbsp;&nbsp;Conservation Trust Fund</span></td></tr><tr><td><span class="ttext">EIAF:</span></td><td><span class="desctext">&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</span></td></tr><tr><td><span class="ttext">FFB:</span></td><td><span class="desctext">&nbsp;&nbsp;Firefighter Cardiac Benefit Program</span></td></tr><tr><td><span class="ttext">FMLDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</span></td></tr><tr><td><span class="ttext">FMLDDSB106:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</span></td></tr><tr><td><span class="ttext">GAME:</span></td><td><span class="desctext">&nbsp;&nbsp;Limited Gaming Impact Program</span></td></tr><tr><td><span class="ttext">REDI:</span></td><td><span class="desctext">&nbsp;&nbsp;Rural Economic Development Initiative</span></td></tr><tr><td><span class="ttext">SAR:</span></td><td><span class="desctext">&nbsp;&nbsp;Search and Rescue</span></td></tr><tr><td><span class="ttext">SEVEDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Severance Direct Distribution</span></td></tr><tr><td><span class="ttext">VFP:</span></td><td><span class="desctext">&nbsp;&nbsp;Volunteer Firefighter Pension Fund</span></td></tr></table><br /><h4>Development</h4><p><a href="https://jqueryui.com/">JQuery UI</a>, <a href="http://leafletjs.com/">Leaflet</a>, <a href="http://fortawesome.github.io/Font-Awesome/">Font-Awesome</a>, <a href="https://github.com/Leaflet/Leaflet.markercluster">Leaflet Marker Cluster</a>, <a href="https://github.com/coryasilva/Leaflet.ExtraMarkers">Leaflet Extra-Markers</a>, <a href="https://github.com/Leaflet/Leaflet.fullscreen">Leaflet Fullscreen</a>, <a href="https://github.com/CliffCloud/Leaflet.EasyButton">Leaflet Easy Button</a>, <a href="https://github.com/w8r/Leaflet.Modal">Leaflet Modal</a>, <a href="http://ghusse.github.io/jQRangeSlider/index.html">JQRangeSlider</a>, <a href="http://www.menucool.com/tooltip/css-tooltip">CSS Tooltip</a> </p>' }); 
+map.openModal({ content: '<h4>Abbreviations</h4><table><tr><td><span class="ttext">CDBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Development Block Grants</span></td></tr><tr><td><span class="ttext">CSBG:</span></td><td><span class="desctext">&nbsp;&nbsp;Community Services Block Grants</span></td></tr><tr><td><span class="ttext">CTF:</span></td><td><span class="desctext">&nbsp;&nbsp;Conservation Trust Fund</span></td></tr><tr><td><span class="ttext">EIAF:</span></td><td><span class="desctext">&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</span></td></tr><tr><td><span class="ttext">FFB:</span></td><td><span class="desctext">&nbsp;&nbsp;Firefighter Cardiac Benefit Program</span></td></tr><tr><td><span class="ttext">FMLDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</span></td></tr><tr><td><span class="ttext">FMLDDSB106:</span></td><td><span class="desctext">&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</span></td></tr><tr><td><span class="ttext">GAME:</span></td><td><span class="desctext">&nbsp;&nbsp;Limited Gaming Impact Program</span></td></tr><tr><td><span class="ttext">REDI:</span></td><td><span class="desctext">&nbsp;&nbsp;Rural Economic Development Initiative</span></td></tr><tr><td><span class="ttext">SAR:</span></td><td><span class="desctext">&nbsp;&nbsp;Search and Rescue</span></td></tr><tr><td><span class="ttext">SEVEDD:</span></td><td><span class="desctext">&nbsp;&nbsp;Severance Direct Distribution</span></td></tr><tr><td><span class="ttext">VFP:</span></td><td><span class="desctext">&nbsp;&nbsp;Volunteer Firefighter Pension Fund</span></td></tr></table><br /><h4>Development</h4><p><a href="https://jqueryui.com/">JQuery UI</a>, <a href="http://leafletjs.com/">Leaflet</a>, <a href="http://fortawesome.github.io/Font-Awesome/">Font-Awesome</a>, <a href="https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet">Overlapping Marker Spiderfier</a>, <a href="https://github.com/jseppi/Leaflet.MakiMarkers">Maki Markers</a>, <a href="https://github.com/Leaflet/Leaflet.label">Leaflet Label</a>, <a href="https://github.com/CliffCloud/Leaflet.EasyButton">Leaflet Easy Button</a>, <a href="https://github.com/w8r/Leaflet.Modal">Leaflet Modal</a>, <a href="http://ghusse.github.io/jQRangeSlider/index.html">JQRangeSlider</a>, <a href="http://www.menucool.com/tooltip/css-tooltip">CSS Tooltip</a> </p>' }); 
     
   }).addTo( map ); // probably just `map`
 
@@ -147,9 +148,10 @@ var overlays = {
 
   
 var basemaps = {
+  "Mapbox Emerald": emerald,
   "Mapquest": mapquestOSM,
-  "Mapbox Streets": streets,
-  "Mapbox Grayscale": grayscale
+  "Mapbox Streets": classic
+  
 }; 
 
 L.control.layers(basemaps, overlays).addTo(map);  
@@ -190,22 +192,22 @@ var command = L.control({position: 'topleft'});
 
 command.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'command');
-    div.innerHTML = '<form><h4>Programs</h4><input class="leg" id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Federal<br /><span class="spanindent">' +
+    div.innerHTML = '<form><h4>Programs</h4><input class="leg" id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Federal<br /><span class="spanindent">' +
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>CDBG:</td><td>&nbsp;&nbsp;Community Development Block Grants</td></tr></table>\')">CDBG<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>CDBG:</td><td>&nbsp;&nbsp;Community Development Block Grants</td></tr></table></span></a>, ' + 
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>CSBG:</td><td>&nbsp;&nbsp;Community Services Block Grants</td></tr></table>\')">CSBG<span><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>CSBG:</td><td>&nbsp;&nbsp;Community Services Block Grants</td></tr></table></span></a></span><br />' + 
       
-      '<input class="leg" id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;State<br /><span class="spanindent">' +
+      '<input class="leg" id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;State<br /><span class="spanindent">' +
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>EIAF:</td><td>&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</td></tr></table>\')">EIAF<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>EIAF:</td><td>&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>GAME:</td><td>&nbsp;&nbsp;Limited Gaming Impact Program</td></tr></table>\')">GAME<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>GAME:</td><td>&nbsp;&nbsp;Limited Gaming Impact Program</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>REDI:</td><td>&nbsp;&nbsp;Rural Economic Development Initiative</td></tr></table>\')">REDI<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>REDI:</td><td>&nbsp;&nbsp;Rural Economic Development Initiative</td></tr></table></span></a></span><br />'+
       
-      '<input class="leg" id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Formula<br /><span class="spanindent">'+
+      '<input class="leg" id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Formula<br /><span class="spanindent">'+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>CTF:</td><td>&nbsp;&nbsp;Conservation Trust Fund</td></tr></table>\')">CTF<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>CTF:</td><td>&nbsp;&nbsp;Conservation Trust Fund</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>SEVEDD:</td><td>&nbsp;&nbsp;Severance Direct Distribution</td></tr></table>\')">SEVEDD<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>SEVEDD:</td><td>&nbsp;&nbsp;Severance Direct Distribution</td></tr></table></span></a></span><br /><span class="spanindent">'+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>FMLDD:</td><td>&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</td></tr></table>\')">FMLDD<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>FMLDD:</td><td>&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>FMLDDSB106:</td><td>&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</td></tr></table>\')">FMLDDSB106<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>FMLDDSB106:</td><td>&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</td></tr></table></span></a></span><br />'+
       
-      '<input class="leg" id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Special<br /><span class="spanindent">'+
+      '<input class="leg" id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Special<br /><span class="spanindent">'+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>FFB:</td><td>&nbsp;&nbsp;Firefighter Cardiac Benefit Program</td></tr></table>\')">FFB<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>FFB:</td><td>&nbsp;&nbsp;Firefighter Cardiac Benefit Program</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>SAR:</td><td>&nbsp;&nbsp;Search and Rescue</td></tr></table>\')">SAR<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>SAR:</td><td>&nbsp;&nbsp;Search and Rescue</td></tr></table></span></a>, '+
       '<a href="#" class="btn" onclick="popopen(\'<table><tr><td>VFP:</td><td>&nbsp;&nbsp;Volunteer Firefighter Pension Fund</td></tr></table>\')">VFP<span ><img class="callout" src="cssttp/callout.gif" /><table style="margin-top: 4px;margin-bottom: 4px;"><tr><td>VFP:</td><td>&nbsp;&nbsp;Volunteer Firefighter Pension Fund</td></tr></table></span></a></span><br />'+
