@@ -1,12 +1,34 @@
 var map;  
 
+var sumtotal; //geojson
+
+
+
 function popopen(table){
         map.openModal({ content: table.replace(/\?/g, "'") });
-      }     
+      }   
+
+
+$.ajax({
+    type: "GET",
+    url: "data/sumtotal.geojson",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(jdata) {
+      sumtotal = jdata ;
+      init();
+    },
+    error: function (xhr, textStatus, errorThrown) {
+        console.log(xhr.responseText);
+    }
+});
+
+
+function init(){
+   
 
 $(document).ready( function() {
-  
-  //var i6=  [6, 15];
+
   var i6 = [8, 20];
   var i7 = [10, 25];
   var i8 = [12, 30];
@@ -286,31 +308,33 @@ function refreshdata(){
       //filter out if no projects
       var cdbgexist=(feature.properties.projects.federal.cdbg).length;
       var csbgexist=(feature.properties.projects.federal.csbg).length;
-      if((cdbgexist+csbgexist)==0){return false;}
-      
+      //console.log((feature.properties.projects.federal.csbg).length);
+      if((cdbgexist+csbgexist)===0){return false;}
+      //console.log('still here');
       //filter out if no projects in date range
       var countprojinrange=0;
       if(cdbgexist>0){
         for(i=0;i<cdbgexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.federal.cdbg[i].dateofaward);
+          //parse date (chrome reads default format, firefox does not)
+          var datearray=(feature.properties.projects.federal.cdbg[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(csbgexist>0){
         for(i=0;i<csbgexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.federal.csbg[i].dateofaward);
+          //parse date (chrome reads default format, firefox does not)
+          var datearray=(feature.properties.projects.federal.csbg[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(countprojinrange===0){return false;}
-      
+
       //filter by geography
-      if(feature.properties.lgtype==2 || feature.properties.lgtype==3 || feature.properties.lgtype==4 || feature.properties.lgtype==5 ){return true;}else{return false;}
+      if(feature.properties.lgtype==="2" || feature.properties.lgtype==="3" || feature.properties.lgtype==="4" || feature.properties.lgtype==="5" ){return true;}else{return false;}
 
     },
-//     style: function(feature) {
-//         return {color: 'green'};
-//     },
     pointToLayer: function(feature, latlng) {
 
       var zl=map.getZoom();
@@ -362,13 +386,15 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.federal.csbg).length>0){
         for(var k=0;k<(feature.properties.projects.federal.csbg.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.federal.csbg[k].dateofaward);
+          var datearray=(feature.properties.projects.federal.csbg[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){csbg_class = 'btn';}
           }
         }
       if((feature.properties.projects.federal.cdbg).length>0){
         for(var k=0;k<(feature.properties.projects.federal.cdbg.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.federal.cdbg[k].dateofaward);
+          var datearray=(feature.properties.projects.federal.cdbg[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
           if(dateofproj>mindate && dateofproj<maxdate){cdbg_class = 'btn';}
           }
         }
@@ -376,7 +402,8 @@ function refreshdata(){
       
       //sum csbg for date range
       for(i=0;i<(feature.properties.projects.federal.csbg).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.federal.csbg[i].dateofaward);
+          var datearray=(feature.properties.projects.federal.csbg[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.federal.csbg[i].award) || 0;
           csbg_temptotal=csbg_temptotal+Number(temp_award);
@@ -384,22 +411,20 @@ function refreshdata(){
       }
       //sum cdbg for date range
       for(i=0;i<(feature.properties.projects.federal.cdbg).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.federal.cdbg[i].dateofaward);        
+          var datearray=(feature.properties.projects.federal.cdbg[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);        
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.federal.cdbg[i].award || 0;
           cdbg_temptotal=cdbg_temptotal+Number(temp_award);          
         }
       }
 
-      function popopen(){
-        console.log('pop');
-        //map.openModal({ content: "<h4>Abbreviations</h4><p>Hi!</p>" });
-      }
-      
+     
       var csbg_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.csbg).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.federal.csbg[j].dateofaward); 
+          var datearray=(feature.properties.projects.federal.csbg[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>"+feature.properties.projects.federal.csbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -411,7 +436,8 @@ function refreshdata(){
       var cdbg_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.cdbg).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.federal.cdbg[j].dateofaward); 
+          var datearray=(feature.properties.projects.federal.cdbg[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.federal.cdbg[j].projname+"</td><td>"+feature.properties.projects.federal.cdbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.cdbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -445,25 +471,26 @@ function refreshdata(){
       var countprojinrange=0;
       if(cdbgexist>0){
         for(i=0;i<cdbgexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.federal.cdbg[i].dateofaward);
+          //parse date (chrome reads default format, firefox does not)
+          var datearray=(feature.properties.projects.federal.cdbg[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(csbgexist>0){
         for(i=0;i<csbgexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.federal.csbg[i].dateofaward);
+          //parse date (chrome reads default format, firefox does not)
+          var datearray=(feature.properties.projects.federal.csbg[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(countprojinrange===0){return false;}
       
       //filter by geography
-      if(feature.properties.lgtype==1 || feature.properties.lgtype==61 || feature.properties.lgtype==70  ){return true;}else{return false;}
+      if(feature.properties.lgtype==="1" || feature.properties.lgtype==="61" || feature.properties.lgtype==="70"  ){return true;}else{return false;}
 
     },
-//     style: function(feature) {
-//         return {color: 'green'};
-//     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
       var icon;
@@ -515,13 +542,15 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.federal.csbg).length>0){
         for(var k=0;k<(feature.properties.projects.federal.csbg.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.federal.csbg[k].dateofaward);
+          var datearray=(feature.properties.projects.federal.csbg[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
           if(dateofproj>mindate && dateofproj<maxdate){csbg_class = 'btn';}
           }
         }
       if((feature.properties.projects.federal.cdbg).length>0){
         for(var k=0;k<(feature.properties.projects.federal.cdbg.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.federal.cdbg[k].dateofaward);
+          var datearray=(feature.properties.projects.federal.cdbg[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
           if(dateofproj>mindate && dateofproj<maxdate){cdbg_class = 'btn';}
           }
         }
@@ -529,7 +558,8 @@ function refreshdata(){
 
       //sum csbg for date range
       for(i=0;i<(feature.properties.projects.federal.csbg).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.federal.csbg[i].dateofaward);
+          var datearray=(feature.properties.projects.federal.csbg[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);        
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.federal.csbg[i].award) || 0;
           csbg_temptotal=csbg_temptotal+Number(temp_award);
@@ -537,7 +567,8 @@ function refreshdata(){
       }
       //sum cdbg for date range
       for(i=0;i<(feature.properties.projects.federal.cdbg).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.federal.cdbg[i].dateofaward);        
+          var datearray=(feature.properties.projects.federal.cdbg[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.federal.cdbg[i].award || 0;
           cdbg_temptotal=cdbg_temptotal+Number(temp_award);          
@@ -547,7 +578,8 @@ function refreshdata(){
       var csbg_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.csbg).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.federal.csbg[j].dateofaward); 
+          var datearray=(feature.properties.projects.federal.csbg[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>"+feature.properties.projects.federal.csbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -559,7 +591,8 @@ function refreshdata(){
       var cdbg_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.cdbg).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.federal.cdbg[j].dateofaward); 
+          var datearray=(feature.properties.projects.federal.cdbg[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.federal.cdbg[j].projname+"</td><td>"+feature.properties.projects.federal.cdbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.cdbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -593,20 +626,24 @@ function refreshdata(){
       var countprojinrange=0;
       if(cdbgexist>0){
         for(i=0;i<cdbgexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.federal.cdbg[i].dateofaward);
+          //parse date (chrome reads default format, firefox does not)
+          var datearray=(feature.properties.projects.federal.cdbg[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(csbgexist>0){
         for(i=0;i<csbgexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.federal.csbg[i].dateofaward);
+          //parse date (chrome reads default format, firefox does not)
+          var datearray=(feature.properties.projects.federal.csbg[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(countprojinrange===0){return false;}
       
       //filter by geography
-      if(feature.properties.lgtype!==1 && feature.properties.lgtype!==61 && feature.properties.lgtype!==70 && feature.properties.lgtype!==2 && feature.properties.lgtype!==3 && feature.properties.lgtype!==4 && feature.properties.lgtype!==5){return true;}else{return false;}
+      if(feature.properties.lgtype!=="1" && feature.properties.lgtype!=="61" && feature.properties.lgtype!=="70" && feature.properties.lgtype!=="2" && feature.properties.lgtype!=="3" && feature.properties.lgtype!=="4" && feature.properties.lgtype!=="5"){return true;}else{return false;}
 
     },
     pointToLayer: function(feature, latlng) {
@@ -660,21 +697,23 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.federal.csbg).length>0){
         for(var k=0;k<(feature.properties.projects.federal.csbg.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.federal.csbg[k].dateofaward);
+          var datearray=(feature.properties.projects.federal.csbg[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
           if(dateofproj>mindate && dateofproj<maxdate){csbg_class = 'btn';}
           }
         }
       if((feature.properties.projects.federal.cdbg).length>0){
         for(var k=0;k<(feature.properties.projects.federal.cdbg.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.federal.cdbg[k].dateofaward);
+          var datearray=(feature.properties.projects.federal.cdbg[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
           if(dateofproj>mindate && dateofproj<maxdate){cdbg_class = 'btn';}
           }
         }
       
-    console.log(feature);
       //sum csbg for date range
       for(i=0;i<(feature.properties.projects.federal.csbg).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.federal.csbg[i].dateofaward);
+          var datearray=(feature.properties.projects.federal.csbg[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);        
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.federal.csbg[i].award) || 0;
           csbg_temptotal=csbg_temptotal+Number(temp_award);
@@ -682,7 +721,8 @@ function refreshdata(){
       }
       //sum cdbg for date range
       for(i=0;i<(feature.properties.projects.federal.cdbg).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.federal.cdbg[i].dateofaward);        
+          var datearray=(feature.properties.projects.federal.cdbg[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);  
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.federal.cdbg[i].award || 0;
           cdbg_temptotal=cdbg_temptotal+Number(temp_award);          
@@ -692,7 +732,8 @@ function refreshdata(){
       var csbg_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.csbg).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.federal.csbg[j].dateofaward); 
+          var datearray=(feature.properties.projects.federal.csbg[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.federal.csbg[j].projname+"</td><td>"+feature.properties.projects.federal.csbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.csbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -704,7 +745,8 @@ function refreshdata(){
       var cdbg_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.federal.cdbg).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.federal.cdbg[j].dateofaward); 
+          var datearray=(feature.properties.projects.federal.cdbg[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.federal.cdbg[j].projname+"</td><td>"+feature.properties.projects.federal.cdbg[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.federal.cdbg[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -741,31 +783,32 @@ function refreshdata(){
       var countprojinrange=0;
       if(eiafexist>0){
         for(i=0;i<eiafexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.state.eiaf[i].dateofaward);
+          //parse date (chrome reads default format, firefox does not)
+          var datearray=(feature.properties.projects.state.eiaf[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);              
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(gameexist>0){
         for(i=0;i<gameexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.state.game[i].dateofaward);
+          var datearray=(feature.properties.projects.state.game[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);                  
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(rediexist>0){
         for(i=0;i<rediexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.state.redi[i].dateofaward);
+          var datearray=(feature.properties.projects.state.redi[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }      
       if(countprojinrange===0){return false;}
       
       //filter by geography
-      if(feature.properties.lgtype==2 || feature.properties.lgtype==3 || feature.properties.lgtype==4 || feature.properties.lgtype==5 ){return true;}else{return false;}
+      if(feature.properties.lgtype==="2" || feature.properties.lgtype==="3" || feature.properties.lgtype==="4" || feature.properties.lgtype==="5"){return true;}else{return false;}
 
     },
-//     style: function(feature) {
-//         return {color: 'green'};
-//     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
       var icon;
@@ -823,19 +866,22 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.state.eiaf).length>0){
         for(var k=0;k<(feature.properties.projects.state.eiaf.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.state.eiaf[k].dateofaward);
+          var datearray=(feature.properties.projects.state.eiaf[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
           if(dateofproj>mindate && dateofproj<maxdate){eiaf_class = 'btn';}
           }
         }
       if((feature.properties.projects.state.game).length>0){
         for(var k=0;k<(feature.properties.projects.state.game.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.state.game[k].dateofaward);
+          var datearray=(feature.properties.projects.state.game[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){game_class = 'btn';}
           }
         }
       if((feature.properties.projects.state.redi).length>0){
         for(var k=0;k<(feature.properties.projects.state.redi.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.state.redi[k].dateofaward);
+          var datearray=(feature.properties.projects.state.redi[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){redi_class = 'btn';}
           }        
         }
@@ -843,7 +889,8 @@ function refreshdata(){
       
       //sum eiaf for date range
       for(i=0;i<(feature.properties.projects.state.eiaf).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.state.eiaf[i].dateofaward);
+          var datearray=(feature.properties.projects.state.eiaf[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);           
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.state.eiaf[i].award) || 0;
           eiaf_temptotal=eiaf_temptotal+Number(temp_award);
@@ -851,7 +898,8 @@ function refreshdata(){
       }
       //sum game for date range
       for(i=0;i<(feature.properties.projects.state.game).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.state.game[i].dateofaward);        
+          var datearray=(feature.properties.projects.state.game[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.state.game[i].award || 0;
           game_temptotal=game_temptotal+Number(temp_award);          
@@ -859,7 +907,8 @@ function refreshdata(){
       }
       //sum redi for date range
       for(i=0;i<(feature.properties.projects.state.redi).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.state.redi[i].dateofaward);        
+          var datearray=(feature.properties.projects.state.redi[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.state.redi[i].award || 0;
           redi_temptotal=redi_temptotal+Number(temp_award);          
@@ -870,7 +919,8 @@ function refreshdata(){
       var eiaf_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.eiaf).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.state.eiaf[j].dateofaward); 
+          var datearray=(feature.properties.projects.state.eiaf[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.state.eiaf[j].projname+"</td><td>"+feature.properties.projects.state.eiaf[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.eiaf[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -882,7 +932,8 @@ function refreshdata(){
       var game_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.game).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.state.game[j].dateofaward); 
+          var datearray=(feature.properties.projects.state.game[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.state.game[j].projname+"</td><td>"+feature.properties.projects.state.game[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.game[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -894,7 +945,8 @@ function refreshdata(){
       var redi_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.redi).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.state.redi[j].dateofaward); 
+          var datearray=(feature.properties.projects.state.redi[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.state.redi[j].projname+"</td><td>"+feature.properties.projects.state.redi[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.redi[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -927,30 +979,30 @@ function refreshdata(){
       var countprojinrange=0;
       if(eiafexist>0){
         for(i=0;i<eiafexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.state.eiaf[i].dateofaward);
+          var datearray=(feature.properties.projects.state.eiaf[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);                  
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(gameexist>0){
         for(i=0;i<gameexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.state.game[i].dateofaward);
+          var datearray=(feature.properties.projects.state.game[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(rediexist>0){
         for(i=0;i<rediexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.state.redi[i].dateofaward);
+          var datearray=(feature.properties.projects.state.redi[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }      
       if(countprojinrange===0){return false;}
             
-      if(feature.properties.lgtype==1 || feature.properties.lgtype==61 || feature.properties.lgtype==70  ){return true;}else{return false;}
+      if(feature.properties.lgtype==="1" || feature.properties.lgtype==="61" || feature.properties.lgtype==="70"  ){return true;}else{return false;}
 
     },
-//     style: function(feature) {
-//         return {color: 'green'};
-//     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
       var icon;
@@ -1008,26 +1060,30 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.state.eiaf).length>0){
         for(var k=0;k<(feature.properties.projects.state.eiaf.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.state.eiaf[k].dateofaward);
+          var datearray=(feature.properties.projects.state.eiaf[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){eiaf_class = 'btn';}
           }
         }
       if((feature.properties.projects.state.game).length>0){
         for(var k=0;k<(feature.properties.projects.state.game.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.state.game[k].dateofaward);
+          var datearray=(feature.properties.projects.state.game[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);              
           if(dateofproj>mindate && dateofproj<maxdate){game_class = 'btn';}
           }
         }
       if((feature.properties.projects.state.redi).length>0){
         for(var k=0;k<(feature.properties.projects.state.redi.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.state.redi[k].dateofaward);
+          var datearray=(feature.properties.projects.state.redi[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);              
           if(dateofproj>mindate && dateofproj<maxdate){redi_class = 'btn';}
           }        
         }
                                               
       //sum eiaf for date range
       for(i=0;i<(feature.properties.projects.state.eiaf).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.state.eiaf[i].dateofaward);
+          var datearray=(feature.properties.projects.state.eiaf[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);            
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.state.eiaf[i].award) || 0;
           eiaf_temptotal=eiaf_temptotal+Number(temp_award);
@@ -1035,7 +1091,8 @@ function refreshdata(){
       }
       //sum game for date range
       for(i=0;i<(feature.properties.projects.state.game).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.state.game[i].dateofaward);        
+          var datearray=(feature.properties.projects.state.game[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.state.game[i].award || 0;
           game_temptotal=game_temptotal+Number(temp_award);          
@@ -1043,7 +1100,8 @@ function refreshdata(){
       }
       //sum redi for date range
       for(i=0;i<(feature.properties.projects.state.redi).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.state.redi[i].dateofaward);        
+          var datearray=(feature.properties.projects.state.redi[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);              
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.state.redi[i].award || 0;
           redi_temptotal=redi_temptotal+Number(temp_award);          
@@ -1054,7 +1112,8 @@ function refreshdata(){
       var eiaf_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.eiaf).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.state.eiaf[j].dateofaward); 
+          var datearray=(feature.properties.projects.state.eiaf[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.state.eiaf[j].projname+"</td><td>"+feature.properties.projects.state.eiaf[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.eiaf[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1066,7 +1125,8 @@ function refreshdata(){
       var game_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.game).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.state.game[j].dateofaward); 
+          var datearray=(feature.properties.projects.state.game[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.state.game[j].projname+"</td><td>"+feature.properties.projects.state.game[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.game[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1078,7 +1138,8 @@ function refreshdata(){
       var redi_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.redi).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.state.redi[j].dateofaward); 
+          var datearray=(feature.properties.projects.state.redi[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.state.redi[j].projname+"</td><td>"+feature.properties.projects.state.redi[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.redi[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1112,25 +1173,28 @@ function refreshdata(){
       var countprojinrange=0;
       if(eiafexist>0){
         for(i=0;i<eiafexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.state.eiaf[i].dateofaward);
+          var datearray=(feature.properties.projects.state.eiaf[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(gameexist>0){
         for(i=0;i<gameexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.state.game[i].dateofaward);
+          var datearray=(feature.properties.projects.state.game[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(rediexist>0){
         for(i=0;i<rediexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.state.redi[i].dateofaward);
+          var datearray=(feature.properties.projects.state.redi[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }      
       if(countprojinrange===0){return false;}
             
-      if(feature.properties.lgtype!==1 && feature.properties.lgtype!==61 && feature.properties.lgtype!==70 && feature.properties.lgtype!==2 && feature.properties.lgtype!==3 && feature.properties.lgtype!==4 && feature.properties.lgtype!==5){return true;}else{return false;}
+      if(feature.properties.lgtype!=="1" && feature.properties.lgtype!=="61" && feature.properties.lgtype!=="70" && feature.properties.lgtype!=="2" && feature.properties.lgtype!=="3" && feature.properties.lgtype!=="4" && feature.properties.lgtype!=="5"){return true;}else{return false;}
 
     },
     pointToLayer: function(feature, latlng) {
@@ -1191,26 +1255,30 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.state.eiaf).length>0){
         for(var k=0;k<(feature.properties.projects.state.eiaf.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.state.eiaf[k].dateofaward);
+          var datearray=(feature.properties.projects.state.eiaf[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){eiaf_class = 'btn';}
           }
         }
       if((feature.properties.projects.state.game).length>0){
         for(var k=0;k<(feature.properties.projects.state.game.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.state.game[k].dateofaward);
+          var datearray=(feature.properties.projects.state.game[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);            
           if(dateofproj>mindate && dateofproj<maxdate){game_class = 'btn';}
           }
         }
       if((feature.properties.projects.state.redi).length>0){
         for(var k=0;k<(feature.properties.projects.state.redi.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.state.redi[k].dateofaward);
+          var datearray=(feature.properties.projects.state.redi[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){redi_class = 'btn';}
           }        
         }
                                               
       //sum eiaf for date range
       for(i=0;i<(feature.properties.projects.state.eiaf).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.state.eiaf[i].dateofaward);
+          var datearray=(feature.properties.projects.state.eiaf[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.state.eiaf[i].award) || 0;
           eiaf_temptotal=eiaf_temptotal+Number(temp_award);
@@ -1218,7 +1286,8 @@ function refreshdata(){
       }
       //sum game for date range
       for(i=0;i<(feature.properties.projects.state.game).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.state.game[i].dateofaward);        
+          var datearray=(feature.properties.projects.state.game[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);                   
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.state.game[i].award || 0;
           game_temptotal=game_temptotal+Number(temp_award);          
@@ -1226,7 +1295,8 @@ function refreshdata(){
       }
       //sum redi for date range
       for(i=0;i<(feature.properties.projects.state.redi).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.state.redi[i].dateofaward);        
+          var datearray=(feature.properties.projects.state.redi[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);     
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.state.redi[i].award || 0;
           redi_temptotal=redi_temptotal+Number(temp_award);          
@@ -1237,7 +1307,8 @@ function refreshdata(){
       var eiaf_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.eiaf).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.state.eiaf[j].dateofaward); 
+          var datearray=(feature.properties.projects.state.eiaf[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.state.eiaf[j].projname+"</td><td>"+feature.properties.projects.state.eiaf[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.eiaf[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1249,7 +1320,8 @@ function refreshdata(){
       var game_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.game).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.state.game[j].dateofaward); 
+          var datearray=(feature.properties.projects.state.game[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);  
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.state.game[j].projname+"</td><td>"+feature.properties.projects.state.game[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.game[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1261,7 +1333,8 @@ function refreshdata(){
       var redi_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.state.redi).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.state.redi[j].dateofaward); 
+          var datearray=(feature.properties.projects.state.redi[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.state.redi[j].projname+"</td><td>"+feature.properties.projects.state.redi[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.state.redi[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1296,52 +1369,37 @@ function refreshdata(){
       var countprojinrange=0;
       if(ctfexist>0){
         for(i=0;i<ctfexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.formula.ctf[i].dateofaward);
+          var datearray=(feature.properties.projects.formula.ctf[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(fmlddexist>0){
         for(i=0;i<fmlddexist;i=i+1){
-          var yearofaward = feature.properties.projects.formula.fmldd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.fmldd[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);        
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(fmlddsb106exist>0){
         for(i=0;i<fmlddsb106exist;i=i+1){
-          var fmlddsb106date = new Date(2014,3,1);
-          if(fmlddsb106date>mindate && fmlddsb106date<maxdate){countprojinrange=countprojinrange+1;}
+          var datearray=(feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }      
       if(sevedd>0){
         for(i=0;i<sevedd;i=i+1){
-          var yearofaward = feature.properties.projects.formula.sevedd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="FY2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.sevedd[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);         
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }            
       if(countprojinrange===0){return false;}
             
-      if(feature.properties.lgtype==2 || feature.properties.lgtype==3 || feature.properties.lgtype==4 || feature.properties.lgtype==5 ){return true;}else{return false;}
+      if(feature.properties.lgtype==="2" || feature.properties.lgtype==="3" || feature.properties.lgtype==="4" || feature.properties.lgtype==="5" ){return true;}else{return false;}
 
     },
-//     style: function(feature) {
-//         return {color: 'green'};
-//     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
       var icon;
@@ -1402,48 +1460,37 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.formula.ctf).length>0){
         for(var k=0;k<(feature.properties.projects.formula.ctf.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.formula.ctf[k].dateofaward);
+          var datearray=(feature.properties.projects.formula.ctf[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);      
           if(dateofproj>mindate && dateofproj<maxdate){ctf_class = 'btn';}
           }
         }
       if((feature.properties.projects.formula.fmldd).length>0){
         for(var k=0;k<(feature.properties.projects.formula.fmldd.length);k=k+1){
-          var yearofaward = feature.properties.projects.formula.fmldd[k].yearofaward;
-          var dateofproj;
-          if(yearofaward=="2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.fmldd[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);        
           if(dateofproj>mindate && dateofproj<maxdate){fmldd_class = 'btn';}
           }
         }
       if((feature.properties.projects.formula.fmlddsb106).length>0){
         for(var k=0;k<(feature.properties.projects.formula.fmlddsb106.length);k=k+1){
-          var fmlddsb106date = new Date(2014,3,1);
-          if(fmlddsb106date>mindate && fmlddsb106date<maxdate){fmlddsb106_class = 'btn';}
+          var datearray=(feature.properties.projects.formula.fmlddsb106[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
+          if(dateofproj>mindate && dateofproj<maxdate){fmlddsb106_class = 'btn';}
           }
         }
       if((feature.properties.projects.formula.sevedd).length>0){
         for(var k=0;k<(feature.properties.projects.formula.sevedd.length);k=k+1){
-          var yearofaward = feature.properties.projects.formula.sevedd[k].yearofaward;
-          var dateofproj;
-          if(yearofaward=="FY2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.sevedd[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){sevedd_class = 'btn';}
           }
         }
 
       //sum ctf for date range
       for(i=0;i<(feature.properties.projects.formula.ctf).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.formula.ctf[i].dateofaward);
+          var datearray=(feature.properties.projects.formula.ctf[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.formula.ctf[i].award) || 0;
           ctf_temptotal=ctf_temptotal+Number(temp_award);
@@ -1451,17 +1498,8 @@ function refreshdata(){
       }
       //sum fmldd for date range
       for(i=0;i<(feature.properties.projects.formula.fmldd).length;i=i+1){
-        
-          var yearofaward = feature.properties.projects.formula.fmldd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){dateofproj=new Date(2015,7,31);} 
-        
+          var datearray=(feature.properties.projects.formula.fmldd[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);      
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.formula.fmldd[i].award || 0;
           fmldd_temptotal=fmldd_temptotal+Number(temp_award);          
@@ -1469,9 +1507,8 @@ function refreshdata(){
       }
       //sum fmlddsb106 for date range
       for(i=0;i<(feature.properties.projects.formula.fmlddsb106).length;i=i+1){
-        
-          var dateofproj = new Date(2014,3,1);  
-        
+          var datearray=(feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.formula.fmlddsb106[i].award || 0;
           fmlddsb106_temptotal=fmlddsb106_temptotal+Number(temp_award);          
@@ -1479,16 +1516,8 @@ function refreshdata(){
       }
       //sum sevedd for date range
       for(i=0;i<(feature.properties.projects.formula.sevedd).length;i=i+1){
-          var yearofaward = feature.properties.projects.formula.sevedd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="FY2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){dateofproj=new Date(2015,7,31);}          
-
+          var datearray=(feature.properties.projects.formula.sevedd[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.formula.sevedd[i].award || 0;
           sevedd_temptotal=sevedd_temptotal+Number(temp_award);          
@@ -1498,7 +1527,8 @@ function refreshdata(){
       var ctf_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.ctf).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.formula.ctf[j].dateofaward); 
+          var datearray=(feature.properties.projects.formula.ctf[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.ctf[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.ctf[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1510,17 +1540,8 @@ function refreshdata(){
       var fmldd_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.fmldd).length;j=j+1){
-          
-          var yearofaward = feature.properties.projects.formula.fmldd[j].yearofaward;
-          var datepj;
-          if(yearofaward=="2009"){datepj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){datepj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){datepj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){datepj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){datepj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){datepj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){datepj=new Date(2015,7,31);}     
-          
+          var datearray=(feature.properties.projects.formula.fmldd[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.fmldd[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.fmldd[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1532,9 +1553,8 @@ function refreshdata(){
       var fmlddsb106_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.fmlddsb106).length;j=j+1){
-          
-          var datepj = new Date(2014,3,1);
-          
+          var datearray=(feature.properties.projects.formula.fmlddsb106[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.fmlddsb106[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.fmlddsb106[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1546,17 +1566,8 @@ function refreshdata(){
       var sevedd_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.sevedd).length;j=j+1){
-          
-          var yearofaward = feature.properties.projects.formula.sevedd[j].yearofaward;
-          var datepj;
-          if(yearofaward=="FY2009"){datepj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){datepj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){datepj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){datepj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){datepj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){datepj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){datepj=new Date(2015,7,31);}          
-          
+          var datearray=(feature.properties.projects.formula.sevedd[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.sevedd[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.sevedd[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1585,51 +1596,39 @@ function refreshdata(){
       var sevedd=(feature.properties.projects.formula.sevedd).length;            
       if((ctfexist+fmlddexist+fmlddsb106exist+sevedd)==0){return false;}
       
-      //filter out if no projects in date range
+//filter out if no projects in date range
       var countprojinrange=0;
       if(ctfexist>0){
         for(i=0;i<ctfexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.formula.ctf[i].dateofaward);
+          var datearray=(feature.properties.projects.formula.ctf[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(fmlddexist>0){
         for(i=0;i<fmlddexist;i=i+1){
-          var yearofaward = feature.properties.projects.formula.fmldd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.fmldd[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);        
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(fmlddsb106exist>0){
         for(i=0;i<fmlddsb106exist;i=i+1){
-          var fmlddsb106date = new Date(2014,3,1);
-          if(fmlddsb106date>mindate && fmlddsb106date<maxdate){countprojinrange=countprojinrange+1;}
+          var datearray=(feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }      
       if(sevedd>0){
         for(i=0;i<sevedd;i=i+1){
-          var yearofaward = feature.properties.projects.formula.sevedd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="FY2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.sevedd[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);         
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }            
       if(countprojinrange===0){return false;}
             
-      if(feature.properties.lgtype==1 || feature.properties.lgtype==61 || feature.properties.lgtype==70  ){return true;}else{return false;}
+      if(feature.properties.lgtype==="1" || feature.properties.lgtype==="61" || feature.properties.lgtype==="70"  ){return true;}else{return false;}
 
     },
     pointToLayer: function(feature, latlng) {
@@ -1665,7 +1664,7 @@ function refreshdata(){
         icon.options.iconSize = i12;
       }
 
-                   var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
+    var marker = new L.Marker(latlng, {icon: icon, riseOnHover: true }).bindLabel('<span style="color:green">'+feature.properties.govname+'</span>');
       oms.addMarker(marker);
       return marker;
     },
@@ -1692,48 +1691,37 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.formula.ctf).length>0){
         for(var k=0;k<(feature.properties.projects.formula.ctf.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.formula.ctf[k].dateofaward);
+          var datearray=(feature.properties.projects.formula.ctf[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);      
           if(dateofproj>mindate && dateofproj<maxdate){ctf_class = 'btn';}
           }
         }
       if((feature.properties.projects.formula.fmldd).length>0){
         for(var k=0;k<(feature.properties.projects.formula.fmldd.length);k=k+1){
-          var yearofaward = feature.properties.projects.formula.fmldd[k].yearofaward;
-          var dateofproj;
-          if(yearofaward=="2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.fmldd[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);        
           if(dateofproj>mindate && dateofproj<maxdate){fmldd_class = 'btn';}
           }
         }
       if((feature.properties.projects.formula.fmlddsb106).length>0){
         for(var k=0;k<(feature.properties.projects.formula.fmlddsb106.length);k=k+1){
-          var fmlddsb106date = new Date(2014,3,1);
-          if(fmlddsb106date>mindate && fmlddsb106date<maxdate){fmlddsb106_class = 'btn';}
+          var datearray=(feature.properties.projects.formula.fmlddsb106[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
+          if(dateofproj>mindate && dateofproj<maxdate){fmlddsb106_class = 'btn';}
           }
         }
       if((feature.properties.projects.formula.sevedd).length>0){
         for(var k=0;k<(feature.properties.projects.formula.sevedd.length);k=k+1){
-          var yearofaward = feature.properties.projects.formula.sevedd[k].yearofaward;
-          var dateofproj;
-          if(yearofaward=="FY2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.sevedd[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){sevedd_class = 'btn';}
           }
         }
 
       //sum ctf for date range
       for(i=0;i<(feature.properties.projects.formula.ctf).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.formula.ctf[i].dateofaward);
+          var datearray=(feature.properties.projects.formula.ctf[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.formula.ctf[i].award) || 0;
           ctf_temptotal=ctf_temptotal+Number(temp_award);
@@ -1741,17 +1729,8 @@ function refreshdata(){
       }
       //sum fmldd for date range
       for(i=0;i<(feature.properties.projects.formula.fmldd).length;i=i+1){
-        
-          var yearofaward = feature.properties.projects.formula.fmldd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){dateofproj=new Date(2015,7,31);} 
-        
+          var datearray=(feature.properties.projects.formula.fmldd[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);      
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.formula.fmldd[i].award || 0;
           fmldd_temptotal=fmldd_temptotal+Number(temp_award);          
@@ -1759,9 +1738,8 @@ function refreshdata(){
       }
       //sum fmlddsb106 for date range
       for(i=0;i<(feature.properties.projects.formula.fmlddsb106).length;i=i+1){
-        
-          var dateofproj = new Date(2014,3,1);  
-        
+          var datearray=(feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.formula.fmlddsb106[i].award || 0;
           fmlddsb106_temptotal=fmlddsb106_temptotal+Number(temp_award);          
@@ -1769,26 +1747,19 @@ function refreshdata(){
       }
       //sum sevedd for date range
       for(i=0;i<(feature.properties.projects.formula.sevedd).length;i=i+1){
-          var yearofaward = feature.properties.projects.formula.sevedd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="FY2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){dateofproj=new Date(2015,7,31);}          
-
+          var datearray=(feature.properties.projects.formula.sevedd[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.formula.sevedd[i].award || 0;
           sevedd_temptotal=sevedd_temptotal+Number(temp_award);          
         }
-      }                                              
+      }                                                    
                                               
       var ctf_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.ctf).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.formula.ctf[j].dateofaward); 
+          var datearray=(feature.properties.projects.formula.ctf[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.ctf[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.ctf[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1800,17 +1771,8 @@ function refreshdata(){
       var fmldd_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.fmldd).length;j=j+1){
-          
-          var yearofaward = feature.properties.projects.formula.fmldd[j].yearofaward;
-          var datepj;
-          if(yearofaward=="2009"){datepj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){datepj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){datepj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){datepj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){datepj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){datepj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){datepj=new Date(2015,7,31);}     
-          
+          var datearray=(feature.properties.projects.formula.fmldd[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.fmldd[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.fmldd[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1822,9 +1784,8 @@ function refreshdata(){
       var fmlddsb106_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.fmlddsb106).length;j=j+1){
-          
-          var datepj = new Date(2014,3,1);
-          
+          var datearray=(feature.properties.projects.formula.fmlddsb106[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.fmlddsb106[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.fmlddsb106[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1836,17 +1797,8 @@ function refreshdata(){
       var sevedd_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.sevedd).length;j=j+1){
-          
-          var yearofaward = feature.properties.projects.formula.sevedd[j].yearofaward;
-          var datepj;
-          if(yearofaward=="FY2009"){datepj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){datepj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){datepj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){datepj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){datepj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){datepj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){datepj=new Date(2015,7,31);}          
-          
+          var datearray=(feature.properties.projects.formula.sevedd[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.sevedd[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.sevedd[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -1876,51 +1828,39 @@ function refreshdata(){
       var sevedd=(feature.properties.projects.formula.sevedd).length;            
       if((ctfexist+fmlddexist+fmlddsb106exist+sevedd)==0){return false;}
       
-      //filter out if no projects in date range
+//filter out if no projects in date range
       var countprojinrange=0;
       if(ctfexist>0){
         for(i=0;i<ctfexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.formula.ctf[i].dateofaward);
+          var datearray=(feature.properties.projects.formula.ctf[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(fmlddexist>0){
         for(i=0;i<fmlddexist;i=i+1){
-          var yearofaward = feature.properties.projects.formula.fmldd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.fmldd[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);        
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(fmlddsb106exist>0){
         for(i=0;i<fmlddsb106exist;i=i+1){
-          var fmlddsb106date = new Date(2014,3,1);
-          if(fmlddsb106date>mindate && fmlddsb106date<maxdate){countprojinrange=countprojinrange+1;}
+          var datearray=(feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
+          if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }      
       if(sevedd>0){
         for(i=0;i<sevedd;i=i+1){
-          var yearofaward = feature.properties.projects.formula.sevedd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="FY2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.sevedd[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);         
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }            
       if(countprojinrange===0){return false;}
           
-      if(feature.properties.lgtype!==1 && feature.properties.lgtype!==61 && feature.properties.lgtype!==70 && feature.properties.lgtype!==2 && feature.properties.lgtype!==3 && feature.properties.lgtype!==4 && feature.properties.lgtype!==5){return true;}else{return false;}
+      if(feature.properties.lgtype!=="1" && feature.properties.lgtype!=="61" && feature.properties.lgtype!=="70" && feature.properties.lgtype!=="2" && feature.properties.lgtype!=="3" && feature.properties.lgtype!=="4" && feature.properties.lgtype!=="5"){return true;}else{return false;}
   
     },
     pointToLayer: function(feature, latlng) {
@@ -1983,48 +1923,37 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.formula.ctf).length>0){
         for(var k=0;k<(feature.properties.projects.formula.ctf.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.formula.ctf[k].dateofaward);
+          var datearray=(feature.properties.projects.formula.ctf[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);      
           if(dateofproj>mindate && dateofproj<maxdate){ctf_class = 'btn';}
           }
         }
       if((feature.properties.projects.formula.fmldd).length>0){
         for(var k=0;k<(feature.properties.projects.formula.fmldd.length);k=k+1){
-          var yearofaward = feature.properties.projects.formula.fmldd[k].yearofaward;
-          var dateofproj;
-          if(yearofaward=="2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.fmldd[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);        
           if(dateofproj>mindate && dateofproj<maxdate){fmldd_class = 'btn';}
           }
         }
       if((feature.properties.projects.formula.fmlddsb106).length>0){
         for(var k=0;k<(feature.properties.projects.formula.fmlddsb106.length);k=k+1){
-          var fmlddsb106date = new Date(2014,3,1);
-          if(fmlddsb106date>mindate && fmlddsb106date<maxdate){fmlddsb106_class = 'btn';}
+          var datearray=(feature.properties.projects.formula.fmlddsb106[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
+          if(dateofproj>mindate && dateofproj<maxdate){fmlddsb106_class = 'btn';}
           }
         }
       if((feature.properties.projects.formula.sevedd).length>0){
         for(var k=0;k<(feature.properties.projects.formula.sevedd.length);k=k+1){
-          var yearofaward = feature.properties.projects.formula.sevedd[k].yearofaward;
-          var dateofproj;
-          if(yearofaward=="FY2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){dateofproj=new Date(2015,7,31);}          
+          var datearray=(feature.properties.projects.formula.sevedd[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){sevedd_class = 'btn';}
           }
         }
 
       //sum ctf for date range
       for(i=0;i<(feature.properties.projects.formula.ctf).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.formula.ctf[i].dateofaward);
+          var datearray=(feature.properties.projects.formula.ctf[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);          
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.formula.ctf[i].award) || 0;
           ctf_temptotal=ctf_temptotal+Number(temp_award);
@@ -2032,17 +1961,8 @@ function refreshdata(){
       }
       //sum fmldd for date range
       for(i=0;i<(feature.properties.projects.formula.fmldd).length;i=i+1){
-        
-          var yearofaward = feature.properties.projects.formula.fmldd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){dateofproj=new Date(2015,7,31);} 
-        
+          var datearray=(feature.properties.projects.formula.fmldd[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);      
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.formula.fmldd[i].award || 0;
           fmldd_temptotal=fmldd_temptotal+Number(temp_award);          
@@ -2050,9 +1970,8 @@ function refreshdata(){
       }
       //sum fmlddsb106 for date range
       for(i=0;i<(feature.properties.projects.formula.fmlddsb106).length;i=i+1){
-        
-          var dateofproj = new Date(2014,3,1);  
-        
+          var datearray=(feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.formula.fmlddsb106[i].award || 0;
           fmlddsb106_temptotal=fmlddsb106_temptotal+Number(temp_award);          
@@ -2060,26 +1979,19 @@ function refreshdata(){
       }
       //sum sevedd for date range
       for(i=0;i<(feature.properties.projects.formula.sevedd).length;i=i+1){
-          var yearofaward = feature.properties.projects.formula.sevedd[i].yearofaward;
-          var dateofproj;
-          if(yearofaward=="FY2009"){dateofproj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){dateofproj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){dateofproj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){dateofproj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){dateofproj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){dateofproj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){dateofproj=new Date(2015,7,31);}          
-
+          var datearray=(feature.properties.projects.formula.sevedd[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.formula.sevedd[i].award || 0;
           sevedd_temptotal=sevedd_temptotal+Number(temp_award);          
         }
-      }                                              
+      }                   
                                               
       var ctf_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.ctf).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.formula.ctf[j].dateofaward); 
+          var datearray=(feature.properties.projects.formula.ctf[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.ctf[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.ctf[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2091,17 +2003,8 @@ function refreshdata(){
       var fmldd_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.fmldd).length;j=j+1){
-          
-          var yearofaward = feature.properties.projects.formula.fmldd[j].yearofaward;
-          var datepj;
-          if(yearofaward=="2009"){datepj=new Date(2009,7,31);}
-          if(yearofaward=="2010"){datepj=new Date(2010,7,31);}
-          if(yearofaward=="2011"){datepj=new Date(2011,7,31);}
-          if(yearofaward=="2012"){datepj=new Date(2012,7,31);}
-          if(yearofaward=="2013"){datepj=new Date(2013,7,31);}  
-          if(yearofaward=="2014"){datepj=new Date(2014,7,31);}
-          if(yearofaward=="2015"){datepj=new Date(2015,7,31);}     
-          
+          var datearray=(feature.properties.projects.formula.fmldd[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.fmldd[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.fmldd[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2113,9 +2016,8 @@ function refreshdata(){
       var fmlddsb106_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.fmlddsb106).length;j=j+1){
-          
-          var datepj = new Date(2014,3,1);
-          
+          var datearray=(feature.properties.projects.formula.fmlddsb106[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.fmlddsb106[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.fmlddsb106[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2127,17 +2029,8 @@ function refreshdata(){
       var sevedd_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.formula.sevedd).length;j=j+1){
-          
-          var yearofaward = feature.properties.projects.formula.sevedd[j].yearofaward;
-          var datepj;
-          if(yearofaward=="FY2009"){datepj=new Date(2009,7,31);}
-          if(yearofaward=="FY2010"){datepj=new Date(2010,7,31);}
-          if(yearofaward=="FY2011"){datepj=new Date(2011,7,31);}
-          if(yearofaward=="FY2012"){datepj=new Date(2012,7,31);}
-          if(yearofaward=="FY2013"){datepj=new Date(2013,7,31);}  
-          if(yearofaward=="FY2014"){datepj=new Date(2014,7,31);}
-          if(yearofaward=="FY2015"){datepj=new Date(2015,7,31);}          
-          
+          var datearray=(feature.properties.projects.formula.sevedd[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.formula.sevedd[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.formula.sevedd[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2170,30 +2063,30 @@ function refreshdata(){
       var countprojinrange=0;
       if(ffbexist>0){
         for(i=0;i<ffbexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.special.ffb[i].dateofaward);
+          var datearray=(feature.properties.projects.special.ffb[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(sarexist>0){
         for(i=0;i<sarexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.special.sar[i].dateofaward);
+          var datearray=(feature.properties.projects.special.sar[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);   
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(vfpexist>0){
         for(i=0;i<vfpexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.special.vfp[i].dateofaward);
+          var datearray=(feature.properties.projects.special.vfp[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);             
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }      
       if(countprojinrange===0){return false;}
                   
-      if(feature.properties.lgtype==2 || feature.properties.lgtype==3 || feature.properties.lgtype==4 || feature.properties.lgtype==5 ){return true;}else{return false;}
+      if(feature.properties.lgtype==="2" || feature.properties.lgtype==="3" || feature.properties.lgtype==="4" || feature.properties.lgtype==="5" ){return true;}else{return false;}
 
     },
-//     style: function(feature) {
-//         return {color: 'green'};
-//     },
     pointToLayer: function(feature, latlng) {
       var zl=map.getZoom();
       var icon;
@@ -2251,19 +2144,22 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.special.ffb).length>0){
         for(var k=0;k<(feature.properties.projects.special.ffb.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.special.ffb[k].dateofaward);
+          var datearray=(feature.properties.projects.special.ffb[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){ffb_class = 'btn';}
           }
         }
       if((feature.properties.projects.special.sar).length>0){
         for(var k=0;k<(feature.properties.projects.special.sar.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.special.sar[k].dateofaward);
+          var datearray=(feature.properties.projects.special.sar[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){sar_class = 'btn';}
           }
         }
       if((feature.properties.projects.special.vfp).length>0){
         for(var k=0;k<(feature.properties.projects.special.vfp.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.special.vfp[k].dateofaward);
+          var datearray=(feature.properties.projects.special.vfp[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){vfp_class = 'btn';}
           }
         }
@@ -2271,7 +2167,8 @@ function refreshdata(){
       
       //sum ffb for date range
       for(i=0;i<(feature.properties.projects.special.ffb).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.special.ffb[i].dateofaward);
+          var datearray=(feature.properties.projects.special.ffb[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.special.ffb[i].award) || 0;
           ffb_temptotal=ffb_temptotal+Number(temp_award);
@@ -2279,7 +2176,8 @@ function refreshdata(){
       }
       //sum sar for date range
       for(i=0;i<(feature.properties.projects.special.sar).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.special.sar[i].dateofaward);        
+          var datearray=(feature.properties.projects.special.sar[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);     
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.special.sar[i].award || 0;
           sar_temptotal=sar_temptotal+Number(temp_award);          
@@ -2287,7 +2185,8 @@ function refreshdata(){
       }
       //sum vfp for date range
       for(i=0;i<(feature.properties.projects.special.vfp).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.special.vfp[i].dateofaward);        
+          var datearray=(feature.properties.projects.special.vfp[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.special.vfp[i].award || 0;
           vfp_temptotal=vfp_temptotal+Number(temp_award);          
@@ -2298,7 +2197,8 @@ function refreshdata(){
       var ffb_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.ffb).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.special.ffb[j].dateofaward); 
+          var datearray=(feature.properties.projects.special.ffb[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.special.ffb[j].projname+"</td><td>"+feature.properties.projects.special.ffb[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.ffb[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2310,7 +2210,8 @@ function refreshdata(){
       var sar_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.sar).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.special.sar[j].dateofaward); 
+          var datearray=(feature.properties.projects.special.sar[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.special.sar[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.sar[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2322,7 +2223,8 @@ function refreshdata(){
       var vfp_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.vfp).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.special.vfp[j].dateofaward); 
+          var datearray=(feature.properties.projects.special.vfp[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.special.vfp[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.vfp[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2355,25 +2257,28 @@ function refreshdata(){
       var countprojinrange=0;
       if(ffbexist>0){
         for(i=0;i<ffbexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.special.ffb[i].dateofaward);
+          var datearray=(feature.properties.projects.special.ffb[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);              
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(sarexist>0){
         for(i=0;i<sarexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.special.sar[i].dateofaward);
+          var datearray=(feature.properties.projects.special.sar[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(vfpexist>0){
         for(i=0;i<vfpexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.special.vfp[i].dateofaward);
+          var datearray=(feature.properties.projects.special.vfp[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }      
       if(countprojinrange===0){return false;}
                  
-      if(feature.properties.lgtype==1 || feature.properties.lgtype==61 || feature.properties.lgtype==70  ){return true;}else{return false;}
+      if(feature.properties.lgtype==="1" || feature.properties.lgtype==="61" || feature.properties.lgtype==="70"  ){return true;}else{return false;}
 
     },
     pointToLayer: function(feature, latlng) {
@@ -2433,26 +2338,31 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.special.ffb).length>0){
         for(var k=0;k<(feature.properties.projects.special.ffb.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.special.ffb[k].dateofaward);
+          var datearray=(feature.properties.projects.special.ffb[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){ffb_class = 'btn';}
           }
         }
       if((feature.properties.projects.special.sar).length>0){
         for(var k=0;k<(feature.properties.projects.special.sar.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.special.sar[k].dateofaward);
+          var datearray=(feature.properties.projects.special.sar[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){sar_class = 'btn';}
           }
         }
       if((feature.properties.projects.special.vfp).length>0){
         for(var k=0;k<(feature.properties.projects.special.vfp.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.special.vfp[k].dateofaward);
+          var datearray=(feature.properties.projects.special.vfp[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){vfp_class = 'btn';}
           }
         }
+   
       
       //sum ffb for date range
       for(i=0;i<(feature.properties.projects.special.ffb).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.special.ffb[i].dateofaward);
+          var datearray=(feature.properties.projects.special.ffb[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.special.ffb[i].award) || 0;
           ffb_temptotal=ffb_temptotal+Number(temp_award);
@@ -2460,7 +2370,8 @@ function refreshdata(){
       }
       //sum sar for date range
       for(i=0;i<(feature.properties.projects.special.sar).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.special.sar[i].dateofaward);        
+          var datearray=(feature.properties.projects.special.sar[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);     
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.special.sar[i].award || 0;
           sar_temptotal=sar_temptotal+Number(temp_award);          
@@ -2468,7 +2379,8 @@ function refreshdata(){
       }
       //sum vfp for date range
       for(i=0;i<(feature.properties.projects.special.vfp).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.special.vfp[i].dateofaward);        
+          var datearray=(feature.properties.projects.special.vfp[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.special.vfp[i].award || 0;
           vfp_temptotal=vfp_temptotal+Number(temp_award);          
@@ -2479,7 +2391,8 @@ function refreshdata(){
       var ffb_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.ffb).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.special.ffb[j].dateofaward); 
+          var datearray=(feature.properties.projects.special.ffb[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]); 
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.special.ffb[j].projname+"</td><td>"+feature.properties.projects.special.ffb[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.ffb[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2491,7 +2404,8 @@ function refreshdata(){
       var sar_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.sar).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.special.sar[j].dateofaward); 
+          var datearray=(feature.properties.projects.special.sar[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.special.sar[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.sar[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2503,7 +2417,8 @@ function refreshdata(){
       var vfp_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.vfp).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.special.vfp[j].dateofaward); 
+          var datearray=(feature.properties.projects.special.vfp[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.special.vfp[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.vfp[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2537,25 +2452,28 @@ function refreshdata(){
       var countprojinrange=0;
       if(ffbexist>0){
         for(i=0;i<ffbexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.special.ffb[i].dateofaward);
+          var datearray=(feature.properties.projects.special.ffb[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(sarexist>0){
         for(i=0;i<sarexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.special.sar[i].dateofaward);
+          var datearray=(feature.properties.projects.special.sar[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }
       if(vfpexist>0){
         for(i=0;i<vfpexist;i=i+1){
-          var dateofproj = new Date(feature.properties.projects.special.vfp[i].dateofaward);
+          var datearray=(feature.properties.projects.special.vfp[i].dateofaward).split("-");
+          var dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
           if(dateofproj>mindate && dateofproj<maxdate){countprojinrange=countprojinrange+1;}
             }
       }      
       if(countprojinrange===0){return false;}
                  
-      if(feature.properties.lgtype!==1 && feature.properties.lgtype!==61 && feature.properties.lgtype!==70 && feature.properties.lgtype!==2 && feature.properties.lgtype!==3 && feature.properties.lgtype!==4 && feature.properties.lgtype!==5){return true;}else{return false;}
+      if(feature.properties.lgtype!=="1" && feature.properties.lgtype!=="61" && feature.properties.lgtype!=="70" && feature.properties.lgtype!=="2" && feature.properties.lgtype!=="3" && feature.properties.lgtype!=="4" && feature.properties.lgtype!=="5"){return true;}else{return false;}
 
     },
     pointToLayer: function(feature, latlng) {
@@ -2615,26 +2533,31 @@ function refreshdata(){
       //if program has projects, add class and title attributes to html
       if((feature.properties.projects.special.ffb).length>0){
         for(var k=0;k<(feature.properties.projects.special.ffb.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.special.ffb[k].dateofaward);
+          var datearray=(feature.properties.projects.special.ffb[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){ffb_class = 'btn';}
           }
         }
       if((feature.properties.projects.special.sar).length>0){
         for(var k=0;k<(feature.properties.projects.special.sar.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.special.sar[k].dateofaward);
+          var datearray=(feature.properties.projects.special.sar[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){sar_class = 'btn';}
           }
         }
       if((feature.properties.projects.special.vfp).length>0){
         for(var k=0;k<(feature.properties.projects.special.vfp.length);k=k+1){
-          dateofproj = new Date(feature.properties.projects.special.vfp[k].dateofaward);
+          var datearray=(feature.properties.projects.special.vfp[k].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(dateofproj>mindate && dateofproj<maxdate){vfp_class = 'btn';}
           }
         }
+   
       
       //sum ffb for date range
       for(i=0;i<(feature.properties.projects.special.ffb).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.special.ffb[i].dateofaward);
+          var datearray=(feature.properties.projects.special.ffb[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=Number(feature.properties.projects.special.ffb[i].award) || 0;
           ffb_temptotal=ffb_temptotal+Number(temp_award);
@@ -2642,7 +2565,8 @@ function refreshdata(){
       }
       //sum sar for date range
       for(i=0;i<(feature.properties.projects.special.sar).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.special.sar[i].dateofaward);        
+          var datearray=(feature.properties.projects.special.sar[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);     
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.special.sar[i].award || 0;
           sar_temptotal=sar_temptotal+Number(temp_award);          
@@ -2650,7 +2574,8 @@ function refreshdata(){
       }
       //sum vfp for date range
       for(i=0;i<(feature.properties.projects.special.vfp).length;i=i+1){
-        dateofproj=new Date(feature.properties.projects.special.vfp[i].dateofaward);        
+          var datearray=(feature.properties.projects.special.vfp[i].dateofaward).split("-");
+          dateofproj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);    
         if(dateofproj>mindate && dateofproj<maxdate){
           temp_award=feature.properties.projects.special.vfp[i].award || 0;
           vfp_temptotal=vfp_temptotal+Number(temp_award);          
@@ -2661,7 +2586,8 @@ function refreshdata(){
       var ffb_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.ffb).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.special.ffb[j].dateofaward); 
+          var datearray=(feature.properties.projects.special.ffb[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.special.ffb[j].projname+"</td><td>"+feature.properties.projects.special.ffb[j].projectnmbr+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.ffb[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2673,7 +2599,8 @@ function refreshdata(){
       var sar_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.sar).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.special.sar[j].dateofaward); 
+          var datearray=(feature.properties.projects.special.sar[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.special.sar[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.sar[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2685,7 +2612,8 @@ function refreshdata(){
       var vfp_text = function(){
         var temptable="<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>";
         for(j=0;j<(feature.properties.projects.special.vfp).length;j=j+1){
-          var datepj=new Date(feature.properties.projects.special.vfp[j].dateofaward); 
+          var datearray=(feature.properties.projects.special.vfp[j].dateofaward).split("-");
+          var datepj = new Date(datearray[0]+" "+datearray[1]+" 20"+datearray[2]);
           if(datepj>mindate && datepj<maxdate){
           temptable = temptable+"<tr><td>"+feature.properties.projects.special.vfp[j].projname+"</td><td>" + $.datepicker.formatDate("mm/dd/y", datepj) + "</td><td align='right'>$"+(feature.properties.projects.special.vfp[j].award).formatMoney(0)+"</td></tr>"; 
           }
@@ -2796,3 +2724,5 @@ $("#slider").bind("valuesChanged", function(e, data){
   });
         
       });
+  
+} //end init
