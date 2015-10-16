@@ -282,8 +282,9 @@
       this.removeMarkers();
 
       var geo = [coords[1], coords[0]];
-      this._map.setView(geo, this._map.getZoom() || 8);
-
+      this._map.setView(geo, 11); //dt custom.  Original: this._map.setView(geo, this._map.getZoom() || 8);
+      //this._map.setView(geo, this._map.getZoom() || 8);
+      
       var markerOptions = (typeof this.options.markers === 'object') ? this.options.markers : {};
 
       if (this.options.markers) {
@@ -496,8 +497,11 @@
               } else {
                 L.DomUtil.addClass(list[list.length - 1], 'leaflet-pelias-selected');
               }
-
+              
+              
+              this._map.setZoom(11); //custom dt
               panToPoint(this.options.panToPoint);
+
 
               L.DomEvent.preventDefault(e);
               break;
@@ -519,9 +523,11 @@
               } else {
                 L.DomUtil.addClass(list[0], 'leaflet-pelias-selected');
               }
-
+              
+              this._map.setZoom(11); //custom dt
               panToPoint(this.options.panToPoint);
 
+              
               L.DomEvent.preventDefault(e);
               break;
             // all other keys

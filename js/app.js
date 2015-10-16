@@ -72,11 +72,18 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
 		});
   
 
+  var southWest = L.latLng(36.987965, -109.065964),
+    northEast = L.latLng(41.007374, -102.042814),
+    llbounds = L.latLngBounds(southWest, northEast);
+  
        //MAPZEN GEOCODER  
 var options = {
-  bounds: true,
+  bounds: llbounds,
   position: 'topright',
-  expanded: true
+  expanded: true, 
+  markers: false,
+  autocomplete: false,
+  layers: 'coarse'
 }  
 
   L.control.geocoder('search-YawpV0M', options).addTo(map);
