@@ -11,7 +11,7 @@ function popopen(table){
 
 $.ajax({
     type: "GET",
-    url: "data/sumtotal.geojson",
+    url: "../CO_FS_Data_PHP/sumtotal.geojson",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function(jdata) {
@@ -71,13 +71,24 @@ var maxdate=new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
       zoomControl:false
 		});
   
+
+       //MAPZEN GEOCODER  
+var options = {
+  bounds: true,
+  position: 'topright',
+  expanded: true
+}  
+
+  L.control.geocoder('search-YawpV0M', options).addTo(map);
+  
+    
   
 //trick add zoom control on right
 L.control.zoom({
      position:'topright'
 }).addTo(map);
-         
-
+  
+  
   map.on('zoomend', function() {
     updatedata();
 });
