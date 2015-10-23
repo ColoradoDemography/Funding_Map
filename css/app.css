@@ -8,8 +8,8 @@
         cursor: pointer;
       }
 
+
 a.btn {
-  color: grey;
   text-decoration: none;
   }
 
@@ -118,20 +118,24 @@ h4{
 
 
 
+a:hover{
+	color: #CC3333;
+	text-decoration:underline;
+}
 
 table a:link {
-	color: #666;
+	color: #0078A8;
 	font-weight: bold;
 	text-decoration:none;
 }
 table a:visited {
-	color: #999999;
+	color: #0078A8;
 	font-weight:bold;
 	text-decoration:none;
 }
 table a:active,
 table a:hover {
-	color: #bd5a35;
+	color: #CC3333;
 	text-decoration:underline;
 }
 table {
