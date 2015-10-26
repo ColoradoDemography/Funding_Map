@@ -285,6 +285,18 @@ function init() {
 
 
 
+        //Custom Title Control
+        var title = L.control({
+            position: 'topleft'
+        });
+
+        title.onAdd = function(map) {
+            var div = L.DomUtil.create('div', 'title');
+            div.innerHTML = '<h2>Colorado Financial Assistance</h2>';
+            return div;
+        };
+
+        title.addTo(map);
 
 
 
