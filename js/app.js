@@ -227,14 +227,12 @@ function init() {
         }).addTo(map); // probably just `map`
 
         function field_onEachFeature(feature, layer) {
-            // does this feature have a property named popupContent?
             if (feature.properties && feature.properties.FieldReg_N) {
                 layer.bindPopup(feature.properties.FieldReg_N + " Region");
             }
         }
 
         function plan_onEachFeature(feature, layer) {
-            // does this feature have a property named popupContent?
             if (feature.properties && feature.properties.PlanRgn) {
                 layer.bindPopup("Region " + feature.properties.PlanRgn);
             }
@@ -573,7 +571,14 @@ function init() {
 
 
             //universal point to layer function
-            function ptl(feature, latlng, color) {
+            function ptl(feature, latlng, color, type) {
+              
+              var icstyle;
+              
+              if(type=="district"){icstyle="marker";}
+              if(type=="city"){icstyle="triangle";}
+              if(type=="county"){icstyle="star";}
+              
                 var zl = map.getZoom();
                 var icon;
 
@@ -605,7 +610,8 @@ function init() {
                     icon = L.MakiMarkers.icon({
                         icon: null,
                         color: color,
-                        size: "s"
+                        size: "s",
+                        icon: icstyle
                     });
                     icon.options.iconSize = i9;
                 }
@@ -613,7 +619,8 @@ function init() {
                     icon = L.MakiMarkers.icon({
                         icon: null,
                         color: color,
-                        size: "s"
+                        size: "s",
+                        icon: icstyle
                     });
                     icon.options.iconSize = i10;
                 }
@@ -621,7 +628,8 @@ function init() {
                     icon = L.MakiMarkers.icon({
                         icon: null,
                         color: color,
-                        size: "s"
+                        size: "s",
+                        icon: icstyle
                     });
                     icon.options.iconSize = i11;
                 }
@@ -629,7 +637,8 @@ function init() {
                     icon = L.MakiMarkers.icon({
                         icon: null,
                         color: color,
-                        size: "s"
+                        size: "s",
+                        icon: icstyle
                     });
                     icon.options.iconSize = i12;
                 }
@@ -1045,7 +1054,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [1, 2, 3, 4]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#984ea3");
+                        return ptl(feature, latlng, "#984ea3", "city");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [1, 2, 3, 4], "");
@@ -1057,7 +1066,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["1", "61", "70"], [1, 2, 3, 4]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#377eb8");
+                        return ptl(feature, latlng, "#377eb8", "county");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [1, 2, 3, 4], "");
@@ -1070,7 +1079,7 @@ function init() {
                         return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [1, 2, 3, 4]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#ff7f00");
+                        return ptl(feature, latlng, "#ff7f00", "district");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [1, 2, 3, 4], "");
@@ -1085,7 +1094,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [1]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF");
+                        return ptl(feature, latlng, "#0000FF", "city");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [1], "Federal ");
@@ -1097,7 +1106,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["1", "61", "70"], [1]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF");
+                        return ptl(feature, latlng, "#0000FF", "county");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [1], "Federal ");
@@ -1110,7 +1119,7 @@ function init() {
                         return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [1]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF");
+                        return ptl(feature, latlng, "#0000FF", "district");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [1], "Federal ");
@@ -1125,7 +1134,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [2]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000");
+                        return ptl(feature, latlng, "#FF0000", "city");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [2], "State ");
@@ -1137,7 +1146,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["1", "61", "70"], [2]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000");
+                        return ptl(feature, latlng, "#FF0000", "county");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [2], "State ");
@@ -1150,7 +1159,7 @@ function init() {
                         return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [2]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000");
+                        return ptl(feature, latlng, "#FF0000", "district");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [2], "State ");
@@ -1163,7 +1172,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [3]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000");
+                        return ptl(feature, latlng, "#008000", "city");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [3], "Formula ");
@@ -1175,7 +1184,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["1", "61", "70"], [3]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000");
+                        return ptl(feature, latlng, "#008000", "county");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [3], "Formula ");
@@ -1187,7 +1196,7 @@ function init() {
                         return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [3]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000");
+                        return ptl(feature, latlng, "#008000", "district");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [3], "Formula ");
@@ -1200,7 +1209,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [4]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080");
+                        return ptl(feature, latlng, "#800080", "city");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [4], "Special ");
@@ -1212,7 +1221,7 @@ function init() {
                         return filterfeatures(feature, layer, true, ["1", "61", "70"], [4]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080");
+                        return ptl(feature, latlng, "#800080", "county");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [4], "Special ");
@@ -1225,7 +1234,7 @@ function init() {
                         return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [4]);
                     },
                     pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080");
+                        return ptl(feature, latlng, "#800080", "district");
                     },
                     onEachFeature: function(feature, layer) {
                         onEach(feature, layer, [4], "Special ");
