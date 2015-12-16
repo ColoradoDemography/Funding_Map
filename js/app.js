@@ -1,63 +1,5 @@
 "use strict";
 
-//browser check
-var minimal = false;
-/**
- * detect IE
- * returns version of IE or false, if browser is not Internet Explorer
- */
-function detectIE() {
-    var ua = window.navigator.userAgent;
-
-    var msie = ua.indexOf('MSIE ');
-    if (msie > 0) {
-        // IE 10 or older => return version number
-        return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
-    }
-
-    var trident = ua.indexOf('Trident/');
-    if (trident > 0) {
-        // IE 11 => return version number
-        var rv = ua.indexOf('rv:');
-        return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-    }
-
-    var edge = ua.indexOf('Edge/');
-    if (edge > 0) {
-        // IE 12 => return version number
-        return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
-    }
-
-    // other browser
-    return false;
-}
-
-
-function devicecheck() {
-    var check = false;
-    (function(a) {
-        if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true
-    })(navigator.userAgent || navigator.vendor || window.opera);
-    return check;
-}
-
-console.log('devicecheck: ' + devicecheck());
-
-console.log('IE ' + detectIE());
-
-if (detectIE() || devicecheck()) {
-    minimal = true;
-    console.log('you are on IE or Mobile.');
-
-}
-
-
-var map;
-
-var sumtotal; //geojson
-
-
-
 function popopen(table) {
     console.log('popopen()');
     map.openModal({
@@ -66,9 +8,15 @@ function popopen(table) {
 }
 
 
+    $(document).ready(function() {
 
 
-var start = +new Date(); // log start timestamp
+var map;
+
+var sumtotal; //geojson
+
+
+
 
 $.ajax({
     type: "GET",
@@ -77,23 +25,20 @@ $.ajax({
     dataType: "json",
     success: function(jdata) {
         sumtotal = jdata;
-
-        var end = +new Date(); // log end timestamp
-        var diff = end - start;
-
-        console.log("load data:" + diff);
-        init();
+      init();
     },
     error: function(xhr, textStatus, errorThrown) {
         console.log(xhr.responseText);
     }
 });
+      
 
 
 function init() {
 
 
-    $(document).ready(function() {
+
+
 
         var i6 = [8, 20];
         var i7 = [10, 25];
@@ -111,24 +56,24 @@ function init() {
         var city_federal = L.geoJson(null, {});
         var county_federal = L.geoJson(null, {});
         var district_federal = L.geoJson(null, {});
+var other_federal = L.geoJson(null, {});
         var city_state = L.geoJson(null, {});
         var county_state = L.geoJson(null, {});
         var district_state = L.geoJson(null, {});
+var other_state = L.geoJson(null, {});  
         var city_formula = L.geoJson(null, {});
         var county_formula = L.geoJson(null, {});
         var district_formula = L.geoJson(null, {});
+var other_formula = L.geoJson(null, {});  
         var city_special = L.geoJson(null, {});
         var county_special = L.geoJson(null, {});
         var district_special = L.geoJson(null, {});
-
-        //ie & mobile only
-        var city = L.geoJson(null, {});
-        var county = L.geoJson(null, {});
-        var district = L.geoJson(null, {});
+var other_special = L.geoJson(null, {});
 
         var city_flag = 1,
             county_flag = 1,
             district_flag = 1,
+other_flag = 1,
             federal_flag = 1,
             state_flag = 1,
             formula_flag = 1,
@@ -162,6 +107,8 @@ function init() {
             attribution: 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
         });
 
+  
+  
         map = L.map('map', {
             center: [39, -105.5],
             zoom: 7,
@@ -319,6 +266,29 @@ function init() {
         }).error(function() {});
 
 
+        var coutline = new L.geoJson(null, {
+            style: function(feature) {
+                return {
+                    weight: 1,
+                    color: "#444",
+                    fillOpacity: 0
+                };
+            }
+        }).addTo(map);;
+
+        $.ajax({
+            dataType: "json",
+            url: "data/counties.geojson",
+            success: function(data) {
+                $(data.features).each(function(key, data) {
+                    coutline.addData(data);
+                });
+            }
+        }).error(function() {});
+
+
+  
+  
 
         var overlays = {
             "Field Regions": field,
@@ -388,21 +358,17 @@ function init() {
         command.onAdd = function(map) {
             var div = L.DomUtil.create('div', 'command');
 
-            if (minimal) {
-                div.innerHTML = '<h4>Government Type</h4><input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purp_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;City<br /><input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/slate_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;County<br /><input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/orange_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;District</form>';
+            div.innerHTML = '<form><h4>Programs</h4>' +
 
-            } else {
-                div.innerHTML = '<form><h4>Programs</h4>' +
+                    '<input class="leg" id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Federal<br />' +
+                    '<input class="leg" id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;State<br />' +
+                    '<input class="leg" id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Formula<br />' +
 
-                    '<input class="leg" id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" /><a href="#" class="btn" onclick="popopen(\'<table><tr><td>CDBG:</td><td>&nbsp;&nbsp;Community Development Block Grants</span></td></tr><tr><td>CSBG:</td><td>&nbsp;&nbsp;Community Services Block Grants</td></tr></table>\')">&nbsp;&nbsp;Federal<span ><img class="callout" src="cssttp/callout.gif" /><table><tr><td>CDBG:</td><td>&nbsp;&nbsp;Community Development Block Grants</td></tr><tr><td>CSBG:</td><td>&nbsp;&nbsp;Community Services Block Grants</td></tr></table></span></a><br />' +
-                    '<input class="leg" id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" /><a href="#" class="btn" onclick="popopen(\'<table><tr><td>EIAF:</td><td>&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</td></tr><tr><td>GAME:</td><td>&nbsp;&nbsp;Limited Gaming Impact Program</td></tr><tr><td>REDI:</td><td>&nbsp;&nbsp;Rural Economic Development Initiative</td></tr></table>\')">&nbsp;&nbsp;State<span ><img class="callout" src="cssttp/callout.gif" /><table><tr><td>EIAF:</td><td>&nbsp;&nbsp;Energy/Mineral Impact Assistance Fund</td></tr><tr><td>GAME:</td><td>&nbsp;&nbsp;Limited Gaming Impact Program</td></tr><tr><td>REDI:</td><td>&nbsp;&nbsp;Rural Economic Development Initiative</td></tr></table></span></a><br />' +
-                    '<input class="leg" id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" /><a href="#" class="btn" onclick="popopen(\'<table><tr><td>CTF:</td><td>&nbsp;&nbsp;Conservation Trust Fund</td></tr><tr><td>SEVEDD:</td><td>&nbsp;&nbsp;Severance Direct Distribution</td></tr><tr><td>FMLDD:</td><td>&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</td></tr><tr><td>FMLDDSB106:</td><td>&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</td></tr></table>\')">&nbsp;&nbsp;Formula<span ><img class="callout" src="cssttp/callout.gif" /><table><tr><td>CTF:</td><td>&nbsp;&nbsp;Conservation Trust Fund</td></tr><tr><td>SEVEDD:</td><td>&nbsp;&nbsp;Severance Direct Distribution</td></tr><tr><td>FMLDD:</td><td>&nbsp;&nbsp;Federal Mineral Lease Direct Distribution</td></tr><tr><td>FMLDDSB106:</td><td>&nbsp;&nbsp;Federal Mineral Lease Supplemental Distribution</td></tr></table></span></a><br />' +
-
-                    '<input class="leg" id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" /><a href="#" class="btn" onclick="popopen(\'<table><tr><td>FFB:</td><td>&nbsp;&nbsp;Firefighter Cardiac Benefit Program</td></tr><tr><td>SAR:</td><td>&nbsp;&nbsp;Search and Rescue</td></tr><tr><td>VFP:</td><td>&nbsp;&nbsp;Volunteer Firefighter Pension Fund</td></tr></table>\')">&nbsp;&nbsp;Special<span ><img class="callout" src="cssttp/callout.gif" /><table><tr><td>FFB:</td><td>&nbsp;&nbsp;Firefighter Cardiac Benefit Program</td></tr><tr><td>SAR:</td><td>&nbsp;&nbsp;Search and Rescue</td></tr><tr><td>VFP:</td><td>&nbsp;&nbsp;Volunteer Firefighter Pension Fund</td></tr></table></span></a><br />' +
+                    '<input class="leg" id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Special<br />' +
 
 
-                    '<h4>Government Type</h4><input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;City<br /><input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;County<br /><input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;District</form>';
-            }
+                    '<h4>Organization Type</h4><input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;City<br /><input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;County<br /><input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;District<br /><input class="leg" id="other" type="checkbox" checked />&nbsp;&nbsp;Other</form>';
+            
 
 
             return div;
@@ -502,11 +468,16 @@ function init() {
             refreshdata();
         }
 
-        if (minimal) {
-            document.getElementById("city").addEventListener("click", click_city, false);
-            document.getElementById("county").addEventListener("click", click_county, false);
-            document.getElementById("district").addEventListener("click", click_district, false);
-        } else {
+        function click_other() {
+            console.log('click other');
+            if ($('#other').is(':checked')) {
+                other_flag = 1;
+            } else {
+                other_flag = 0;
+            }
+            refreshdata();
+        }
+
             document.getElementById("federal").addEventListener("click", click_federal, false);
             document.getElementById("state").addEventListener("click", click_state, false);
             document.getElementById("formula").addEventListener("click", click_formula, false);
@@ -514,7 +485,7 @@ function init() {
             document.getElementById("city").addEventListener("click", click_city, false);
             document.getElementById("county").addEventListener("click", click_county, false);
             document.getElementById("district").addEventListener("click", click_district, false);
-        }
+            document.getElementById("other").addEventListener("click", click_other, false);
 
 
         //convert number to money format        
@@ -537,31 +508,29 @@ function init() {
 
             var start = +new Date(); // log start timestamp
 
-            if (minimal) {
 
-                map.removeLayer(district);
-                map.removeLayer(city);
-                map.removeLayer(county);
-
-            } else {
 
                 map.removeLayer(city_federal);
                 map.removeLayer(county_federal);
                 map.removeLayer(district_federal);
-
+                map.removeLayer(other_federal);
+          
                 map.removeLayer(city_state);
                 map.removeLayer(county_state);
                 map.removeLayer(district_state);
-
+                map.removeLayer(other_state);
+          
                 map.removeLayer(city_formula);
                 map.removeLayer(county_formula);
                 map.removeLayer(district_formula);
-
+                map.removeLayer(other_formula);
+          
                 map.removeLayer(city_special);
                 map.removeLayer(county_special);
                 map.removeLayer(district_special);
-            }
+                map.removeLayer(other_special);
 
+          
             var end = +new Date(); // log end timestamp
             var diff = end - start;
 
@@ -578,6 +547,7 @@ function init() {
               if(type=="district"){icstyle="marker";}
               if(type=="city"){icstyle="triangle";}
               if(type=="county"){icstyle="star";}
+              if(type=="other"){icstyle="circle";}
               
                 var zl = map.getZoom();
                 var icon;
@@ -1045,49 +1015,6 @@ function init() {
             }
 
 
-            if (minimal) {
-                //only 3 layers for IE & mobile
-
-
-                city = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [1, 2, 3, 4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#984ea3", "city");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1, 2, 3, 4], "");
-                    }
-                });
-
-                county = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["1", "61", "70"], [1, 2, 3, 4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#377eb8", "county");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1, 2, 3, 4], "");
-                    }
-                });
-
-                district = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        //districts are all except 1, 2, 3, 4, 5, 61, 70
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [1, 2, 3, 4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#ff7f00", "district");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1, 2, 3, 4], "");
-                    }
-                });
-
-            } else {
-
 
                 city_federal = L.geoJson(sumtotal, {
                     filter: function(feature, layer) {
@@ -1116,7 +1043,7 @@ function init() {
 
                 district_federal = L.geoJson(sumtotal, {
                     filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [1]);
+                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [1]);
                     },
                     pointToLayer: function(feature, latlng) {
                         return ptl(feature, latlng, "#0000FF", "district");
@@ -1126,6 +1053,17 @@ function init() {
                     }
                 });
 
+                other_federal = L.geoJson(sumtotal, {
+                    filter: function(feature, layer) {
+                        return filterfeatures(feature, layer, true, ["100"], [1]);
+                    },
+                    pointToLayer: function(feature, latlng) {
+                        return ptl(feature, latlng, "#0000FF", "other");
+                    },
+                    onEachFeature: function(feature, layer) {
+                        onEach(feature, layer, [1], "Federal ");
+                    }
+                });
 
 
                 //geojsonLayer
@@ -1156,7 +1094,7 @@ function init() {
 
                 district_state = L.geoJson(sumtotal, {
                     filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [2]);
+                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [2]);
                     },
                     pointToLayer: function(feature, latlng) {
                         return ptl(feature, latlng, "#FF0000", "district");
@@ -1165,7 +1103,20 @@ function init() {
                         onEach(feature, layer, [2], "State ");
                     }
                 });
+ 
+                other_state = L.geoJson(sumtotal, {
+                    filter: function(feature, layer) {
+                        return filterfeatures(feature, layer, true, ["100"], [2]);
+                    },
+                    pointToLayer: function(feature, latlng) {
+                        return ptl(feature, latlng, "#FF0000", "other");
+                    },
+                    onEachFeature: function(feature, layer) {
+                        onEach(feature, layer, [2], "State ");
+                    }
+                });         
 
+          
                 //geojsonLayer
                 city_formula = L.geoJson(sumtotal, {
                     filter: function(feature, layer) {
@@ -1193,7 +1144,7 @@ function init() {
 
                 district_formula = L.geoJson(sumtotal, {
                     filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [3]);
+                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [3]);
                     },
                     pointToLayer: function(feature, latlng) {
                         return ptl(feature, latlng, "#008000", "district");
@@ -1203,6 +1154,19 @@ function init() {
                     }
                 });
 
+                other_formula = L.geoJson(sumtotal, {
+                    filter: function(feature, layer) {
+                        return filterfeatures(feature, layer, true, ["100"], [3]);
+                    },
+                    pointToLayer: function(feature, latlng) {
+                        return ptl(feature, latlng, "#008000", "other");
+                    },
+                    onEachFeature: function(feature, layer) {
+                        onEach(feature, layer, [3], "Formula ");
+                    }
+                });
+          
+          
                 //geojsonLayer
                 city_special = L.geoJson(sumtotal, {
                     filter: function(feature, layer) {
@@ -1231,7 +1195,7 @@ function init() {
 
                 district_special = L.geoJson(sumtotal, {
                     filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70"], [4]);
+                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [4]);
                     },
                     pointToLayer: function(feature, latlng) {
                         return ptl(feature, latlng, "#800080", "district");
@@ -1241,8 +1205,17 @@ function init() {
                     }
                 });
 
-            }
-
+                other_special = L.geoJson(sumtotal, {
+                    filter: function(feature, layer) {
+                        return filterfeatures(feature, layer, true, ["100"], [4]);
+                    },
+                    pointToLayer: function(feature, latlng) {
+                        return ptl(feature, latlng, "#800080", "other");
+                    },
+                    onEachFeature: function(feature, layer) {
+                        onEach(feature, layer, [4], "Special ");
+                    }
+                });
 
 
             var end = +new Date(); // log end timestamp
@@ -1253,17 +1226,7 @@ function init() {
 
             var start = +new Date(); // log start timestamp
 
-            if (minimal) {
-                if (district_flag === 1) {
-                    map.addLayer(district);
-                }
-                if (city_flag === 1) {
-                    map.addLayer(city);
-                }
-                if (county_flag === 1) {
-                    map.addLayer(county);
-                }
-            } else {
+          
                 if (city_flag === 1 && formula_flag === 1) {
                     map.addLayer(city_formula);
                 }
@@ -1273,7 +1236,10 @@ function init() {
                 if (district_flag === 1 && formula_flag === 1) {
                     map.addLayer(district_formula);
                 }
-
+                if (other_flag === 1 && formula_flag === 1) {
+                    map.addLayer(other_formula);
+                }
+          
                 if (city_flag === 1 && special_flag === 1) {
                     map.addLayer(city_special);
                 }
@@ -1283,7 +1249,9 @@ function init() {
                 if (district_flag === 1 && special_flag === 1) {
                     map.addLayer(district_special);
                 }
-
+                if (other_flag === 1 && special_flag === 1) {
+                    map.addLayer(other_special);
+                }
 
                 if (city_flag === 1 && state_flag === 1) {
                     map.addLayer(city_state);
@@ -1294,7 +1262,10 @@ function init() {
                 if (district_flag === 1 && state_flag === 1) {
                     map.addLayer(district_state);
                 }
-
+                if (other_flag === 1 && state_flag === 1) {
+                    map.addLayer(other_state);
+                }
+          
                 if (city_flag === 1 && federal_flag === 1) {
                     map.addLayer(city_federal);
                 }
@@ -1304,7 +1275,9 @@ function init() {
                 if (district_flag === 1 && federal_flag === 1) {
                     map.addLayer(district_federal);
                 }
-            }
+                if (other_flag === 1 && federal_flag === 1) {
+                    map.addLayer(other_federal);
+                }
 
 
             var end = +new Date(); // log end timestamp
@@ -1317,6 +1290,8 @@ function init() {
         refreshdata();
 
 
-    });
-
 } //end init
+      
+      
+      
+    });
