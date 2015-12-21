@@ -445,14 +445,19 @@ other_flag = 1,
 
             div.innerHTML = '<form><h4>Programs</h4>' +
 
-                    '<input class="leg" id="federal" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Federal<br />' +
-                    '<input class="leg" id="state" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;State<br />' +
-                    '<input class="leg" id="formula" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Formula<br />' +
+                    '<input class="leg" id="federal" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Federal<br />' +
+                    '<input class="leg" id="state" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;State<br />' +
+                    '<input class="leg" id="formula" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Formula<br />' +
 
-                    '<input class="leg" id="special" type="checkbox" checked />&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;Special<br />' +
+                    '<input class="leg" id="special" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Special<br />' +
 
 
-                    '<h4>Organization Type</h4><input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;City<br /><input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;County<br /><input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;District<br /><input class="leg" id="other" type="checkbox" checked />&nbsp;&nbsp;Other</form>';
+                    '<h4>Organization Type</h4>' + 
+              
+              '<input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/triangle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;City<br />'+
+              '<input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/star_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;County<br />'+
+              '<input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/marker_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;District<br />'+
+              '<input class="leg" id="other" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/circle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Other</form>';
             
 
 
