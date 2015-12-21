@@ -1,5 +1,10 @@
 "use strict";
 
+
+var map;
+
+var sumtotal; //geojson
+
 function popopen(table) {
     console.log('popopen()');
     map.openModal({
@@ -7,13 +12,8 @@ function popopen(table) {
     });
 }
 
-
     $(document).ready(function() {
 
-
-var map;
-
-var sumtotal; //geojson
 
 
 
@@ -152,6 +152,7 @@ other_flag = 1,
         });
 
 
+  
         var popup = new L.Popup();
         oms.addListener('click', function(marker) {
             popup.setContent(marker.desc);
@@ -185,6 +186,18 @@ other_flag = 1,
             }
         }
 
+        function score_onEachFeature(feature, layer) {
+            if (feature.properties && feature.properties.cnty) {
+                layer.bindPopup("County: " + feature.properties.cnty + "<br />" + "Score: " + feature.properties.score);
+            }
+        }
+
+          function county_onEachFeature(feature, layer) {
+            if (feature.properties && feature.properties.NAMELSAD) {
+                layer.bindPopup(feature.properties.NAMELSAD);
+            }
+        }
+  
         var field = new L.geoJson(null, {
             style: function(feature) {
                 switch (feature.properties.fieldreg) {
@@ -273,8 +286,9 @@ other_flag = 1,
                     color: "#444",
                     fillOpacity: 0
                 };
-            }
-        }).addTo(map);;
+            },
+            onEachFeature: county_onEachFeature
+        }).addTo(map);
 
         $.ajax({
             dataType: "json",
@@ -287,10 +301,67 @@ other_flag = 1,
         }).error(function() {});
 
 
-  
+        var score = new L.geoJson(null, {
+   style: function(feature) {
+                switch (feature.properties.score) {
+                    case 3:
+                        return {
+                            stroke: false,
+                            color: "rgb(255,255,128)"
+                        };                    
+                    case 4:
+                        return {
+                            stroke: false,
+                            color: "rgb(250,209,85)"
+                        };
+                    case 5:
+                        return {
+                            stroke: false,
+                            color: "rgb(250,209,85)"
+                        };
+                    case 6:
+                        return {
+                            stroke: false,
+                            color: "rgb(242,167,46)"
+                        };
+                    case 7:
+                        return {
+                            stroke: false,
+                            color: "rgb(173,83,19)"
+                        };
+                    case 8:
+                        return {
+                            stroke: false,
+                            color: "rgb(173,83,19)"
+                        };
+                    case 9:
+                        return {
+                            stroke: false,
+                            color: "rgb(107,0,0)"
+                        };
+                   case 10:
+                        return {
+                            stroke: false,
+                            color: "rgb(107,0,0)"
+                        };
+                }
+   },
+            onEachFeature: score_onEachFeature
+        });
+
+        $.ajax({
+            dataType: "json",
+            url: "data/score.geojson",
+            success: function(data) {
+                $(data.features).each(function(key, data) {
+                    score.addData(data);
+                });
+            }
+        }).error(function() {});  
   
 
         var overlays = {
+            "Impact Score": score,
             "Field Regions": field,
             "Planning Regions": plan
         };
@@ -305,6 +376,20 @@ other_flag = 1,
 
         L.control.layers(basemaps, overlays).addTo(map);
 
+  
+        //Custom Control - broadband link
+        var bband = L.control({
+            position: 'bottomleft'
+        });
+
+        bband.onAdd = function(map) {
+            var div = L.DomUtil.create('div', 'lnk');
+            div.innerHTML = '<a href="http://dola.colorado.gov/gis-cms/content/interactive-broadband-map">Colorado Broadband Grant Map</a>';
+            return div;
+        };
+
+        bband.addTo(map);
+  
         // create the control
         var sliderctrl = L.control({
             position: 'bottomleft'
@@ -322,6 +407,7 @@ other_flag = 1,
         var diva = L.DomUtil.get('slider');
         L.DomEvent.disableClickPropagation(diva);
 
+
         var browserwidth = $(window).width();
         $('.sl').width((browserwidth - 100) + "px");
 
@@ -329,7 +415,6 @@ other_flag = 1,
             var browserwidth = $(window).width();
             $('.sl').width((browserwidth - 100) + "px");
         });
-
 
 
 
@@ -380,7 +465,7 @@ other_flag = 1,
 
         $("#slider").dateRangeSlider({
             bounds: {
-                min: new Date("Thu Jan 01 2010 00:00:00 GMT-0700"),
+                min: new Date("Thu Jan 01 2012 00:00:00 GMT-0700"),
                 max: maxdate
             },
             defaultValues: {
@@ -556,7 +641,8 @@ other_flag = 1,
                     icon = L.MakiMarkers.icon({
                         icon: null,
                         color: color,
-                        size: "s"
+                        size: "s",
+                        icon: icstyle
                     });
                     icon.options.iconSize = i6;
                 }
@@ -564,7 +650,8 @@ other_flag = 1,
                     icon = L.MakiMarkers.icon({
                         icon: null,
                         color: color,
-                        size: "s"
+                        size: "s",
+                        icon: icstyle
                     });
                     icon.options.iconSize = i7;
                 }
@@ -572,7 +659,8 @@ other_flag = 1,
                     icon = L.MakiMarkers.icon({
                         icon: null,
                         color: color,
-                        size: "s"
+                        size: "s",
+                        icon: icstyle
                     });
                     icon.options.iconSize = i8;
                 }
@@ -830,7 +918,7 @@ other_flag = 1,
                             if ((new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) < maxdate) {
                                 csbg_class = 'btn';
                                 csbg_temptotal = csbg_temptotal + Number(feature.properties.projects.federal.csbg[i].award || 0);
-                                csbgtemptable = csbgtemptable + "<tr><td>" + feature.properties.projects.federal.csbg[i].projname + "</td><td>" + feature.properties.projects.federal.csbg[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.federal.csbg[i].award).formatMoney(0) + "</td></tr>";
+                                csbgtemptable = csbgtemptable + "<tr><td>" + feature.properties.projects.federal.csbg[i].projname + "</td><td>" + feature.properties.projects.federal.csbg[i].served + "</td><td>" + feature.properties.projects.federal.csbg[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.federal.csbg[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
                         //sum cdbg for date range
@@ -946,7 +1034,7 @@ other_flag = 1,
 
 
                 if (csbg_class) {
-                    programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + csbg_class + '">CSBG:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>") + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />';
+                    programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>Service Area</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + csbg_class + '">CSBG:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>Service Area</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>") + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />';
                 }
 
 
