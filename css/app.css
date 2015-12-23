@@ -82,10 +82,7 @@ tr:nth-child(even) {
 .command {
     border-radius: 10px;
     background: white;
-    padding-top: 7px;
-    padding-left: 15px;
-    padding-right: 10px;
-    padding-bottom: 10px;
+
     border: 1px solid rgb(221,221,221);
     color: rgb(110,110,110);
     font-size: 12px;
@@ -143,6 +140,7 @@ input.leg {
     top: -3px;
     *overflow: hidden;
 }
+
 
 .desctext {
     color: grey;
@@ -268,4 +266,30 @@ table tr:hover td {
 
 .ui-rangeSlider-bar {
     background-color: rgba(0,0,0,0.4) !important;
+}
+
+.command{
+  font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+h4.command {
+    font-size: 13px;
+    margin-bottom: 1px;
+    margin-top: 5px;
+    color: rgb(50,50,50);
+    padding: 0px; 
+    background: none; 
+    border-width: 0px; 
+} 
+.ui-tabs-nav { 
+    padding-left: 0px; 
+    background: transparent; 
+    border-width: 0px 0px 1px 0px; 
+    -moz-border-radius: 0px; 
+    -webkit-border-radius: 0px; 
+    border-radius: 0px; 
+} 
+.ui-tabs-panel { 
+    background: #f5f3e5 url(http://code.jquery.com/ui/1.8.23/themes/south-street/images/ui-bg_highlight-hard_100_f5f3e5_1x100.png) repeat-x scroll 50% top; 
+    border-width: 0px 1px 1px 1px; 
 }

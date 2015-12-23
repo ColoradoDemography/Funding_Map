@@ -12,6 +12,9 @@ function popopen(table) {
     });
 }
 
+
+
+
     $(document).ready(function() {
 
 
@@ -73,11 +76,7 @@ var other_special = L.geoJson(null, {});
         var city_flag = 1,
             county_flag = 1,
             district_flag = 1,
-other_flag = 1,
-            federal_flag = 1,
-            state_flag = 1,
-            formula_flag = 1,
-            special_flag = 1;
+other_flag = 1;
 
         var mbAttr = "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>",
             mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ';
@@ -174,6 +173,8 @@ other_flag = 1,
 
         }).addTo(map); // probably just `map`
 
+
+  
         function field_onEachFeature(feature, layer) {
             if (feature.properties && feature.properties.FieldReg_N) {
                 layer.bindPopup(feature.properties.FieldReg_N + " Region");
@@ -390,6 +391,8 @@ other_flag = 1,
 
         bband.addTo(map);
   
+
+  
         // create the control
         var sliderctrl = L.control({
             position: 'bottomleft'
@@ -443,23 +446,47 @@ other_flag = 1,
         command.onAdd = function(map) {
             var div = L.DomUtil.create('div', 'command');
 
-            div.innerHTML = '<form><h4>Programs</h4>' +
+            div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' + 
+              
+              '<div id="tabs-1">'+             
+              
+              '<form><h4>Programs</h4>' +
 
-                    '<input class="leg" id="federal" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Federal<br />' +
-                    '<input class="leg" id="state" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;State<br />' +
-                    '<input class="leg" id="formula" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Formula<br />' +
-
-                    '<input class="leg" id="special" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Special<br />' +
-
+                    '&nbsp;&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Federal<br />' +
+                    '&nbsp;&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;State<br />' +
+                    '&nbsp;&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Formula<br />' +
+                    '&nbsp;&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Special<br />' +
 
                     '<h4>Organization Type</h4>' + 
+                
+               
+              '&nbsp;&nbsp;&nbsp;<img src="css/images/triangle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;City<br />'+
+              '&nbsp;&nbsp;&nbsp;<img src="css/images/star_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;County<br />'+
+              '&nbsp;&nbsp;&nbsp;<img src="css/images/marker_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;District<br />'+
+              '&nbsp;&nbsp;&nbsp;<img src="css/images/circle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Other</form></div>' +
+              '<div id="tabs-2">' +
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Development Block Grants</span><br />' +
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Services Block Grants</span><br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Energy/Mineral Impact Assistance Fund</span><br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Limited Gaming Impact Program</span><br />'+              
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Rural Economic Development Initiative</span><br />' +
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Conservation Trust Fund</span><br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmldd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Direct Distribution</span><br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmlddsb106" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Supplemental Distribution</span><br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Severance Direct Distribution</span><br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Firefighter Cardiac Benefit Program</span><br />' +
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="sar" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Search and Rescue</span><br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="vfp" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Volunteer Firefighter Pension Fund</span><br />'+              
+              '<hr>'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;&nbsp;City<br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;&nbsp;County<br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;&nbsp;District<br />'+
+              '&nbsp;&nbsp;&nbsp;<input class="leg" id="other" type="checkbox" checked />&nbsp;&nbsp;&nbsp;Other<br />'+
               
-              '<input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/triangle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;City<br />'+
-              '<input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/star_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;County<br />'+
-              '<input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/marker_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;District<br />'+
-              '<input class="leg" id="other" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<img src="css/images/circle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Other</form>';
-            
+              '</div>';          
+         
 
+            
 
             return div;
         };
@@ -467,6 +494,8 @@ other_flag = 1,
 
         command.addTo(map);
 
+
+      $( ".command" ).tabs();
 
         $("#slider").dateRangeSlider({
             bounds: {
@@ -488,46 +517,75 @@ other_flag = 1,
         });
 
 
-        function click_federal() {
-            console.log('click federal');
-            if ($('#federal').is(':checked')) {
-                federal_flag = 1;
-            } else {
-                federal_flag = 0;
-            }
+
+
+        function click_cdbg() {
+            console.log('click cdbg');
             refreshdata();
         }
 
-        function click_state() {
-            console.log('click state');
-            if ($('#state').is(':checked')) {
-                state_flag = 1;
-            } else {
-                state_flag = 0;
-            }
+        function click_csbg() {
+            console.log('click csbg');
             refreshdata();
         }
 
-        function click_formula() {
-            console.log('click formula');
-            if ($('#formula').is(':checked')) {
-                formula_flag = 1;
-            } else {
-                formula_flag = 0;
-            }
+ 
+        function click_eiaf() {
+            console.log('click eiaf');
             refreshdata();
         }
 
-        function click_special() {
-            console.log('click special');
-            if ($('#special').is(':checked')) {
-                special_flag = 1;
-            } else {
-                special_flag = 0;
-            }
+        function click_game() {
+            console.log('click game');
+            refreshdata();
+        } 
+  
+  
+        function click_redi() {
+            console.log('click redi');
             refreshdata();
         }
 
+        function click_ctf() {
+            console.log('click ctf');
+            refreshdata();
+        }
+  
+ 
+        function click_fmldd() {
+            console.log('click fmldd');
+            refreshdata();
+        }
+
+        function click_fmlddsb106() {
+            console.log('click fmlddsb106');
+            refreshdata();
+        } 
+  
+  
+  
+        function click_sevedd() {
+            console.log('click sevedd');
+            refreshdata();
+        }
+
+        function click_ffb() {
+            console.log('click ffb');
+            refreshdata();
+        }
+  
+         function click_sar() {
+            console.log('click sar');
+            refreshdata();
+        }
+
+        function click_vfp() {
+            console.log('click vfp');
+            refreshdata();
+        } 
+  
+
+  
         function click_city() {
             console.log('click city');
             if ($('#city').is(':checked')) {
@@ -568,10 +626,19 @@ other_flag = 1,
             refreshdata();
         }
 
-            document.getElementById("federal").addEventListener("click", click_federal, false);
-            document.getElementById("state").addEventListener("click", click_state, false);
-            document.getElementById("formula").addEventListener("click", click_formula, false);
-            document.getElementById("special").addEventListener("click", click_special, false);
+            document.getElementById("cdbg").addEventListener("click", click_cdbg, false);
+            document.getElementById("csbg").addEventListener("click", click_csbg, false);
+            document.getElementById("eiaf").addEventListener("click", click_eiaf, false);
+            document.getElementById("game").addEventListener("click", click_game, false);
+            document.getElementById("redi").addEventListener("click", click_redi, false);
+            document.getElementById("ctf").addEventListener("click", click_ctf, false);
+            document.getElementById("fmldd").addEventListener("click", click_fmldd, false);
+            document.getElementById("fmlddsb106").addEventListener("click", click_fmlddsb106, false);  
+            document.getElementById("sevedd").addEventListener("click", click_sevedd, false);
+            document.getElementById("ffb").addEventListener("click", click_ffb, false);
+            document.getElementById("sar").addEventListener("click", click_sar, false);
+            document.getElementById("vfp").addEventListener("click", click_vfp, false);
+  
             document.getElementById("city").addEventListener("click", click_city, false);
             document.getElementById("county").addEventListener("click", click_county, false);
             document.getElementById("district").addEventListener("click", click_district, false);
@@ -755,8 +822,9 @@ other_flag = 1,
 
 
 
-                for (j = 0; j < programfilter.length; j = j + 1) {
-                    if (programfilter[j] === 1) {
+
+                    if (programfilter[0] === 1) {
+                      if ($('#cdbg').is(':checked')){
                         if (((feature.properties.projects.federal.cdbg).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.federal.cdbg).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) < maxdate) {
@@ -764,32 +832,40 @@ other_flag = 1,
                                 }
                             }
                         }
+                    }
+                                            if ($('#csbg').is(':checked')){
                         if (((feature.properties.projects.federal.csbg).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.federal.csbg).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
+                            }
                         }
                     }
-                }
+                
 
-                for (j = 0; j < programfilter.length; j = j + 1) {
-                    if (programfilter[j] === 2) {
+
+                    if (programfilter[0] === 2) {
+                                            if ($('#eiaf').is(':checked')){
                         if (((feature.properties.projects.state.eiaf).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.state.eiaf).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
+                            }
                         }
+                                            if ($('#game').is(':checked')){
                         if (((feature.properties.projects.state.game).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.state.game).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
+                            }
                         }
+                                            if ($('#redi').is(':checked')){
                         if (((feature.properties.projects.state.redi).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.state.redi).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) < maxdate) {
@@ -797,33 +873,41 @@ other_flag = 1,
                                 }
                             }
                         }
+                                            }
                     }
-                }
 
 
-                for (j = 0; j < programfilter.length; j = j + 1) {
-                    if (programfilter[j] === 3) {
+
+
+                    if (programfilter[0] === 3) {
+                                            if ($('#ctf').is(':checked')){
                         if (((feature.properties.projects.formula.ctf).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.formula.ctf).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
+                            }
                         }
+                                            if ($('#fmldd').is(':checked')){
                         if (((feature.properties.projects.formula.fmldd).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.formula.fmldd).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
+                            }
                         }
+                                            if ($('#fmlddsb106').is(':checked')){
                         if (((feature.properties.projects.formula.fmlddsb106).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.formula.fmlddsb106).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
+                            }
                         }
+                                            if ($('#sevedd').is(':checked')){
                         if (((feature.properties.projects.formula.sevedd).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.formula.sevedd).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) < maxdate) {
@@ -831,36 +915,43 @@ other_flag = 1,
                                 }
                             }
                         }
+                        }
                     }
-                }
 
 
 
-                for (j = 0; j < programfilter.length; j = j + 1) {
-                    if (programfilter[j] === 4) {
+
+
+                    if (programfilter[0] === 4) {
+                                            if ($('#ffb').is(':checked')){
                         if (((feature.properties.projects.special.ffb).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.special.ffb).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
+                            }
                         }
+                                            if ($('#sar').is(':checked')){
                         if (((feature.properties.projects.special.sar).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.special.sar).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
+                            }
                         }
+                                            if ($('#vfp').is(':checked')){
                         if (((feature.properties.projects.special.vfp).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.special.vfp).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
+                            }
                         }
                     }
-                }
+
 
                 return false;
             }
@@ -916,9 +1007,10 @@ other_flag = 1,
 
 
 
-                for (j = 0; j < programfilter.length; j = j + 1) {
-                    if (programfilter[j] === 1) {
+
+                    if (programfilter[0] === 1) {
                         //sum csbg for date range
+                      if ($('#csbg').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.federal.csbg).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) < maxdate) {
                                 csbg_class = 'btn';
@@ -926,7 +1018,9 @@ other_flag = 1,
                                 csbgtemptable = csbgtemptable + "<tr><td>" + feature.properties.projects.federal.csbg[i].projname + "</td><td>" + feature.properties.projects.federal.csbg[i].served + "</td><td>" + feature.properties.projects.federal.csbg[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.federal.csbg[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
+                    }
                         //sum cdbg for date range
+                      if ($('#cdbg').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.federal.cdbg).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) < maxdate) {
                                 cdbg_class = 'btn';
@@ -935,12 +1029,13 @@ other_flag = 1,
                             }
                         }
                     }
-                }
+                    }
 
 
-                for (j = 0; j < programfilter.length; j = j + 1) {
-                    if (programfilter[j] === 2) {
+
+                    if (programfilter[0] === 2) {
                         //sum eiaf for date range
+                      if ($('#eiaf').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.state.eiaf).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) < maxdate) {
                                 eiaf_class = 'btn';
@@ -948,7 +1043,9 @@ other_flag = 1,
                                 eiaftemptable = eiaftemptable + "<tr><td>" + feature.properties.projects.state.eiaf[i].projname + "</td><td>" + feature.properties.projects.state.eiaf[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.state.eiaf[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
+                      }
                         //sum game for date range
+                      if ($('#game').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.state.game).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) < maxdate) {
                                 game_class = 'btn';
@@ -956,7 +1053,9 @@ other_flag = 1,
                                 gametemptable = gametemptable + "<tr><td>" + feature.properties.projects.state.game[i].projname + "</td><td>" + feature.properties.projects.state.game[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.state.game[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
+                      }
                         //sum redi for date range
+                      if ($('#redi').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.state.redi).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) < maxdate) {
                                 redi_class = 'btn';
@@ -965,11 +1064,13 @@ other_flag = 1,
                             }
                         }
                     }
-                }
+                    }
 
-                for (j = 0; j < programfilter.length; j = j + 1) {
-                    if (programfilter[j] === 3) {
+
+
+                    if (programfilter[0] === 3) {
                         //sum ctf for date range
+                      if ($('#ctf').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.formula.ctf).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) < maxdate) {
                                 ctf_class = 'btn';
@@ -977,7 +1078,9 @@ other_flag = 1,
                                 ctftemptable = ctftemptable + "<tr><td>" + feature.properties.projects.formula.ctf[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.ctf[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
+                      }
                         //sum fmldd for date range
+                      if ($('#fmldd').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.formula.fmldd).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) < maxdate) {
                                 fmldd_class = 'btn';
@@ -985,7 +1088,9 @@ other_flag = 1,
                                 fmlddtemptable = fmlddtemptable + "<tr><td>" + feature.properties.projects.formula.fmldd[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.fmldd[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
+                      }
                         //sum fmlddsb106 for date range
+                      if ($('#fmlddsb106').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.formula.fmlddsb106).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) < maxdate) {
                                 fmlddsb106_class = 'btn';
@@ -993,7 +1098,9 @@ other_flag = 1,
                                 fmlddsb106temptable = fmlddsb106temptable + "<tr><td>" + feature.properties.projects.formula.fmlddsb106[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.fmlddsb106[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
+                      }
                         //sum sevedd for date range
+                      if ($('#sevedd').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.formula.sevedd).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) < maxdate) {
                                 sevedd_class = 'btn';
@@ -1001,13 +1108,13 @@ other_flag = 1,
                                 seveddtemptable = seveddtemptable + "<tr><td>" + feature.properties.projects.formula.sevedd[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.sevedd[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
+                      }
                     }
-                }
 
 
-                for (j = 0; j < programfilter.length; j = j + 1) {
-                    if (programfilter[j] === 4) {
+                    if (programfilter[0] === 4) {
                         //sum ffb for date range
+                      if ($('#ffb').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.special.ffb).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) < maxdate) {
                                 ffb_class = 'btn';
@@ -1015,7 +1122,9 @@ other_flag = 1,
                                 ffbtemptable = ffbtemptable + "<tr><td>" + feature.properties.projects.special.ffb[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.special.ffb[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
+                      }
                         //sum sar for date range
+                      if ($('#sar').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.special.sar).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) < maxdate) {
                                 sar_class = 'btn';
@@ -1023,7 +1132,9 @@ other_flag = 1,
                                 sartemptable = sartemptable + "<tr><td>" + feature.properties.projects.special.sar[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.special.sar[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
+                      }
                         //sum vfp for date range
+                      if ($('#vfp').is(':checked')){
                         for (i = 0; i < (feature.properties.projects.special.vfp).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) < maxdate) {
                                 vfp_class = 'btn';
@@ -1032,7 +1143,8 @@ other_flag = 1,
                             }
                         }
                     }
-                }
+                    }
+
 
 
                 var programstring = "";
@@ -1320,57 +1432,30 @@ other_flag = 1,
             var start = +new Date(); // log start timestamp
 
           
-                if (city_flag === 1 && formula_flag === 1) {
+                if (city_flag === 1) {
                     map.addLayer(city_formula);
-                }
-                if (county_flag === 1 && formula_flag === 1) {
-                    map.addLayer(county_formula);
-                }
-                if (district_flag === 1 && formula_flag === 1) {
-                    map.addLayer(district_formula);
-                }
-                if (other_flag === 1 && formula_flag === 1) {
-                    map.addLayer(other_formula);
-                }
-          
-                if (city_flag === 1 && special_flag === 1) {
                     map.addLayer(city_special);
-                }
-                if (county_flag === 1 && special_flag === 1) {
-                    map.addLayer(county_special);
-                }
-                if (district_flag === 1 && special_flag === 1) {
-                    map.addLayer(district_special);
-                }
-                if (other_flag === 1 && special_flag === 1) {
-                    map.addLayer(other_special);
-                }
-
-                if (city_flag === 1 && state_flag === 1) {
                     map.addLayer(city_state);
-                }
-                if (county_flag === 1 && state_flag === 1) {
-                    map.addLayer(county_state);
-                }
-                if (district_flag === 1 && state_flag === 1) {
-                    map.addLayer(district_state);
-                }
-                if (other_flag === 1 && state_flag === 1) {
-                    map.addLayer(other_state);
-                }
-          
-                if (city_flag === 1 && federal_flag === 1) {
                     map.addLayer(city_federal);
                 }
-                if (county_flag === 1 && federal_flag === 1) {
+                 if (county_flag === 1) {
+                    map.addLayer(county_formula);
+                    map.addLayer(county_special);
+                    map.addLayer(county_state);
                     map.addLayer(county_federal);
-                }
-                if (district_flag === 1 && federal_flag === 1) {
+                }         
+                if (district_flag === 1) {
+                    map.addLayer(district_formula);
+                    map.addLayer(district_special);
+                    map.addLayer(district_state);
                     map.addLayer(district_federal);
                 }
-                if (other_flag === 1 && federal_flag === 1) {
+                 if (other_flag === 1) {
+                    map.addLayer(other_formula);
+                    map.addLayer(other_special);
+                    map.addLayer(other_state);
                     map.addLayer(other_federal);
-                }
+                }         
 
 
             var end = +new Date(); // log end timestamp
