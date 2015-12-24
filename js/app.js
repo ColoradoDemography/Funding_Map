@@ -1,12 +1,14 @@
 "use strict";
 
+var searchstring = [];
+var coordinates = [];
 
 var map;
 
 var sumtotal; //geojson
 
 function popopen(table) {
-    console.log('popopen()');
+    //console.log('popopen()');
     map.openModal({
         content: table.replace(/\?/g, "'")
     });
@@ -15,29 +17,39 @@ function popopen(table) {
 
 
 
-    $(document).ready(function() {
+$(document).ready(function() {
 
 
 
 
 
-$.ajax({
-    type: "GET",
-    url: "../CO_FS_Data_PHP/sumtotal.geojson",
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function(jdata) {
-        sumtotal = jdata;
-      init();
-    },
-    error: function(xhr, textStatus, errorThrown) {
-        console.log(xhr.responseText);
-    }
-});
-      
+    $.ajax({
+        type: "GET",
+        url: "../CO_FS_Data_PHP/sumtotal.geojson",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(jdata) {
+
+            sumtotal = jdata;
+
+            //create data objects for geocoder
+            for (var i = 0; i < sumtotal.features.length; i++) {
+                searchstring.push(sumtotal.features[i].properties.govname);
+                coordinates.push(sumtotal.features[i].geometry.coordinates);
+                searchstring.push(sumtotal.features[i].properties.lgid);
+                coordinates.push(sumtotal.features[i].geometry.coordinates);
+            }
+
+            init();
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.log(xhr.responseText);
+        }
+    });
 
 
-function init() {
+
+    function init() {
 
 
 
@@ -59,24 +71,24 @@ function init() {
         var city_federal = L.geoJson(null, {});
         var county_federal = L.geoJson(null, {});
         var district_federal = L.geoJson(null, {});
-var other_federal = L.geoJson(null, {});
+        var other_federal = L.geoJson(null, {});
         var city_state = L.geoJson(null, {});
         var county_state = L.geoJson(null, {});
         var district_state = L.geoJson(null, {});
-var other_state = L.geoJson(null, {});  
+        var other_state = L.geoJson(null, {});
         var city_formula = L.geoJson(null, {});
         var county_formula = L.geoJson(null, {});
         var district_formula = L.geoJson(null, {});
-var other_formula = L.geoJson(null, {});  
+        var other_formula = L.geoJson(null, {});
         var city_special = L.geoJson(null, {});
         var county_special = L.geoJson(null, {});
         var district_special = L.geoJson(null, {});
-var other_special = L.geoJson(null, {});
+        var other_special = L.geoJson(null, {});
 
         var city_flag = 1,
             county_flag = 1,
             district_flag = 1,
-other_flag = 1;
+            other_flag = 1;
 
         var mbAttr = "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>",
             mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ';
@@ -106,8 +118,8 @@ other_flag = 1;
             attribution: 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
         });
 
-  
-  
+
+
         map = L.map('map', {
             center: [39, -105.5],
             zoom: 7,
@@ -132,7 +144,42 @@ other_flag = 1;
             layers: 'coarse'
         }
 
-        L.control.geocoder('search-YawpV0M', options).addTo(map);
+
+
+        L.Control.Command = L.Control.extend({
+            options: {
+                position: 'topright',
+            },
+
+            onAdd: function(map) {
+
+                var opt2div = L.DomUtil.create('div', '');
+                opt2div.id = 'opt2div';
+                opt2div.className = "form-group has-feedback";
+
+                var w = L.DomUtil.create('input', '', opt2div);
+
+                w.id = "slgid";
+                w.class = 'typeahead';
+                w.type = 'text';
+                w.placeholder = "Search...";
+                w.className = "form-control typeahead";
+
+
+                return opt2div;
+            }
+        });
+
+        L.control.command = function(options) {
+            return new L.Control.Command(options);
+        };
+
+
+        var LeafletFilterControl = L.control.command({
+            postion: 'topright'
+        });
+        map.addControl(LeafletFilterControl);
+
 
 
 
@@ -151,7 +198,7 @@ other_flag = 1;
         });
 
 
-  
+
         var popup = new L.Popup();
         oms.addListener('click', function(marker) {
             popup.setContent(marker.desc);
@@ -168,13 +215,13 @@ other_flag = 1;
         L.easyButton('fa-question', function(btn, map) {
 
             map.openModal({
-                content: '<h4>Abbreviations</h4><table><tr><td><span class="ttext">CDBG:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/community-development-block-grant-cdbg" class="blue" target="_blank" >Community Development Block Grants</a></span></td></tr><tr><td><span class="ttext">CSBG:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/community-services-block-grant-csbg" class="blue" target="_blank" >Community Services Block Grants</a></span></td></tr><tr><td><span class="ttext">CTF:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/conservation-trust-fund-ctf" class="blue" target="_blank" >Conservation Trust Fund</a></span></td></tr><tr><td><span class="ttext">EIAF:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/energymineral-impact-assistance-fund-eiaf" class="blue" target="_blank" >Energy/Mineral Impact Assistance Fund</a></span></td></tr><tr><td><span class="ttext">FFB:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/firefighter-cardiac-benefit-program" class="blue" target="_blank" >Firefighter Cardiac Benefit Program</a></span></td></tr><tr><td><span class="ttext">FMLDD:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/direct-distribution-severance-tax-federal-mineral-lease" class="blue" target="_blank" >Federal Mineral Lease Direct Distribution</a></span></td></tr><tr><td><span class="ttext">FMLDDSB106:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://drive.google.com/open?id=0B6P5TF4k2v8qVG1WRUVObDVBdkk&authuser=0" class="blue" target="_blank" >Federal Mineral Lease Supplemental Distribution</a></span></td></tr><tr><td><span class="ttext">GAME:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/limited-gaming-impact-program" class="blue" target="_blank" >Limited Gaming Impact Program</a></span></td></tr><tr><td><span class="ttext">REDI:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="http://www.advancecolorado.com/blueprint/regional-partners/rural-economic-development-initiative-redi-grant-program-0" class="blue" target="_blank" >Rural Economic Development Initiative</a></span></td></tr><tr><td><span class="ttext">SAR:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/search-and-rescue-fund" class="blue" target="_blank" >Search and Rescue</a></span></td></tr><tr><td><span class="ttext">SEVEDD:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/direct-distribution-severance-tax-federal-mineral-lease" class="blue" target="_blank" >Severance Direct Distribution</a></span></td></tr><tr><td><span class="ttext">VFP:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/volunteer-firefighter-pension-fund-vfp" class="blue" target="_blank" >Volunteer Firefighter Pension Fund</a></span></td></tr></table><br /><h4>Development</h4><p><a target ="_blank" href="https://jqueryui.com/">JQuery UI</a>, <a target ="_blank" href="http://leafletjs.com/">Leaflet</a>, <a target ="_blank" href="http://fortawesome.github.io/Font-Awesome/">Font-Awesome</a>, <a target ="_blank" href="https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet">Overlapping Marker Spiderfier</a>, <a target ="_blank" href="https://github.com/jseppi/Leaflet.MakiMarkers">Maki Markers</a>, <a target ="_blank" href="https://github.com/Leaflet/Leaflet.label">Leaflet Label</a>, <a target ="_blank" href="https://github.com/CliffCloud/Leaflet.EasyButton">Leaflet Easy Button</a>, <a target ="_blank" href="https://github.com/w8r/Leaflet.Modal">Leaflet Modal</a>, <a target ="_blank" href="http://ghusse.github.io/jQRangeSlider/index.html">JQRangeSlider</a>, <a target ="_blank" href="http://www.menucool.com/tooltip/css-tooltip">CSS Tooltip</a>, <a target ="_blank" href="https://github.com/pelias/leaflet-geocoder">Mapzen Pelias Leaflet-Geocoder</a> </p>'
+                content: '<h4>Abbreviations</h4><table class="abbrev"><tr><td><span class="ttext">CDBG:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/community-development-block-grant-cdbg" class="blue" target="_blank" >Community Development Block Grants</a></span></td></tr><tr><td><span class="ttext">CSBG:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/community-services-block-grant-csbg" class="blue" target="_blank" >Community Services Block Grants</a></span></td></tr><tr><td><span class="ttext">CTF:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/conservation-trust-fund-ctf" class="blue" target="_blank" >Conservation Trust Fund</a></span></td></tr><tr><td><span class="ttext">EIAF:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/energymineral-impact-assistance-fund-eiaf" class="blue" target="_blank" >Energy/Mineral Impact Assistance Fund</a></span></td></tr><tr><td><span class="ttext">FFB:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/firefighter-cardiac-benefit-program" class="blue" target="_blank" >Firefighter Cardiac Benefit Program</a></span></td></tr><tr><td><span class="ttext">FMLDD:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/direct-distribution-severance-tax-federal-mineral-lease" class="blue" target="_blank" >Federal Mineral Lease Direct Distribution</a></span></td></tr><tr><td><span class="ttext">FMLDDSB106:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://drive.google.com/open?id=0B6P5TF4k2v8qVG1WRUVObDVBdkk&authuser=0" class="blue" target="_blank" >Federal Mineral Lease Supplemental Distribution</a></span></td></tr><tr><td><span class="ttext">GAME:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/limited-gaming-impact-program" class="blue" target="_blank" >Limited Gaming Impact Program</a></span></td></tr><tr><td><span class="ttext">REDI:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="http://www.advancecolorado.com/blueprint/regional-partners/rural-economic-development-initiative-redi-grant-program-0" class="blue" target="_blank" >Rural Economic Development Initiative</a></span></td></tr><tr><td><span class="ttext">SAR:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/search-and-rescue-fund" class="blue" target="_blank" >Search and Rescue</a></span></td></tr><tr><td><span class="ttext">SEVEDD:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/direct-distribution-severance-tax-federal-mineral-lease" class="blue" target="_blank" >Severance Direct Distribution</a></span></td></tr><tr><td><span class="ttext">VFP:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/volunteer-firefighter-pension-fund-vfp" class="blue" target="_blank" >Volunteer Firefighter Pension Fund</a></span></td></tr></table><br /><h4>Development</h4><p><a target ="_blank" href="https://jqueryui.com/">JQuery UI</a>, <a target ="_blank" href="http://leafletjs.com/">Leaflet</a>, <a target ="_blank" href="http://fortawesome.github.io/Font-Awesome/">Font-Awesome</a>, <a target ="_blank" href="https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet">Overlapping Marker Spiderfier</a>, <a target ="_blank" href="https://github.com/jseppi/Leaflet.MakiMarkers">Maki Markers</a>, <a target ="_blank" href="https://github.com/Leaflet/Leaflet.label">Leaflet Label</a>, <a target ="_blank" href="https://github.com/CliffCloud/Leaflet.EasyButton">Leaflet Easy Button</a>, <a target ="_blank" href="https://github.com/w8r/Leaflet.Modal">Leaflet Modal</a>, <a target ="_blank" href="http://ghusse.github.io/jQRangeSlider/index.html">JQRangeSlider</a>, <a target ="_blank" href="http://www.menucool.com/tooltip/css-tooltip">CSS Tooltip</a>, <a target ="_blank" href="https://github.com/pelias/leaflet-geocoder">Mapzen Pelias Leaflet-Geocoder</a> </p>'
             });
 
         }).addTo(map); // probably just `map`
 
 
-  
+
         function field_onEachFeature(feature, layer) {
             if (feature.properties && feature.properties.FieldReg_N) {
                 layer.bindPopup(feature.properties.FieldReg_N + " Region");
@@ -193,12 +240,12 @@ other_flag = 1;
             }
         }
 
-          function county_onEachFeature(feature, layer) {
+        function county_onEachFeature(feature, layer) {
             if (feature.properties && feature.properties.NAMELSAD) {
                 layer.bindPopup(feature.properties.NAMELSAD);
             }
         }
-  
+
         var field = new L.geoJson(null, {
             style: function(feature) {
                 switch (feature.properties.fieldreg) {
@@ -303,13 +350,13 @@ other_flag = 1;
 
 
         var score = new L.geoJson(null, {
-   style: function(feature) {
+            style: function(feature) {
                 switch (feature.properties.score) {
                     case 3:
                         return {
                             stroke: false,
                             color: "rgb(255,255,128)"
-                        };                    
+                        };
                     case 4:
                         return {
                             stroke: false,
@@ -340,13 +387,13 @@ other_flag = 1;
                             stroke: false,
                             color: "rgb(107,0,0)"
                         };
-                   case 10:
+                    case 10:
                         return {
                             stroke: false,
                             color: "rgb(107,0,0)"
                         };
                 }
-   },
+            },
             onEachFeature: score_onEachFeature
         });
 
@@ -358,8 +405,8 @@ other_flag = 1;
                     score.addData(data);
                 });
             }
-        }).error(function() {});  
-  
+        }).error(function() {});
+
 
         var overlays = {
             "Impact Score": score,
@@ -377,7 +424,7 @@ other_flag = 1;
 
         L.control.layers(basemaps, overlays).addTo(map);
 
-  
+
         //Custom Control - broadband link
         var bband = L.control({
             position: 'bottomleft'
@@ -390,9 +437,9 @@ other_flag = 1;
         };
 
         bband.addTo(map);
-  
 
-  
+
+
         // create the control
         var sliderctrl = L.control({
             position: 'bottomleft'
@@ -429,7 +476,7 @@ other_flag = 1;
         });
 
         title.onAdd = function(map) {
-            var div = L.DomUtil.create('div', 'title');
+            var div = L.DomUtil.create('div', 'title bord');
             div.innerHTML = '<h2>Colorado Financial Assistance</h2>';
             return div;
         };
@@ -444,49 +491,49 @@ other_flag = 1;
         });
 
         command.onAdd = function(map) {
-            var div = L.DomUtil.create('div', 'command');
+            var div = L.DomUtil.create('div', 'command bord');
 
-            div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' + 
-              
-              '<div id="tabs-1">'+             
-              
-              '<form><h4>Programs</h4>' +
+            div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' +
 
-                    '&nbsp;&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Federal<br />' +
-                    '&nbsp;&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;State<br />' +
-                    '&nbsp;&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Formula<br />' +
-                    '&nbsp;&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Special<br />' +
+                '<div id="tabs-1">' +
 
-                    '<h4>Organization Type</h4>' + 
-                
-               
-              '&nbsp;&nbsp;&nbsp;<img src="css/images/triangle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;City<br />'+
-              '&nbsp;&nbsp;&nbsp;<img src="css/images/star_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;County<br />'+
-              '&nbsp;&nbsp;&nbsp;<img src="css/images/marker_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;District<br />'+
-              '&nbsp;&nbsp;&nbsp;<img src="css/images/circle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Other</form></div>' +
-              '<div id="tabs-2">' +
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Development Block Grants</span><br />' +
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Services Block Grants</span><br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Energy/Mineral Impact Assistance Fund</span><br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Limited Gaming Impact Program</span><br />'+              
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Rural Economic Development Initiative</span><br />' +
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Conservation Trust Fund</span><br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmldd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Direct Distribution</span><br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmlddsb106" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Supplemental Distribution</span><br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Severance Direct Distribution</span><br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Firefighter Cardiac Benefit Program</span><br />' +
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="sar" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Search and Rescue</span><br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="vfp" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Volunteer Firefighter Pension Fund</span><br />'+              
-              '<hr>'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;&nbsp;City<br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;&nbsp;County<br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;&nbsp;District<br />'+
-              '&nbsp;&nbsp;&nbsp;<input class="leg" id="other" type="checkbox" checked />&nbsp;&nbsp;&nbsp;Other<br />'+
-              
-              '</div>';          
-         
+                '<form><h4>Programs</h4>' +
 
-            
+                '&nbsp;&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Federal<br />' +
+                '&nbsp;&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;State<br />' +
+                '&nbsp;&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Formula<br />' +
+                '&nbsp;&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Special<br />' +
+
+                '<h4>Organization Type</h4>' +
+
+
+                '&nbsp;&nbsp;&nbsp;<img src="css/images/triangle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;City<br />' +
+                '&nbsp;&nbsp;&nbsp;<img src="css/images/star_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;County<br />' +
+                '&nbsp;&nbsp;&nbsp;<img src="css/images/marker_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;District<br />' +
+                '&nbsp;&nbsp;&nbsp;<img src="css/images/circle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Other</form></div>' +
+                '<div id="tabs-2">' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Development Block Grants</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Services Block Grants</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Energy/Mineral Impact Assistance Fund</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Limited Gaming Impact Program</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Rural Economic Development Initiative</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Conservation Trust Fund</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmldd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Direct Distribution</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmlddsb106" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Supplemental Distribution</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Severance Direct Distribution</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Firefighter Cardiac Benefit Program</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="sar" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Search and Rescue</span><br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="vfp" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Volunteer Firefighter Pension Fund</span><br />' +
+                '<hr>' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;&nbsp;City<br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;&nbsp;County<br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;&nbsp;District<br />' +
+                '&nbsp;&nbsp;&nbsp;<input class="leg" id="other" type="checkbox" checked />&nbsp;&nbsp;&nbsp;Other<br />' +
+
+                '</div>';
+
+
+
 
             return div;
         };
@@ -495,7 +542,7 @@ other_flag = 1;
         command.addTo(map);
 
 
-      $( ".command" ).tabs();
+        $(".command").tabs();
 
         $("#slider").dateRangeSlider({
             bounds: {
@@ -519,75 +566,182 @@ other_flag = 1;
 
 
 
+
+        var substringMatcher = function(strs) {
+            return function findMatches(q, cb) {
+                var matches, substringRegex;
+
+                // an array that will be populated with substring matches
+                matches = [];
+
+                // regex used to determine if a string contains the substring `q`
+                var substrRegex = new RegExp(q, 'i');
+
+                // iterate through the pool of strings and for any string that
+                // contains the substring `q`, add it to the `matches` array
+                $.each(strs, function(i, str) {
+                    if (substrRegex.test(str)) {
+                        // the typeahead jQuery plugin expects suggestions to a
+                        // JavaScript object, refer to typeahead docs for more info
+                        matches.push({
+                            value: str
+                        });
+                    }
+                });
+
+                cb(matches);
+            };
+        };
+
+
+
+        //Typeahead (Name or ID Search)
+        {
+
+            $('.typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 4
+            }, {
+                name: 'searchstring',
+                displayKey: 'value',
+                source: substringMatcher(searchstring)
+            });
+
+            $('.typeahead').on('typeahead:select', function(e, datum) {
+                //console.log('select');
+                searchresult(datum);
+            }).on('typeahead:autocomplete', function(e, datum) {
+                //console.log('autocomplete');
+                searchresult(datum);
+            });
+
+            $('.typeahead').bind('typeahead:select', function(ev, suggestion) {
+                //console.log('Selection: ' + suggestion);
+            });
+
+
+            //dropdown suggestions default to hidden.  
+            $('.tt-menu').css("visibility", "hidden");
+
+            //if textbox is cleared, dropdown suggestions become hidden again
+            $('#slgid').on('input', function() {
+                if ($('#slgid').val() == "") {
+                    $('.tt-menu').css("visibility", "hidden");
+                } else {
+                    $('.tt-menu').css("visibility", "visible");
+                }
+
+            });
+
+        }
+
+        function searchresult(result) {
+            //console.log(result);
+            var latlng = null;
+
+            for (var m = 0; m < searchstring.length; m = m + 1) {
+                if (result.value === searchstring[m]) {
+                    //console.log('hit');
+                    //console.log(coordinates[m]);
+                    latlng = L.latLng(coordinates[m][1], coordinates[m][0]);
+                }
+            }
+            map.setView(latlng, 12);
+
+            $('.tt-menu').css("visibility", "hidden");
+
+        }
+
+        $("#slgid").click(function(event) {
+            event.stopPropagation();
+            // Do something
+        });
+
+        $(".tt-menu").click(function(event) {
+            event.stopPropagation();
+            // Do something
+        });
+
+        $("#slgid").dblclick(function(event) {
+            event.stopPropagation();
+            // Do something
+        });
+
+        $("#slgid").mousemove(function(event) {
+            event.stopPropagation();
+            // Do something
+        });
+
         function click_cdbg() {
-            console.log('click cdbg');
+            //console.log('click cdbg');
             refreshdata();
         }
 
         function click_csbg() {
-            console.log('click csbg');
+            //console.log('click csbg');
             refreshdata();
         }
 
- 
+
         function click_eiaf() {
-            console.log('click eiaf');
+            //console.log('click eiaf');
             refreshdata();
         }
 
         function click_game() {
-            console.log('click game');
+            //console.log('click game');
             refreshdata();
-        } 
-  
-  
+        }
+
+
         function click_redi() {
-            console.log('click redi');
+            //console.log('click redi');
             refreshdata();
         }
 
         function click_ctf() {
-            console.log('click ctf');
+            //console.log('click ctf');
             refreshdata();
         }
-  
- 
+
+
         function click_fmldd() {
-            console.log('click fmldd');
+            //console.log('click fmldd');
             refreshdata();
         }
 
         function click_fmlddsb106() {
-            console.log('click fmlddsb106');
+            //console.log('click fmlddsb106');
             refreshdata();
-        } 
-  
-  
-  
+        }
+
+
+
         function click_sevedd() {
-            console.log('click sevedd');
+            //console.log('click sevedd');
             refreshdata();
         }
 
         function click_ffb() {
-            console.log('click ffb');
+            //console.log('click ffb');
             refreshdata();
         }
-  
-         function click_sar() {
-            console.log('click sar');
+
+        function click_sar() {
+            //console.log('click sar');
             refreshdata();
         }
 
         function click_vfp() {
-            console.log('click vfp');
+            //console.log('click vfp');
             refreshdata();
-        } 
-  
+        }
 
-  
+
+
         function click_city() {
-            console.log('click city');
+            //console.log('click city');
             if ($('#city').is(':checked')) {
                 city_flag = 1;
             } else {
@@ -597,7 +751,7 @@ other_flag = 1;
         }
 
         function click_county() {
-            console.log('click county');
+            //console.log('click county');
             if ($('#county').is(':checked')) {
                 county_flag = 1;
             } else {
@@ -607,7 +761,7 @@ other_flag = 1;
         }
 
         function click_district() {
-            console.log('click district');
+            //console.log('click district');
             if ($('#district').is(':checked')) {
                 district_flag = 1;
             } else {
@@ -617,7 +771,7 @@ other_flag = 1;
         }
 
         function click_other() {
-            console.log('click other');
+            //console.log('click other');
             if ($('#other').is(':checked')) {
                 other_flag = 1;
             } else {
@@ -626,23 +780,23 @@ other_flag = 1;
             refreshdata();
         }
 
-            document.getElementById("cdbg").addEventListener("click", click_cdbg, false);
-            document.getElementById("csbg").addEventListener("click", click_csbg, false);
-            document.getElementById("eiaf").addEventListener("click", click_eiaf, false);
-            document.getElementById("game").addEventListener("click", click_game, false);
-            document.getElementById("redi").addEventListener("click", click_redi, false);
-            document.getElementById("ctf").addEventListener("click", click_ctf, false);
-            document.getElementById("fmldd").addEventListener("click", click_fmldd, false);
-            document.getElementById("fmlddsb106").addEventListener("click", click_fmlddsb106, false);  
-            document.getElementById("sevedd").addEventListener("click", click_sevedd, false);
-            document.getElementById("ffb").addEventListener("click", click_ffb, false);
-            document.getElementById("sar").addEventListener("click", click_sar, false);
-            document.getElementById("vfp").addEventListener("click", click_vfp, false);
-  
-            document.getElementById("city").addEventListener("click", click_city, false);
-            document.getElementById("county").addEventListener("click", click_county, false);
-            document.getElementById("district").addEventListener("click", click_district, false);
-            document.getElementById("other").addEventListener("click", click_other, false);
+        document.getElementById("cdbg").addEventListener("click", click_cdbg, false);
+        document.getElementById("csbg").addEventListener("click", click_csbg, false);
+        document.getElementById("eiaf").addEventListener("click", click_eiaf, false);
+        document.getElementById("game").addEventListener("click", click_game, false);
+        document.getElementById("redi").addEventListener("click", click_redi, false);
+        document.getElementById("ctf").addEventListener("click", click_ctf, false);
+        document.getElementById("fmldd").addEventListener("click", click_fmldd, false);
+        document.getElementById("fmlddsb106").addEventListener("click", click_fmlddsb106, false);
+        document.getElementById("sevedd").addEventListener("click", click_sevedd, false);
+        document.getElementById("ffb").addEventListener("click", click_ffb, false);
+        document.getElementById("sar").addEventListener("click", click_sar, false);
+        document.getElementById("vfp").addEventListener("click", click_vfp, false);
+
+        document.getElementById("city").addEventListener("click", click_city, false);
+        document.getElementById("county").addEventListener("click", click_county, false);
+        document.getElementById("district").addEventListener("click", click_district, false);
+        document.getElementById("other").addEventListener("click", click_other, false);
 
 
         //convert number to money format        
@@ -659,7 +813,7 @@ other_flag = 1;
 
         function refreshdata() {
 
-            console.log('refreshdata()');
+            //console.log('refreshdata()');
             //geojsonLayer
 
 
@@ -667,45 +821,53 @@ other_flag = 1;
 
 
 
-                map.removeLayer(city_federal);
-                map.removeLayer(county_federal);
-                map.removeLayer(district_federal);
-                map.removeLayer(other_federal);
-          
-                map.removeLayer(city_state);
-                map.removeLayer(county_state);
-                map.removeLayer(district_state);
-                map.removeLayer(other_state);
-          
-                map.removeLayer(city_formula);
-                map.removeLayer(county_formula);
-                map.removeLayer(district_formula);
-                map.removeLayer(other_formula);
-          
-                map.removeLayer(city_special);
-                map.removeLayer(county_special);
-                map.removeLayer(district_special);
-                map.removeLayer(other_special);
+            map.removeLayer(city_federal);
+            map.removeLayer(county_federal);
+            map.removeLayer(district_federal);
+            map.removeLayer(other_federal);
 
-          
+            map.removeLayer(city_state);
+            map.removeLayer(county_state);
+            map.removeLayer(district_state);
+            map.removeLayer(other_state);
+
+            map.removeLayer(city_formula);
+            map.removeLayer(county_formula);
+            map.removeLayer(district_formula);
+            map.removeLayer(other_formula);
+
+            map.removeLayer(city_special);
+            map.removeLayer(county_special);
+            map.removeLayer(district_special);
+            map.removeLayer(other_special);
+
+
             var end = +new Date(); // log end timestamp
             var diff = end - start;
 
-            console.log("remove:" + diff);
+            //console.log("remove:" + diff);
 
             var start = +new Date(); // log start timestamp
 
 
             //universal point to layer function
             function ptl(feature, latlng, color, type) {
-              
-              var icstyle;
-              
-              if(type=="district"){icstyle="marker";}
-              if(type=="city"){icstyle="triangle";}
-              if(type=="county"){icstyle="star";}
-              if(type=="other"){icstyle="circle";}
-              
+
+                var icstyle;
+
+                if (type == "district") {
+                    icstyle = "marker";
+                }
+                if (type == "city") {
+                    icstyle = "triangle";
+                }
+                if (type == "county") {
+                    icstyle = "star";
+                }
+                if (type == "other") {
+                    icstyle = "circle";
+                }
+
                 var zl = map.getZoom();
                 var icon;
 
@@ -823,8 +985,8 @@ other_flag = 1;
 
 
 
-                    if (programfilter[0] === 1) {
-                      if ($('#cdbg').is(':checked')){
+                if (programfilter[0] === 1) {
+                    if ($('#cdbg').is(':checked')) {
                         if (((feature.properties.projects.federal.cdbg).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.federal.cdbg).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) < maxdate) {
@@ -833,39 +995,39 @@ other_flag = 1;
                             }
                         }
                     }
-                                            if ($('#csbg').is(':checked')){
+                    if ($('#csbg').is(':checked')) {
                         if (((feature.properties.projects.federal.csbg).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.federal.csbg).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
-                            }
                         }
                     }
-                
+                }
 
 
-                    if (programfilter[0] === 2) {
-                                            if ($('#eiaf').is(':checked')){
+
+                if (programfilter[0] === 2) {
+                    if ($('#eiaf').is(':checked')) {
                         if (((feature.properties.projects.state.eiaf).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.state.eiaf).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
-                            }
                         }
-                                            if ($('#game').is(':checked')){
+                    }
+                    if ($('#game').is(':checked')) {
                         if (((feature.properties.projects.state.game).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.state.game).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
-                            }
                         }
-                                            if ($('#redi').is(':checked')){
+                    }
+                    if ($('#redi').is(':checked')) {
                         if (((feature.properties.projects.state.redi).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.state.redi).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) < maxdate) {
@@ -873,41 +1035,41 @@ other_flag = 1;
                                 }
                             }
                         }
-                                            }
                     }
+                }
 
 
 
 
-                    if (programfilter[0] === 3) {
-                                            if ($('#ctf').is(':checked')){
+                if (programfilter[0] === 3) {
+                    if ($('#ctf').is(':checked')) {
                         if (((feature.properties.projects.formula.ctf).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.formula.ctf).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
-                            }
                         }
-                                            if ($('#fmldd').is(':checked')){
+                    }
+                    if ($('#fmldd').is(':checked')) {
                         if (((feature.properties.projects.formula.fmldd).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.formula.fmldd).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
-                            }
                         }
-                                            if ($('#fmlddsb106').is(':checked')){
+                    }
+                    if ($('#fmlddsb106').is(':checked')) {
                         if (((feature.properties.projects.formula.fmlddsb106).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.formula.fmlddsb106).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
-                            }
                         }
-                                            if ($('#sevedd').is(':checked')){
+                    }
+                    if ($('#sevedd').is(':checked')) {
                         if (((feature.properties.projects.formula.sevedd).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.formula.sevedd).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) < maxdate) {
@@ -915,42 +1077,42 @@ other_flag = 1;
                                 }
                             }
                         }
-                        }
                     }
+                }
 
 
 
 
 
-                    if (programfilter[0] === 4) {
-                                            if ($('#ffb').is(':checked')){
+                if (programfilter[0] === 4) {
+                    if ($('#ffb').is(':checked')) {
                         if (((feature.properties.projects.special.ffb).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.special.ffb).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
-                            }
                         }
-                                            if ($('#sar').is(':checked')){
+                    }
+                    if ($('#sar').is(':checked')) {
                         if (((feature.properties.projects.special.sar).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.special.sar).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
-                            }
                         }
-                                            if ($('#vfp').is(':checked')){
+                    }
+                    if ($('#vfp').is(':checked')) {
                         if (((feature.properties.projects.special.vfp).length) > 0) {
                             for (i = 0; i < ((feature.properties.projects.special.vfp).length); i = i + 1) {
                                 if ((new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) < maxdate) {
                                     return true;
                                 }
                             }
-                            }
                         }
                     }
+                }
 
 
                 return false;
@@ -1008,9 +1170,9 @@ other_flag = 1;
 
 
 
-                    if (programfilter[0] === 1) {
-                        //sum csbg for date range
-                      if ($('#csbg').is(':checked')){
+                if (programfilter[0] === 1) {
+                    //sum csbg for date range
+                    if ($('#csbg').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.federal.csbg).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) < maxdate) {
                                 csbg_class = 'btn';
@@ -1019,8 +1181,8 @@ other_flag = 1;
                             }
                         }
                     }
-                        //sum cdbg for date range
-                      if ($('#cdbg').is(':checked')){
+                    //sum cdbg for date range
+                    if ($('#cdbg').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.federal.cdbg).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) < maxdate) {
                                 cdbg_class = 'btn';
@@ -1029,13 +1191,13 @@ other_flag = 1;
                             }
                         }
                     }
-                    }
+                }
 
 
 
-                    if (programfilter[0] === 2) {
-                        //sum eiaf for date range
-                      if ($('#eiaf').is(':checked')){
+                if (programfilter[0] === 2) {
+                    //sum eiaf for date range
+                    if ($('#eiaf').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.state.eiaf).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) < maxdate) {
                                 eiaf_class = 'btn';
@@ -1043,9 +1205,9 @@ other_flag = 1;
                                 eiaftemptable = eiaftemptable + "<tr><td>" + feature.properties.projects.state.eiaf[i].projname + "</td><td>" + feature.properties.projects.state.eiaf[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.state.eiaf[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
-                      }
-                        //sum game for date range
-                      if ($('#game').is(':checked')){
+                    }
+                    //sum game for date range
+                    if ($('#game').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.state.game).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) < maxdate) {
                                 game_class = 'btn';
@@ -1053,9 +1215,9 @@ other_flag = 1;
                                 gametemptable = gametemptable + "<tr><td>" + feature.properties.projects.state.game[i].projname + "</td><td>" + feature.properties.projects.state.game[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.state.game[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
-                      }
-                        //sum redi for date range
-                      if ($('#redi').is(':checked')){
+                    }
+                    //sum redi for date range
+                    if ($('#redi').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.state.redi).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) < maxdate) {
                                 redi_class = 'btn';
@@ -1064,13 +1226,13 @@ other_flag = 1;
                             }
                         }
                     }
-                    }
+                }
 
 
 
-                    if (programfilter[0] === 3) {
-                        //sum ctf for date range
-                      if ($('#ctf').is(':checked')){
+                if (programfilter[0] === 3) {
+                    //sum ctf for date range
+                    if ($('#ctf').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.formula.ctf).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) < maxdate) {
                                 ctf_class = 'btn';
@@ -1078,9 +1240,9 @@ other_flag = 1;
                                 ctftemptable = ctftemptable + "<tr><td>" + feature.properties.projects.formula.ctf[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.ctf[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
-                      }
-                        //sum fmldd for date range
-                      if ($('#fmldd').is(':checked')){
+                    }
+                    //sum fmldd for date range
+                    if ($('#fmldd').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.formula.fmldd).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) < maxdate) {
                                 fmldd_class = 'btn';
@@ -1088,9 +1250,9 @@ other_flag = 1;
                                 fmlddtemptable = fmlddtemptable + "<tr><td>" + feature.properties.projects.formula.fmldd[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.fmldd[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
-                      }
-                        //sum fmlddsb106 for date range
-                      if ($('#fmlddsb106').is(':checked')){
+                    }
+                    //sum fmlddsb106 for date range
+                    if ($('#fmlddsb106').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.formula.fmlddsb106).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) < maxdate) {
                                 fmlddsb106_class = 'btn';
@@ -1098,9 +1260,9 @@ other_flag = 1;
                                 fmlddsb106temptable = fmlddsb106temptable + "<tr><td>" + feature.properties.projects.formula.fmlddsb106[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.fmlddsb106[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
-                      }
-                        //sum sevedd for date range
-                      if ($('#sevedd').is(':checked')){
+                    }
+                    //sum sevedd for date range
+                    if ($('#sevedd').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.formula.sevedd).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) < maxdate) {
                                 sevedd_class = 'btn';
@@ -1108,13 +1270,13 @@ other_flag = 1;
                                 seveddtemptable = seveddtemptable + "<tr><td>" + feature.properties.projects.formula.sevedd[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.sevedd[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
-                      }
                     }
+                }
 
 
-                    if (programfilter[0] === 4) {
-                        //sum ffb for date range
-                      if ($('#ffb').is(':checked')){
+                if (programfilter[0] === 4) {
+                    //sum ffb for date range
+                    if ($('#ffb').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.special.ffb).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) < maxdate) {
                                 ffb_class = 'btn';
@@ -1122,9 +1284,9 @@ other_flag = 1;
                                 ffbtemptable = ffbtemptable + "<tr><td>" + feature.properties.projects.special.ffb[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.special.ffb[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
-                      }
-                        //sum sar for date range
-                      if ($('#sar').is(':checked')){
+                    }
+                    //sum sar for date range
+                    if ($('#sar').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.special.sar).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) < maxdate) {
                                 sar_class = 'btn';
@@ -1132,9 +1294,9 @@ other_flag = 1;
                                 sartemptable = sartemptable + "<tr><td>" + feature.properties.projects.special.sar[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.special.sar[i].award).formatMoney(0) + "</td></tr>";
                             }
                         }
-                      }
-                        //sum vfp for date range
-                      if ($('#vfp').is(':checked')){
+                    }
+                    //sum vfp for date range
+                    if ($('#vfp').is(':checked')) {
                         for (i = 0; i < (feature.properties.projects.special.vfp).length; i = i + 1) {
                             if ((new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) < maxdate) {
                                 vfp_class = 'btn';
@@ -1143,7 +1305,7 @@ other_flag = 1;
                             }
                         }
                     }
-                    }
+                }
 
 
 
@@ -1221,255 +1383,255 @@ other_flag = 1;
 
 
 
-                city_federal = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [1]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF", "city");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1], "Federal ");
-                    }
-                });
+            city_federal = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [1]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#0000FF", "city");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [1], "Federal ");
+                }
+            });
 
-                county_federal = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["1", "61", "70"], [1]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF", "county");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1], "Federal ");
-                    }
-                });
-
-
-                district_federal = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [1]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF", "district");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1], "Federal ");
-                    }
-                });
-
-                other_federal = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["100"], [1]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF", "other");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1], "Federal ");
-                    }
-                });
+            county_federal = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["1", "61", "70"], [1]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#0000FF", "county");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [1], "Federal ");
+                }
+            });
 
 
-                //geojsonLayer
-                city_state = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [2]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000", "city");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [2], "State ");
-                    }
-                });
+            district_federal = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [1]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#0000FF", "district");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [1], "Federal ");
+                }
+            });
 
-                county_state = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["1", "61", "70"], [2]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000", "county");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [2], "State ");
-                    }
-                });
-
-
-                district_state = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [2]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000", "district");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [2], "State ");
-                    }
-                });
- 
-                other_state = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["100"], [2]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000", "other");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [2], "State ");
-                    }
-                });         
-
-          
-                //geojsonLayer
-                city_formula = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [3]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000", "city");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [3], "Formula ");
-                    }
-                });
-
-                county_formula = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["1", "61", "70"], [3]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000", "county");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [3], "Formula ");
-                    }
-                });
-
-                district_formula = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [3]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000", "district");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [3], "Formula ");
-                    }
-                });
-
-                other_formula = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["100"], [3]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000", "other");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [3], "Formula ");
-                    }
-                });
-          
-          
-                //geojsonLayer
-                city_special = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080", "city");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [4], "Special ");
-                    }
-                });
-
-                county_special = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["1", "61", "70"], [4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080", "county");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [4], "Special ");
-                    }
-                });
+            other_federal = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["100"], [1]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#0000FF", "other");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [1], "Federal ");
+                }
+            });
 
 
-                district_special = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080", "district");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [4], "Special ");
-                    }
-                });
+            //geojsonLayer
+            city_state = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [2]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#FF0000", "city");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [2], "State ");
+                }
+            });
 
-                other_special = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["100"], [4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080", "other");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [4], "Special ");
-                    }
-                });
+            county_state = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["1", "61", "70"], [2]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#FF0000", "county");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [2], "State ");
+                }
+            });
+
+
+            district_state = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [2]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#FF0000", "district");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [2], "State ");
+                }
+            });
+
+            other_state = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["100"], [2]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#FF0000", "other");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [2], "State ");
+                }
+            });
+
+
+            //geojsonLayer
+            city_formula = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [3]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#008000", "city");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [3], "Formula ");
+                }
+            });
+
+            county_formula = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["1", "61", "70"], [3]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#008000", "county");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [3], "Formula ");
+                }
+            });
+
+            district_formula = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [3]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#008000", "district");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [3], "Formula ");
+                }
+            });
+
+            other_formula = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["100"], [3]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#008000", "other");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [3], "Formula ");
+                }
+            });
+
+
+            //geojsonLayer
+            city_special = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [4]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#800080", "city");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [4], "Special ");
+                }
+            });
+
+            county_special = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["1", "61", "70"], [4]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#800080", "county");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [4], "Special ");
+                }
+            });
+
+
+            district_special = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [4]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#800080", "district");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [4], "Special ");
+                }
+            });
+
+            other_special = L.geoJson(sumtotal, {
+                filter: function(feature, layer) {
+                    return filterfeatures(feature, layer, true, ["100"], [4]);
+                },
+                pointToLayer: function(feature, latlng) {
+                    return ptl(feature, latlng, "#800080", "other");
+                },
+                onEachFeature: function(feature, layer) {
+                    onEach(feature, layer, [4], "Special ");
+                }
+            });
 
 
             var end = +new Date(); // log end timestamp
             var diff = end - start;
 
-            console.log("build:" + diff);
+            //console.log("build:" + diff);
 
 
             var start = +new Date(); // log start timestamp
 
-          
-                if (city_flag === 1) {
-                    map.addLayer(city_formula);
-                    map.addLayer(city_special);
-                    map.addLayer(city_state);
-                    map.addLayer(city_federal);
-                }
-                 if (county_flag === 1) {
-                    map.addLayer(county_formula);
-                    map.addLayer(county_special);
-                    map.addLayer(county_state);
-                    map.addLayer(county_federal);
-                }         
-                if (district_flag === 1) {
-                    map.addLayer(district_formula);
-                    map.addLayer(district_special);
-                    map.addLayer(district_state);
-                    map.addLayer(district_federal);
-                }
-                 if (other_flag === 1) {
-                    map.addLayer(other_formula);
-                    map.addLayer(other_special);
-                    map.addLayer(other_state);
-                    map.addLayer(other_federal);
-                }         
+
+            if (city_flag === 1) {
+                map.addLayer(city_formula);
+                map.addLayer(city_special);
+                map.addLayer(city_state);
+                map.addLayer(city_federal);
+            }
+            if (county_flag === 1) {
+                map.addLayer(county_formula);
+                map.addLayer(county_special);
+                map.addLayer(county_state);
+                map.addLayer(county_federal);
+            }
+            if (district_flag === 1) {
+                map.addLayer(district_formula);
+                map.addLayer(district_special);
+                map.addLayer(district_state);
+                map.addLayer(district_federal);
+            }
+            if (other_flag === 1) {
+                map.addLayer(other_formula);
+                map.addLayer(other_special);
+                map.addLayer(other_state);
+                map.addLayer(other_federal);
+            }
 
 
             var end = +new Date(); // log end timestamp
             var diff = end - start;
 
-            console.log("render:" + diff);
+            //console.log("render:" + diff);
 
         };
 
         refreshdata();
 
 
-} //end init
-      
-      
-      
-    });
+    } //end init
+
+
+
+});
