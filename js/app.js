@@ -1,5 +1,8 @@
-"use strict";
 
+(function () {
+   'use strict';
+  
+  
 var searchstring = [];
 var coordinates = [];
 
@@ -7,7 +10,9 @@ var map;
 
 var sumtotal; //geojson
 
+  /*jshint unused:false*/
 function popopen(table) {
+  /*jshint unused:false*/
     //console.log('popopen()');
     map.openModal({
         content: table.replace(/\?/g, "'")
@@ -44,6 +49,8 @@ $(document).ready(function() {
         },
         error: function(xhr, textStatus, errorThrown) {
             console.log(xhr.responseText);
+          console.log(textStatus);
+          console.log(errorThrown);
         }
     });
 
@@ -95,14 +102,14 @@ $(document).ready(function() {
 
 
 
-        var grayscale = L.tileLayer(mbUrl, {
-            id: 'mapbox.light',
-            attribution: mbAttr
-        });
-        var streets = L.tileLayer(mbUrl, {
-            id: 'mapbox.streets',
-            attribution: mbAttr
-        });
+//         var grayscale = L.tileLayer(mbUrl, {
+//             id: 'mapbox.light',
+//             attribution: mbAttr
+//         });
+//         var streets = L.tileLayer(mbUrl, {
+//             id: 'mapbox.streets',
+//             attribution: mbAttr
+//         });
         var classic = L.tileLayer(mbUrl, {
             id: 'mapbox.streets-basic',
             attribution: mbAttr
@@ -130,28 +137,12 @@ $(document).ready(function() {
         });
 
 
-        var southWest = L.latLng(36.987965, -109.065964),
-            northEast = L.latLng(41.007374, -102.042814),
-            llbounds = L.latLngBounds(southWest, northEast);
-
-        //MAPZEN GEOCODER  
-        var options = {
-            bounds: llbounds,
-            position: 'topright',
-            expanded: true,
-            markers: false,
-            autocomplete: false,
-            layers: 'coarse'
-        }
-
-
-
         L.Control.Command = L.Control.extend({
             options: {
                 position: 'topright',
             },
 
-            onAdd: function(map) {
+            onAdd: function() {
 
                 var opt2div = L.DomUtil.create('div', '');
                 opt2div.id = 'opt2div';
@@ -207,7 +198,7 @@ $(document).ready(function() {
 
         });
 
-        oms.addListener('spiderfy', function(markers) {
+        oms.addListener('spiderfy', function() { //markers
             map.closePopup();
         });
 
@@ -306,7 +297,7 @@ $(document).ready(function() {
 
 
         var plan = new L.geoJson(null, {
-            style: function(feature) {
+            style: function() {  //feature
                 return {
                     weight: 2,
                     color: "#000",
@@ -328,7 +319,7 @@ $(document).ready(function() {
 
 
         var coutline = new L.geoJson(null, {
-            style: function(feature) {
+            style: function() {  //feature
                 return {
                     weight: 1,
                     color: "#444",
@@ -430,7 +421,7 @@ $(document).ready(function() {
             position: 'bottomleft'
         });
 
-        bband.onAdd = function(map) {
+        bband.onAdd = function() {
             var div = L.DomUtil.create('div', 'lnk');
             div.innerHTML = '<a href="http://dola.colorado.gov/gis-cms/content/interactive-broadband-map">Colorado Broadband Grant Map</a>';
             return div;
@@ -444,7 +435,7 @@ $(document).ready(function() {
         var sliderctrl = L.control({
             position: 'bottomleft'
         });
-        sliderctrl.onAdd = function(map) {
+        sliderctrl.onAdd = function() {
             var div = L.DomUtil.create('div', 'sl');
             div.width = 500;
             div.innerHTML = '<div id="slider"></div>';
@@ -475,7 +466,7 @@ $(document).ready(function() {
             position: 'topleft'
         });
 
-        title.onAdd = function(map) {
+        title.onAdd = function() {
             var div = L.DomUtil.create('div', 'title bord');
             div.innerHTML = '<h2>Colorado Financial Assistance</h2>';
             return div;
@@ -490,7 +481,7 @@ $(document).ready(function() {
             position: 'topleft'
         });
 
-        command.onAdd = function(map) {
+        command.onAdd = function() {
             var div = L.DomUtil.create('div', 'command bord');
 
             div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' +
@@ -569,7 +560,7 @@ $(document).ready(function() {
 
         var substringMatcher = function(strs) {
             return function findMatches(q, cb) {
-                var matches, substringRegex;
+                var matches;
 
                 // an array that will be populated with substring matches
                 matches = [];
@@ -617,7 +608,8 @@ $(document).ready(function() {
             });
 
             $('.typeahead').bind('typeahead:select', function(ev, suggestion) {
-                //console.log('Selection: ' + suggestion);
+              console.log('ev: ' + ev);
+              console.log('Selection: ' + suggestion);
             });
 
 
@@ -626,7 +618,7 @@ $(document).ready(function() {
 
             //if textbox is cleared, dropdown suggestions become hidden again
             $('#slgid').on('input', function() {
-                if ($('#slgid').val() == "") {
+                if ($('#slgid').val() === "") {
                     $('.tt-menu').css("visibility", "hidden");
                 } else {
                     $('.tt-menu').css("visibility", "visible");
@@ -799,7 +791,8 @@ $(document).ready(function() {
         document.getElementById("other").addEventListener("click", click_other, false);
 
 
-        //convert number to money format        
+        //convert number to money format     
+      /* jshint ignore:start */
         Number.prototype.formatMoney = function(c, d, t) {
             var n = this,
                 c = isNaN(c = Math.abs(c)) ? 2 : c,
@@ -810,14 +803,15 @@ $(document).ready(function() {
                 j = (j = i.length) > 3 ? j % 3 : 0;
             return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
         };
-
+/* jshint ignore:end */
+      
         function refreshdata() {
 
             //console.log('refreshdata()');
             //geojsonLayer
 
 
-            var start = +new Date(); // log start timestamp
+            //var start = +new Date(); // log start timestamp
 
 
 
@@ -842,12 +836,12 @@ $(document).ready(function() {
             map.removeLayer(other_special);
 
 
-            var end = +new Date(); // log end timestamp
-            var diff = end - start;
+            //var end = new Date(); // log end timestamp
+            //var diff = end - start;
 
             //console.log("remove:" + diff);
 
-            var start = +new Date(); // log start timestamp
+            //var start = new Date(); // log start timestamp
 
 
             //universal point to layer function
@@ -855,16 +849,16 @@ $(document).ready(function() {
 
                 var icstyle;
 
-                if (type == "district") {
+                if (type === "district") {
                     icstyle = "marker";
                 }
-                if (type == "city") {
+                if (type === "city") {
                     icstyle = "triangle";
                 }
-                if (type == "county") {
+                if (type === "county") {
                     icstyle = "star";
                 }
-                if (type == "other") {
+                if (type === "other") {
                     icstyle = "circle";
                 }
 
@@ -873,64 +867,57 @@ $(document).ready(function() {
 
                 if (zl === 6) {
                     icon = L.MakiMarkers.icon({
-                        icon: null,
+                        icon: icstyle,
                         color: color,
-                        size: "s",
-                        icon: icstyle
+                        size: "s"
                     });
                     icon.options.iconSize = i6;
                 }
                 if (zl === 7) {
                     icon = L.MakiMarkers.icon({
-                        icon: null,
+                        icon: icstyle,
                         color: color,
-                        size: "s",
-                        icon: icstyle
+                        size: "s"
                     });
                     icon.options.iconSize = i7;
                 }
                 if (zl === 8) {
                     icon = L.MakiMarkers.icon({
-                        icon: null,
+                        icon: icstyle,
                         color: color,
-                        size: "s",
-                        icon: icstyle
+                        size: "s"
                     });
                     icon.options.iconSize = i8;
                 }
                 if (zl === 9) {
                     icon = L.MakiMarkers.icon({
-                        icon: null,
+                        icon: icstyle,
                         color: color,
-                        size: "s",
-                        icon: icstyle
+                        size: "s"
                     });
                     icon.options.iconSize = i9;
                 }
                 if (zl === 10) {
                     icon = L.MakiMarkers.icon({
-                        icon: null,
+                        icon: icstyle,
                         color: color,
-                        size: "s",
-                        icon: icstyle
+                        size: "s"
                     });
                     icon.options.iconSize = i10;
                 }
                 if (zl === 11) {
                     icon = L.MakiMarkers.icon({
-                        icon: null,
+                        icon: icstyle,
                         color: color,
-                        size: "s",
-                        icon: icstyle
+                        size: "s"
                     });
                     icon.options.iconSize = i11;
                 }
                 if (zl === 12) {
                     icon = L.MakiMarkers.icon({
-                        icon: null,
+                        icon: icstyle,
                         color: color,
-                        size: "s",
-                        icon: icstyle
+                        size: "s"
                     });
                     icon.options.iconSize = i12;
                 }
@@ -947,9 +934,7 @@ $(document).ready(function() {
 
             function filterfeatures(feature, layer, inclusive, geofilter, programfilter) {
                 var i;
-                var j;
-
-
+              
                 //quick filter by geography
                 var validcapture = 0;
 
@@ -962,16 +947,12 @@ $(document).ready(function() {
                 //inclusive or exclusive.  true for inclusive, false for exclusive
                 //applies to geofilter.  inclusive is only those lgtypeids, exclusive is everything except those lgtypeids
                 if (inclusive) {
-                    if (validcapture > 0) {
-                        //valid: continue
-                    } else {
+                    if (validcapture <= 0) {
                         return false;
                     }
                 } else {
-                    if (validcapture > 0) {
+                    if (validcapture <= 0) {
                         return false;
-                    } else {
-                        //valid continue
                     }
                 }
 
@@ -1121,10 +1102,6 @@ $(document).ready(function() {
 
             function onEach(feature, layer, programfilter, prefix) {
                 var i;
-                var j;
-
-                var dateofproj;
-                var datearray;
 
                 var csbg_temptotal = 0;
                 var cdbg_temptotal = 0;
@@ -1585,13 +1562,13 @@ $(document).ready(function() {
             });
 
 
-            var end = +new Date(); // log end timestamp
-            var diff = end - start;
+            //var end = +new Date(); // log end timestamp
+            //var diff = end - start;
 
             //console.log("build:" + diff);
 
 
-            var start = +new Date(); // log start timestamp
+            //var start = +new Date(); // log start timestamp
 
 
             if (city_flag === 1) {
@@ -1620,12 +1597,12 @@ $(document).ready(function() {
             }
 
 
-            var end = +new Date(); // log end timestamp
-            var diff = end - start;
+            //var end = +new Date(); // log end timestamp
+            //var diff = end - start;
 
             //console.log("render:" + diff);
 
-        };
+        }
 
         refreshdata();
 
@@ -1635,3 +1612,5 @@ $(document).ready(function() {
 
 
 });
+  
+  }());
