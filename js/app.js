@@ -2,6 +2,7 @@ var map;
 
   /*jshint unused:false*/
 function popopen(table) {
+     'use strict';
   /*jshint unused:false*/
     //console.log('popopen()');
     map.openModal({
@@ -950,12 +951,18 @@ $(document).ready(function() {
                 //inclusive or exclusive.  true for inclusive, false for exclusive
                 //applies to geofilter.  inclusive is only those lgtypeids, exclusive is everything except those lgtypeids
                 if (inclusive) {
-                    if (validcapture <= 0) {
+                    if (validcapture > 0) {
+                        //valid: continue
+                      var useless=null;
+                    } else {
                         return false;
                     }
                 } else {
-                    if (validcapture <= 0) {
+                    if (validcapture > 0) {
                         return false;
+                    } else {
+                        //valid continue
+                      var useless2=null;
                     }
                 }
 
