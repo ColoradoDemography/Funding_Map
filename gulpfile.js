@@ -5,7 +5,7 @@
 var gulp   = require('gulp');
 var jshint = require('gulp-jshint');
 var mocha  = require('gulp-mocha');
-  var coveralls = require('gulp-coveralls');
+
   
 gulp.task('lint', function() {
   return gulp
@@ -20,13 +20,8 @@ gulp.task('lint', function() {
      .pipe(mocha());
  });
   
-gulp.task('coveralls', function () {  
-  return gulp.src('./test/coverage/file.lcov')
-    .pipe(coveralls());
-});
   
-  
-gulp.task('default', ['lint', 'test', 'coveralls'], function() {
+gulp.task('default', ['lint', 'test'], function() {
 
 
   
