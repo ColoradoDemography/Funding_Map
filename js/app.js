@@ -90,9 +90,9 @@ function popopen(table) {
 				attribution: mbAttr
 			});
 
-			var mapquestOSM = L.tileLayer("https://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
+			var mapquestOSM = L.tileLayer("https://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png", {
 				maxZoom: 19,
-				subdomains: ["otile1", "otile2", "otile3", "otile4"],
+				subdomains: ["otile1-s", "otile2-s", "otile3-s", "otile4-s"],
 				attribution: 'Tiles courtesy of <a href="https://www.mapquest.com/" target="_blank">MapQuest</a> <img src="https://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
 			});
 
