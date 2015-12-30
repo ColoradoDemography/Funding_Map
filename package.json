@@ -23,6 +23,7 @@
   "devDependencies": {
     "coveralls": "^2.11.6",
     "gulp": "^3.9.0",
+    "gulp-coveralls": "^0.1.4",
     "gulp-jshint": "^2.0.0",
     "gulp-mocha": "^2.2.0",
     "jshint": "^2.8.0",
