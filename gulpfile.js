@@ -1,32 +1,32 @@
-
-(function () {
-   'use strict';
-
-var gulp   = require('gulp');
+var gulp = require('gulp');
 var jshint = require('gulp-jshint');
-var mocha  = require('gulp-mocha');
+var prettify = require('gulp-jsbeautifier');
 
-  
+
+// Lint
 gulp.task('lint', function() {
-  return gulp
-    .src(['gulpfile.js', 'js/app.js'])
+  return gulp.src('./js/app.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
- gulp.task('test', function() {
-   return gulp
-     .src('test/test.js')
-     .pipe(mocha());
- });
-  
-  
-gulp.task('default', ['lint', 'test'], function() {
-
-
-  
+gulp.task('format-js', function() {
+  gulp.src('./js/app.js')
+    .pipe(prettify({config: '.jsbeautifyrc', mode: 'VERIFY_AND_WRITE'}))
+    .pipe(gulp.dest('./js'))
 });
 
+gulp.task('prettify-html', function() {
+  gulp.src('./index.html')
+    .pipe(prettify({indentSize: 2}))
+    .pipe(gulp.dest('./'))
+});
 
-  
-  }());
+gulp.task('prettify-css', function() {
+  gulp.src('./css/app.css')
+    .pipe(prettify({indentSize: 2}))
+    .pipe(gulp.dest('./css'))
+});
+
+// Default
+gulp.task('default', ['lint', 'format-js','prettify-html', 'prettify-css']);

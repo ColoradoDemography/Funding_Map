@@ -4,7 +4,7 @@
   "description": "dola financial services grants webmap",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp"
   },
   "repository": {
     "type": "git",
@@ -22,9 +22,7 @@
   "homepage": "https://github.com/royhobbstn/CO_Grants#readme",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-jshint": "^2.0.0",
-    "gulp-mocha": "^2.2.0",
-    "jshint": "^2.8.0",
-    "mocha": "^2.3.4"
+    "gulp-jsbeautifier": "^1.0.1",
+    "gulp-jshint": "^2.0.0"
   }
 }
