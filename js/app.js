@@ -178,13 +178,13 @@ function popopen(table) {
 
             function score_onEachFeature(feature, layer) {
                 if (feature.properties && feature.properties.cnty) {
-                    layer.bindPopup("County: " + feature.properties.cnty + "<br />" + "Score: " + feature.properties.score);
+                    layer.bindPopup("County: " + feature.properties.NAME + "<br />" + "Score: " + feature.properties.score);
                 }
             }
 
             function county_onEachFeature(feature, layer) {
-                if (feature.properties && feature.properties.NAMELSAD) {
-                    layer.bindPopup(feature.properties.NAMELSAD);
+                if (feature.properties && feature.properties.NAME) {
+                    layer.bindPopup(feature.properties.NAME);
                 }
             }
 
@@ -341,7 +341,7 @@ function popopen(table) {
 
             $.ajax({
                 dataType: "json",
-                url: "data/score.geojson",
+                url: "data/counties.geojson",
                 success: function(data) {
                     $(data.features).each(function(key, data) {
                         score.addData(data);
@@ -1066,40 +1066,40 @@ function popopen(table) {
                     }
                     var programstring = "";
                     if (csbg_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>Service Area</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + csbg_class + '">CSBG:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>Service Area</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>") + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>Service Area</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + csbg_class + '">CSBG:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>Service Area</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>") + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />';
                     }
                     if (cdbg_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + cdbgtemptable + "</table>").replace(/'/g, "?") + '\');"  class="' + cdbg_class + '">CDBG:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + cdbgtemptable + "</table>") + '</span></a>  $' + cdbg_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + cdbgtemptable + "</table>").replace(/'/g, "?") + '\');"  class="' + cdbg_class + '">CDBG:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + cdbgtemptable + "</table>") + '</span></a>  $' + cdbg_temptotal.formatMoney(0) + '<br />';
                     }
                     if (eiaf_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + eiaftemptable + "</table>").replace(/'/g, "?") + '\');" class="' + eiaf_class + '">EIAF:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + eiaftemptable + "</table>") + '</span></a>  $' + eiaf_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + eiaftemptable + "</table>").replace(/'/g, "?") + '\');" class="' + eiaf_class + '">EIAF:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + eiaftemptable + "</table>") + '</span></a>  $' + eiaf_temptotal.formatMoney(0) + '<br />';
                     }
                     if (game_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + gametemptable + "</table>").replace(/'/g, "?") + '\');" class="' + game_class + '">GAME:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + gametemptable + "</table>") + '</span></a>  $' + game_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + gametemptable + "</table>").replace(/'/g, "?") + '\');" class="' + game_class + '">GAME:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + gametemptable + "</table>") + '</span></a>  $' + game_temptotal.formatMoney(0) + '<br />';
                     }
                     if (redi_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + reditemptable + "</table>").replace(/'/g, "?") + '\');" class="' + redi_class + '">REDI:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + reditemptable + "</table>") + '</span></a>  $' + redi_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + reditemptable + "</table>").replace(/'/g, "?") + '\');" class="' + redi_class + '">REDI:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + reditemptable + "</table>") + '</span></a>  $' + redi_temptotal.formatMoney(0) + '<br />';
                     }
                     if (ctf_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ctftemptable + "</table>").replace(/'/g, "?") + '\');" class="' + ctf_class + '">CTF:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ctftemptable + "</table>") + '</span></a>  $' + ctf_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ctftemptable + "</table>").replace(/'/g, "?") + '\');" class="' + ctf_class + '">CTF:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ctftemptable + "</table>") + '</span></a>  $' + ctf_temptotal.formatMoney(0) + '<br />';
                     }
                     if (fmldd_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + fmldd_class + '">FMLDD:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddtemptable + "</table>") + '</span></a>  $' + fmldd_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + fmldd_class + '">FMLDD:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddtemptable + "</table>") + '</span></a>  $' + fmldd_temptotal.formatMoney(0) + '<br />';
                     }
                     if (fmlddsb106_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddsb106temptable + "</table>").replace(/'/g, "?") + '\');" class="' + fmlddsb106_class + '">FMLDDSB106:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddsb106temptable + "</table>") + '</span></a>  $' + fmlddsb106_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddsb106temptable + "</table>").replace(/'/g, "?") + '\');" class="' + fmlddsb106_class + '">FMLDDSB106:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddsb106temptable + "</table>") + '</span></a>  $' + fmlddsb106_temptotal.formatMoney(0) + '<br />';
                     }
                     if (sevedd_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + seveddtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + sevedd_class + '">SEVEDD:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + seveddtemptable + "</table>") + '</span></a>  $' + sevedd_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + seveddtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + sevedd_class + '">SEVEDD:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + seveddtemptable + "</table>") + '</span></a>  $' + sevedd_temptotal.formatMoney(0) + '<br />';
                     }
                     if (ffb_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ffbtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + ffb_class + '">FFB:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ffbtemptable + "</table>") + '</span></a>  $' + ffb_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ffbtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + ffb_class + '">FFB:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ffbtemptable + "</table>") + '</span></a>  $' + ffb_temptotal.formatMoney(0) + '<br />';
                     }
                     if (sar_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + sartemptable + "</table>").replace(/'/g, "?") + '\');" class="' + sar_class + '">SAR:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + sartemptable + "</table>") + '</span></a>  $' + sar_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + sartemptable + "</table>").replace(/'/g, "?") + '\');" class="' + sar_class + '">SAR:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + sartemptable + "</table>") + '</span></a>  $' + sar_temptotal.formatMoney(0) + '<br />';
                     }
                     if (vfp_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + vfptemptable + "</table>").replace(/'/g, "?") + '\');" class="' + vfp_class + '">VFP:<span><img class="callout" src="cssttp/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + vfptemptable + "</table>") + '</span></a>  $' + vfp_temptotal.formatMoney(0) + '<br />';
+                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + vfptemptable + "</table>").replace(/'/g, "?") + '\');" class="' + vfp_class + '">VFP:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + vfptemptable + "</table>") + '</span></a>  $' + vfp_temptotal.formatMoney(0) + '<br />';
                     }
                     var popuphtml = "<h3>" + feature.properties.govname + "</h3>" + "<i>" + prefix + "Awards<br />" + $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + programstring;
                     layer.desc = popuphtml;

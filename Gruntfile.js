@@ -3,11 +3,9 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         watch: {
-            files: ['js/app.js', 'Gruntfile.js', 'index.html'],
-            tasks: ['jshint', 'jsbeautifier', 'prettify']
+            files: ['js/app.js', 'Gruntfile.js'],
+            tasks: ['jshint', 'jsbeautifier']
         },
-
-
 
         jshint: ['js/app.js', 'Gruntfile.js'],
 
@@ -30,6 +28,7 @@ module.exports = function(grunt) {
             }
         },
 
+
         concat: {
 
             js: {
@@ -50,6 +49,7 @@ module.exports = function(grunt) {
 
         cssmin: {
             options: {
+                keepSpecialComments: 0,
                 shorthandCompacting: false,
                 roundingPrecision: -1,
                 root: '',
@@ -63,6 +63,7 @@ module.exports = function(grunt) {
         }
 
     });
+
 
     grunt.loadNpmTasks('grunt-prettify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
