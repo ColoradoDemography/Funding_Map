@@ -25,6 +25,9 @@ function popopen(table) {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(jdata) {
+
+                //first - identify
+
                 sumtotal = jdata;
                 //create data objects for geocoder
                 for (var i = 0; i < sumtotal.features.length; i++) {
@@ -44,13 +47,7 @@ function popopen(table) {
 
         function init() {
 
-            var i6 = [8, 20];
-            var i7 = [10, 25];
-            var i8 = [12, 30];
-            var i9 = [16, 40];
-            var i10 = [20, 50];
-            var i11 = [24, 60];
-            var i12 = [28, 70];
+
             var mindate = new Date("Thu Jan 01 2014 00:00:00 GMT-0700");
             var maxdate = new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
 
@@ -99,7 +96,7 @@ function popopen(table) {
             map = L.map('map', {
                 center: [39, -105.5],
                 zoom: 7,
-                minZoom: 6,
+                minZoom: 7,
                 maxZoom: 12,
                 layers: [emerald],
                 zoomControl: false
@@ -409,7 +406,7 @@ function popopen(table) {
             });
             command.onAdd = function() {
                 var div = L.DomUtil.create('div', 'command bord');
-                div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' + '<div id="tabs-1">' + '<form><h4>Programs</h4>' + '&nbsp;&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Federal<br />' + '&nbsp;&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;State<br />' + '&nbsp;&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Formula<br />' + '&nbsp;&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Special<br />' + '<h4>Organization Type</h4>' + '&nbsp;&nbsp;&nbsp;<img src="css/images/triangle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;City<br />' + '&nbsp;&nbsp;&nbsp;<img src="css/images/star_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;County<br />' + '&nbsp;&nbsp;&nbsp;<img src="css/images/marker_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;District<br />' + '&nbsp;&nbsp;&nbsp;<img src="css/images/circle_sm.svg" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Other</form></div>' + '<div id="tabs-2">' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Development Block Grants</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Services Block Grants</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Energy/Mineral Impact Assistance Fund</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Limited Gaming Impact Program</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Rural Economic Development Initiative</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Conservation Trust Fund</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmldd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Direct Distribution</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmlddsb106" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Supplemental Distribution</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Severance Direct Distribution</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Firefighter Cardiac Benefit Program</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="sar" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Search and Rescue</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="vfp" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Volunteer Firefighter Pension Fund</span><br />' + '<hr>' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;&nbsp;City<br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;&nbsp;County<br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;&nbsp;District<br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="other" type="checkbox" checked />&nbsp;&nbsp;&nbsp;Other<br />' + '</div>';
+                div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' + '<div id="tabs-1">' + '<form><h4>Programs</h4>' + '&nbsp;&nbsp;&nbsp;<img src="css/images/blue_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Federal<br />' + '&nbsp;&nbsp;&nbsp;<img src="css/images/red_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;State<br />' + '&nbsp;&nbsp;&nbsp;<img src="css/images/green_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Formula<br />' + '&nbsp;&nbsp;&nbsp;<img src="css/images/purple_sm.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Special<br />' + '<h4>Organization Type</h4>' + '&nbsp;&nbsp;&nbsp;<span style="font-size:16px;" >&#10022;</span>&nbsp;&nbsp;&nbsp;City<br />' + '&nbsp;&nbsp;&nbsp;<span style="font-size:16px;" >&#9733;</span>&nbsp;&nbsp;&nbsp;County<br />' + '&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:16px;" >&#9642;</span>&nbsp;&nbsp;&nbsp;&nbsp;District<br />' + '&nbsp;&nbsp;&nbsp;<span style="font-size:16px;" >&#9899;</span>&nbsp;&nbsp;&nbsp;Other</form></div>' + '<div id="tabs-2">' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Development Block Grants</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Services Block Grants</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Energy/Mineral Impact Assistance Fund</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Limited Gaming Impact Program</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Rural Economic Development Initiative</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Conservation Trust Fund</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmldd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Direct Distribution</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmlddsb106" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Supplemental Distribution</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Severance Direct Distribution</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Firefighter Cardiac Benefit Program</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="sar" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Search and Rescue</span><br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="vfp" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Volunteer Firefighter Pension Fund</span><br />' + '<hr>' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;&nbsp;City<br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;&nbsp;County<br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;&nbsp;District<br />' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="other" type="checkbox" checked />&nbsp;&nbsp;&nbsp;Other<br />' + '</div>';
                 return div;
             };
             command.addTo(map);
@@ -642,7 +639,18 @@ function popopen(table) {
                 return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
             };
             /* jshint ignore:end */
+
+            //change default leaflet marker z-index
+            L.Marker.prototype.__setPos = L.Marker.prototype._setPos;
+            L.Marker.prototype._setPos = function() {
+                L.Marker.prototype.__setPos.apply(this, arguments);
+                this._zIndex = this.options.zIndexOffset;
+                this._resetZIndex();
+            };
+
+
             function refreshdata() {
+                var stackchips = {};
                 //console.log('refreshdata()');
                 //geojsonLayer
                 //var start = +new Date(); // log start timestamp
@@ -668,82 +676,95 @@ function popopen(table) {
                 //var start = new Date(); // log start timestamp
                 //universal point to layer function
                 function ptl(feature, latlng, color, type) {
+
+                    var tv = feature.properties.lgid;
+                    if (stackchips.hasOwnProperty(tv)) {
+                        stackchips[tv]++;
+                    } else {
+                        stackchips[tv] = 0;
+                    }
+
+                    var zl = map.getZoom();
+                    var iconSize;
+                    var icon;
+
+                    //reconfigure latlng
+                    //console.log(latlng);
+                    var rlat = latlng.lat + (0.002 * (13 - zl)) * stackchips[tv];
+                    var rlng = latlng.lng;
+
+                    var reconlatlng = L.latLng(rlat, rlng);
+
                     var icstyle;
                     if (type === "district") {
-                        icstyle = "marker";
+                        icstyle = "&#9642;";
                     }
                     if (type === "city") {
-                        icstyle = "triangle";
+                        icstyle = "&#10022;";
                     }
                     if (type === "county") {
-                        icstyle = "star";
+                        icstyle = "&#9733;";
                     }
                     if (type === "other") {
-                        icstyle = "circle";
+                        icstyle = "&#9899;";
                     }
-                    var zl = map.getZoom();
-                    var icon;
+
+                    var sizeclass;
                     if (zl === 6) {
-                        icon = L.MakiMarkers.icon({
-                            icon: icstyle,
-                            color: color,
-                            size: "s"
-                        });
-                        icon.options.iconSize = i6;
+                        iconSize = [9, 7.2];
+                        sizeclass = "leaflet-div-icon3";
                     }
                     if (zl === 7) {
-                        icon = L.MakiMarkers.icon({
-                            icon: icstyle,
-                            color: color,
-                            size: "s"
-                        });
-                        icon.options.iconSize = i7;
+                        iconSize = [12, 9.6];
+                        sizeclass = "leaflet-div-icon3";
                     }
                     if (zl === 8) {
-                        icon = L.MakiMarkers.icon({
-                            icon: icstyle,
-                            color: color,
-                            size: "s"
-                        });
-                        icon.options.iconSize = i8;
+                        iconSize = [15, 12];
+                        sizeclass = "leaflet-div-icon3";
                     }
                     if (zl === 9) {
-                        icon = L.MakiMarkers.icon({
-                            icon: icstyle,
-                            color: color,
-                            size: "s"
-                        });
-                        icon.options.iconSize = i9;
+                        iconSize = [18, 14.4];
+                        sizeclass = "leaflet-div-icon2";
                     }
                     if (zl === 10) {
-                        icon = L.MakiMarkers.icon({
-                            icon: icstyle,
-                            color: color,
-                            size: "s"
-                        });
-                        icon.options.iconSize = i10;
+                        iconSize = [21, 16.8];
+                        sizeclass = "leaflet-div-icon2";
                     }
                     if (zl === 11) {
-                        icon = L.MakiMarkers.icon({
-                            icon: icstyle,
-                            color: color,
-                            size: "s"
-                        });
-                        icon.options.iconSize = i11;
+                        iconSize = [24, 19.2];
+                        sizeclass = "leaflet-div-icon1";
                     }
                     if (zl === 12) {
-                        icon = L.MakiMarkers.icon({
-                            icon: icstyle,
-                            color: color,
-                            size: "s"
-                        });
-                        icon.options.iconSize = i12;
+                        iconSize = [27, 21.6];
+                        sizeclass = "leaflet-div-icon1";
                     }
-                    var marker = new L.Marker(latlng, {
-                        icon: icon,
-                        riseOnHover: true
+                    var marker = new L.Marker(reconlatlng, {
+                        riseOnHover: false
                     }).bindLabel('<span style="color:' + color + '">' + feature.properties.govname + '</span>');
+
+
+                    var colorclass;
+                    if (color === "#0000FF") {
+                        colorclass = "icon-blue";
+                    }
+                    if (color === "#FF0000") {
+                        colorclass = "icon-red";
+                    }
+                    if (color === "#008000") {
+                        colorclass = "icon-green";
+                    }
+                    if (color === "#800080") {
+                        colorclass = "icon-purple";
+                    }
+
+                    marker.setIcon(L.divIcon({
+                        "className": sizeclass + " " + colorclass,
+                        "html": icstyle,
+                        "iconSize": iconSize
+                    }));
+
                     oms.addMarker(marker);
+                    marker.setZIndexOffset(stackchips[tv]); //reverse orders marker z-index
                     return marker;
                 }
 
@@ -1105,6 +1126,7 @@ function popopen(table) {
                     layer.desc = popuphtml;
                     // layer.bindPopup(popuphtml);
                 }
+
                 city_federal = L.geoJson(sumtotal, {
                     filter: function(feature, layer) {
                         return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [1]);

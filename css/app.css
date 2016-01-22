@@ -374,3 +374,49 @@ div{
             max-width: 50%;
             padding: 2px 10px 2px 10px;
           }
+
+
+
+.icon-blue {
+  background: blue;
+}
+.icon-red {
+  background: red;
+}
+.icon-green {
+  background: green;
+}
+.icon-purple {
+  background: purple;
+}
+
+
+.leaflet-div-icon1
+{
+  border:2px solid rgba(255,255,255,0.7);
+  color:white;
+  text-align:center;
+  border-radius:50%;
+  font-size: 16px;
+  line-height:16px;
+}
+
+.leaflet-div-icon2
+{
+  border:1.5px solid rgba(255,255,255,0.7);
+  color:white;
+  text-align:center;
+  border-radius:55%;
+  font-size: 11px;
+  line-height:11px;
+}
+
+.leaflet-div-icon3
+{
+  border:1px solid rgba(255,255,255,0.7);
+  color:white;
+  text-align:center;
+  border-radius:60%;
+  font-size: 7px;
+  line-height:7px;
+}
