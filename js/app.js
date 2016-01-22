@@ -1,5 +1,9 @@
 /*jshint unused:false*/
 var map;
+var markers = L.markerClusterGroup({
+    disableClusteringAtZoom: 12,
+    maxClusterRadius: 150
+});
 
 function popopen(table) {
     'use strict';
@@ -21,7 +25,7 @@ function popopen(table) {
 
         $.ajax({
             type: "GET",
-            url: "../CO_FS_Data_PHP/sumtotal.geojson",
+            url: "../CO_Grants_Data/grantpts.geojson",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(jdata) {
@@ -31,10 +35,10 @@ function popopen(table) {
                 sumtotal = jdata;
                 //create data objects for geocoder
                 for (var i = 0; i < sumtotal.features.length; i++) {
-                    searchstring.push(sumtotal.features[i].properties.govname);
-                    coordinates.push(sumtotal.features[i].geometry.coordinates);
-                    searchstring.push(sumtotal.features[i].properties.lgid);
-                    coordinates.push(sumtotal.features[i].geometry.coordinates);
+                    //searchstring.push(sumtotal.features[i].properties.govname);
+                    //coordinates.push(sumtotal.features[i].geometry.coordinates);
+                    //searchstring.push(sumtotal.features[i].properties.lgid);
+                    //coordinates.push(sumtotal.features[i].geometry.coordinates);
                 }
                 init();
             },
@@ -52,27 +56,7 @@ function popopen(table) {
             var maxdate = new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
 
             //modern browser
-            var city_federal = L.geoJson(null, {});
-            var county_federal = L.geoJson(null, {});
-            var district_federal = L.geoJson(null, {});
-            var other_federal = L.geoJson(null, {});
-            var city_state = L.geoJson(null, {});
-            var county_state = L.geoJson(null, {});
-            var district_state = L.geoJson(null, {});
-            var other_state = L.geoJson(null, {});
-            var city_formula = L.geoJson(null, {});
-            var county_formula = L.geoJson(null, {});
-            var district_formula = L.geoJson(null, {});
-            var other_formula = L.geoJson(null, {});
-            var city_special = L.geoJson(null, {});
-            var county_special = L.geoJson(null, {});
-            var district_special = L.geoJson(null, {});
-            var other_special = L.geoJson(null, {});
-
-            var city_flag = 1,
-                county_flag = 1,
-                district_flag = 1,
-                other_flag = 1;
+            var map_data = L.geoJson(null, {});
 
             var mbAttr = "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>",
                 mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ';
@@ -98,7 +82,7 @@ function popopen(table) {
                 zoom: 7,
                 minZoom: 7,
                 maxZoom: 12,
-                layers: [emerald],
+                layers: [emerald, markers],
                 zoomControl: false
             });
 
@@ -139,20 +123,7 @@ function popopen(table) {
                 refreshdata();
             });
 
-            var oms = new OverlappingMarkerSpiderfier(map, {
-                keepSpiderfied: true
-            });
 
-            var popup = new L.Popup();
-            oms.addListener('click', function(marker) {
-                popup.setContent(marker.desc);
-                popup.setLatLng(marker.getLatLng());
-                map.openPopup(popup);
-            });
-
-            oms.addListener('spiderfy', function() { //markers
-                map.closePopup();
-            });
 
             L.easyButton('fa-question', function(btn, map) {
 
@@ -651,30 +622,10 @@ function popopen(table) {
 
             function refreshdata() {
                 var stackchips = {};
-                //console.log('refreshdata()');
-                //geojsonLayer
-                //var start = +new Date(); // log start timestamp
-                map.removeLayer(city_federal);
-                map.removeLayer(county_federal);
-                map.removeLayer(district_federal);
-                map.removeLayer(other_federal);
-                map.removeLayer(city_state);
-                map.removeLayer(county_state);
-                map.removeLayer(district_state);
-                map.removeLayer(other_state);
-                map.removeLayer(city_formula);
-                map.removeLayer(county_formula);
-                map.removeLayer(district_formula);
-                map.removeLayer(other_formula);
-                map.removeLayer(city_special);
-                map.removeLayer(county_special);
-                map.removeLayer(district_special);
-                map.removeLayer(other_special);
-                //var end = new Date(); // log end timestamp
-                //var diff = end - start;
-                //console.log("remove:" + diff);
-                //var start = new Date(); // log start timestamp
-                //universal point to layer function
+
+                markers.removeLayer(map_data);
+
+
                 function ptl(feature, latlng, color, type) {
 
                     var tv = feature.properties.lgid;
@@ -684,30 +635,53 @@ function popopen(table) {
                         stackchips[tv] = 0;
                     }
 
+
+
+                    //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG"];
+                    if (feature.properties.program === "FML") {
+                        color = "#008000";
+                    }
+                    if (feature.properties.program === "SEV_DIST") {
+                        color = "#008000";
+                    }
+                    if (feature.properties.program === "VFP") {
+                        color = "#800080";
+                    }
+                    if (feature.properties.program === "CTF") {
+                        color = "#008000";
+                    }
+                    if (feature.properties.program === "SAR") {
+                        color = "#800080";
+                    }
+                    if (feature.properties.program === "FFB") {
+                        color = "#800080";
+                    }
+                    if (feature.properties.program === "EIAF") {
+                        color = "#FF0000";
+                    }
+                    if (feature.properties.program === "GAME") {
+                        color = "#FF0000";
+                    }
+                    if (feature.properties.program === "REDI") {
+                        color = "#FF0000";
+                    }
+                    if (feature.properties.program === "CSBG") {
+                        color = "#0000FF";
+                    }
+                    if (feature.properties.program === "CDBG") {
+                        color = "#0000FF";
+                    }
+
                     var zl = map.getZoom();
                     var iconSize;
                     var icon;
 
                     //reconfigure latlng
-                    //console.log(latlng);
-                    var rlat = latlng.lat + (0.002 * (13 - zl)) * stackchips[tv];
+                    var rlat = latlng.lat + (0.001 * (13 - zl)) * stackchips[tv];
                     var rlng = latlng.lng;
 
                     var reconlatlng = L.latLng(rlat, rlng);
 
-                    var icstyle;
-                    if (type === "district") {
-                        icstyle = "&#9642;";
-                    }
-                    if (type === "city") {
-                        icstyle = "&#10022;";
-                    }
-                    if (type === "county") {
-                        icstyle = "&#9733;";
-                    }
-                    if (type === "other") {
-                        icstyle = "&#9899;";
-                    }
 
                     var sizeclass;
                     if (zl === 6) {
@@ -738,398 +712,41 @@ function popopen(table) {
                         iconSize = [27, 21.6];
                         sizeclass = "leaflet-div-icon1";
                     }
-                    var marker = new L.Marker(reconlatlng, {
-                        riseOnHover: false
-                    }).bindLabel('<span style="color:' + color + '">' + feature.properties.govname + '</span>');
 
 
-                    var colorclass;
-                    if (color === "#0000FF") {
-                        colorclass = "icon-blue";
-                    }
-                    if (color === "#FF0000") {
-                        colorclass = "icon-red";
-                    }
-                    if (color === "#008000") {
-                        colorclass = "icon-green";
-                    }
-                    if (color === "#800080") {
-                        colorclass = "icon-purple";
-                    }
 
-                    marker.setIcon(L.divIcon({
-                        "className": sizeclass + " " + colorclass,
-                        "html": icstyle,
-                        "iconSize": iconSize
-                    }));
 
-                    oms.addMarker(marker);
-                    marker.setZIndexOffset(stackchips[tv]); //reverse orders marker z-index
-                    return marker;
+
+                    var geojsonMarkerOptions = {
+                        radius: 6,
+                        fillColor: color,
+                        color: "#000",
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    };
+
+
+                    var a_marker = L.circleMarker(reconlatlng, geojsonMarkerOptions);
+
+
+                    markers.addLayer(a_marker);
+
+                    return a_marker;
+
                 }
 
-                function filterfeatures(feature, layer, inclusive, geofilter, programfilter) {
-                    var i;
-                    //quick filter by geography
-                    var validcapture = 0;
-                    for (i = 0; i < geofilter.length; i = i + 1) {
-                        if (feature.properties.lgtype === geofilter[i]) {
-                            validcapture = validcapture + 1;
-                        }
-                    }
-                    //inclusive or exclusive.  true for inclusive, false for exclusive
-                    //applies to geofilter.  inclusive is only those lgtypeids, exclusive is everything except those lgtypeids
-                    if (inclusive) {
-                        if (validcapture > 0) {
-                            //valid: continue
-                            var useless = null;
-                            useless = 1;
-                        } else {
-                            return false;
-                        }
-                    } else {
-                        if (validcapture > 0) {
-                            return false;
-                        } else {
-                            //valid continue
-                            var useless2 = null;
-                            useless2 = 2;
-                        }
-                    }
-                    //quick filter out if no projects
-                    if ((((feature.properties.projects.federal.cdbg).length) + ((feature.properties.projects.federal.csbg).length) + ((feature.properties.projects.state.eiaf).length) + ((feature.properties.projects.state.game).length) + ((feature.properties.projects.state.redi).length) + ((feature.properties.projects.formula.ctf).length) + ((feature.properties.projects.formula.fmldd).length) + ((feature.properties.projects.formula.fmlddsb106).length) + ((feature.properties.projects.formula.sevedd).length) + ((feature.properties.projects.special.ffb).length) + ((feature.properties.projects.special.sar).length) + ((feature.properties.projects.special.vfp).length)) === 0) {
-                        return false;
-                    }
-                    if (programfilter[0] === 1) {
-                        if ($('#cdbg').is(':checked')) {
-                            if (((feature.properties.projects.federal.cdbg).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.federal.cdbg).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        if ($('#csbg').is(':checked')) {
-                            if (((feature.properties.projects.federal.csbg).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.federal.csbg).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (programfilter[0] === 2) {
-                        if ($('#eiaf').is(':checked')) {
-                            if (((feature.properties.projects.state.eiaf).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.state.eiaf).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        if ($('#game').is(':checked')) {
-                            if (((feature.properties.projects.state.game).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.state.game).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        if ($('#redi').is(':checked')) {
-                            if (((feature.properties.projects.state.redi).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.state.redi).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (programfilter[0] === 3) {
-                        if ($('#ctf').is(':checked')) {
-                            if (((feature.properties.projects.formula.ctf).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.formula.ctf).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        if ($('#fmldd').is(':checked')) {
-                            if (((feature.properties.projects.formula.fmldd).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.formula.fmldd).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        if ($('#fmlddsb106').is(':checked')) {
-                            if (((feature.properties.projects.formula.fmlddsb106).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.formula.fmlddsb106).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        if ($('#sevedd').is(':checked')) {
-                            if (((feature.properties.projects.formula.sevedd).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.formula.sevedd).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (programfilter[0] === 4) {
-                        if ($('#ffb').is(':checked')) {
-                            if (((feature.properties.projects.special.ffb).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.special.ffb).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        if ($('#sar').is(':checked')) {
-                            if (((feature.properties.projects.special.sar).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.special.sar).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        if ($('#vfp').is(':checked')) {
-                            if (((feature.properties.projects.special.vfp).length) > 0) {
-                                for (i = 0; i < ((feature.properties.projects.special.vfp).length); i = i + 1) {
-                                    if ((new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) < maxdate) {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    return false;
+                function filterfeatures(feature, layer, inclusive, geofilter) {
+                    return true;
                 }
 
                 function onEach(feature, layer, programfilter, prefix) {
-                    var i;
-                    var csbg_temptotal = 0;
-                    var cdbg_temptotal = 0;
-                    var csbg_class = false;
-                    var cdbg_class = false;
-                    var eiaf_temptotal = 0;
-                    var game_temptotal = 0;
-                    var redi_temptotal = 0;
-                    var eiaf_class = false;
-                    var game_class = false;
-                    var redi_class = false;
-                    var ctf_temptotal = 0;
-                    var fmldd_temptotal = 0;
-                    var fmlddsb106_temptotal = 0;
-                    var sevedd_temptotal = 0;
-                    var ctf_class = false;
-                    var fmldd_class = false;
-                    var fmlddsb106_class = false;
-                    var sevedd_class = false;
-                    var ffb_temptotal = 0;
-                    var sar_temptotal = 0;
-                    var vfp_temptotal = 0;
-                    var ffb_class = false;
-                    var sar_class = false;
-                    var vfp_class = false;
-                    var vfptemptable = '';
-                    var sartemptable = '';
-                    var ffbtemptable = '';
-                    var seveddtemptable = '';
-                    var fmlddsb106temptable = '';
-                    var fmlddtemptable = '';
-                    var ctftemptable = '';
-                    var reditemptable = '';
-                    var gametemptable = '';
-                    var eiaftemptable = '';
-                    var cdbgtemptable = '';
-                    var csbgtemptable = '';
-                    if (programfilter[0] === 1) {
-                        //sum csbg for date range
-                        if ($('#csbg').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.federal.csbg).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    csbg_class = 'btn';
-                                    csbg_temptotal = csbg_temptotal + Number(feature.properties.projects.federal.csbg[i].award || 0);
-                                    csbgtemptable = csbgtemptable + "<tr><td>" + feature.properties.projects.federal.csbg[i].projname + "</td><td>" + feature.properties.projects.federal.csbg[i].served + "</td><td>" + feature.properties.projects.federal.csbg[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.csbg[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.federal.csbg[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                        //sum cdbg for date range
-                        if ($('#cdbg').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.federal.cdbg).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    cdbg_class = 'btn';
-                                    cdbg_temptotal = cdbg_temptotal + Number(feature.properties.projects.federal.cdbg[i].award || 0);
-                                    cdbgtemptable = cdbgtemptable + "<tr><td>" + feature.properties.projects.federal.cdbg[i].projname + "</td><td>" + feature.properties.projects.federal.cdbg[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.federal.cdbg[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.federal.cdbg[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                    }
-                    if (programfilter[0] === 2) {
-                        //sum eiaf for date range
-                        if ($('#eiaf').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.state.eiaf).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    eiaf_class = 'btn';
-                                    eiaf_temptotal = eiaf_temptotal + Number(feature.properties.projects.state.eiaf[i].award || 0);
-                                    eiaftemptable = eiaftemptable + "<tr><td>" + feature.properties.projects.state.eiaf[i].projname + "</td><td>" + feature.properties.projects.state.eiaf[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.eiaf[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.state.eiaf[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                        //sum game for date range
-                        if ($('#game').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.state.game).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    game_class = 'btn';
-                                    game_temptotal = game_temptotal + Number(feature.properties.projects.state.game[i].award || 0);
-                                    gametemptable = gametemptable + "<tr><td>" + feature.properties.projects.state.game[i].projname + "</td><td>" + feature.properties.projects.state.game[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.state.game[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.game[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.state.game[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                        //sum redi for date range
-                        if ($('#redi').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.state.redi).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    redi_class = 'btn';
-                                    redi_temptotal = redi_temptotal + Number(feature.properties.projects.state.redi[i].award || 0);
-                                    reditemptable = reditemptable + "<tr><td>" + feature.properties.projects.state.redi[i].projname + "</td><td>" + feature.properties.projects.state.redi[i].projectnmbr + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.state.redi[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.state.redi[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.state.redi[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                    }
-                    if (programfilter[0] === 3) {
-                        //sum ctf for date range
-                        if ($('#ctf').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.formula.ctf).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    ctf_class = 'btn';
-                                    ctf_temptotal = ctf_temptotal + Number(feature.properties.projects.formula.ctf[i].award || 0);
-                                    ctftemptable = ctftemptable + "<tr><td>" + feature.properties.projects.formula.ctf[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.ctf[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.ctf[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                        //sum fmldd for date range
-                        if ($('#fmldd').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.formula.fmldd).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    fmldd_class = 'btn';
-                                    fmldd_temptotal = fmldd_temptotal + Number(feature.properties.projects.formula.fmldd[i].award || 0);
-                                    fmlddtemptable = fmlddtemptable + "<tr><td>" + feature.properties.projects.formula.fmldd[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmldd[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.fmldd[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                        //sum fmlddsb106 for date range
-                        if ($('#fmlddsb106').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.formula.fmlddsb106).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    fmlddsb106_class = 'btn';
-                                    fmlddsb106_temptotal = fmlddsb106_temptotal + Number(feature.properties.projects.formula.fmlddsb106[i].award || 0);
-                                    fmlddsb106temptable = fmlddsb106temptable + "<tr><td>" + feature.properties.projects.formula.fmlddsb106[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.fmlddsb106[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.fmlddsb106[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                        //sum sevedd for date range
-                        if ($('#sevedd').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.formula.sevedd).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    sevedd_class = 'btn';
-                                    sevedd_temptotal = sevedd_temptotal + Number(feature.properties.projects.formula.sevedd[i].award || 0);
-                                    seveddtemptable = seveddtemptable + "<tr><td>" + feature.properties.projects.formula.sevedd[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.formula.sevedd[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.formula.sevedd[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                    }
-                    if (programfilter[0] === 4) {
-                        //sum ffb for date range
-                        if ($('#ffb').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.special.ffb).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    ffb_class = 'btn';
-                                    ffb_temptotal = ffb_temptotal + Number(feature.properties.projects.special.ffb[i].award || 0);
-                                    ffbtemptable = ffbtemptable + "<tr><td>" + feature.properties.projects.special.ffb[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.ffb[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.special.ffb[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                        //sum sar for date range
-                        if ($('#sar').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.special.sar).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    sar_class = 'btn';
-                                    sar_temptotal = sar_temptotal + Number(feature.properties.projects.special.sar[i].award || 0);
-                                    sartemptable = sartemptable + "<tr><td>" + feature.properties.projects.special.sar[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.special.sar[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.sar[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.special.sar[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                        //sum vfp for date range
-                        if ($('#vfp').is(':checked')) {
-                            for (i = 0; i < (feature.properties.projects.special.vfp).length; i = i + 1) {
-                                if ((new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) > mindate && (new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2])) < maxdate) {
-                                    vfp_class = 'btn';
-                                    vfp_temptotal = vfp_temptotal + Number(feature.properties.projects.special.vfp[i].award || 0);
-                                    vfptemptable = vfptemptable + "<tr><td>" + feature.properties.projects.special.vfp[i].projname + "</td><td>" + $.datepicker.formatDate("mm/dd/y", (new Date(((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[0] + " " + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[1] + " 20" + ((feature.properties.projects.special.vfp[i].dateofaward).split("-"))[2]))) + "</td><td align='right'>$" + (feature.properties.projects.special.vfp[i].award).formatMoney(0) + "</td></tr>";
-                                }
-                            }
-                        }
-                    }
-                    var programstring = "";
-                    if (csbg_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>Service Area</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + csbg_class + '">CSBG:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>Service Area</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + csbgtemptable + "</table>") + '</span></a>  $' + csbg_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (cdbg_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + cdbgtemptable + "</table>").replace(/'/g, "?") + '\');"  class="' + cdbg_class + '">CDBG:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + cdbgtemptable + "</table>") + '</span></a>  $' + cdbg_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (eiaf_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + eiaftemptable + "</table>").replace(/'/g, "?") + '\');" class="' + eiaf_class + '">EIAF:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + eiaftemptable + "</table>") + '</span></a>  $' + eiaf_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (game_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + gametemptable + "</table>").replace(/'/g, "?") + '\');" class="' + game_class + '">GAME:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + gametemptable + "</table>") + '</span></a>  $' + game_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (redi_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + reditemptable + "</table>").replace(/'/g, "?") + '\');" class="' + redi_class + '">REDI:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th align='center'>#</th><th>Date</th><th align='right'>Award</th></tr>" + reditemptable + "</table>") + '</span></a>  $' + redi_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (ctf_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ctftemptable + "</table>").replace(/'/g, "?") + '\');" class="' + ctf_class + '">CTF:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ctftemptable + "</table>") + '</span></a>  $' + ctf_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (fmldd_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + fmldd_class + '">FMLDD:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddtemptable + "</table>") + '</span></a>  $' + fmldd_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (fmlddsb106_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddsb106temptable + "</table>").replace(/'/g, "?") + '\');" class="' + fmlddsb106_class + '">FMLDDSB106:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + fmlddsb106temptable + "</table>") + '</span></a>  $' + fmlddsb106_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (sevedd_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + seveddtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + sevedd_class + '">SEVEDD:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + seveddtemptable + "</table>") + '</span></a>  $' + sevedd_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (ffb_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ffbtemptable + "</table>").replace(/'/g, "?") + '\');" class="' + ffb_class + '">FFB:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + ffbtemptable + "</table>") + '</span></a>  $' + ffb_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (sar_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + sartemptable + "</table>").replace(/'/g, "?") + '\');" class="' + sar_class + '">SAR:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + sartemptable + "</table>") + '</span></a>  $' + sar_temptotal.formatMoney(0) + '<br />';
-                    }
-                    if (vfp_class) {
-                        programstring = programstring + '<a href="#" onclick="popopen(\'' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + vfptemptable + "</table>").replace(/'/g, "?") + '\');" class="' + vfp_class + '">VFP:<span><img class="callout" src="css/images/callout.gif" />' + ("<table><tr><th align='left'>Project Name</th><th>Date</th><th align='right'>Award</th></tr>" + vfptemptable + "</table>") + '</span></a>  $' + vfp_temptotal.formatMoney(0) + '<br />';
-                    }
-                    var popuphtml = "<h3>" + feature.properties.govname + "</h3>" + "<i>" + prefix + "Awards<br />" + $.datepicker.formatDate("mm/dd/y", mindate) + " to " + $.datepicker.formatDate("mm/dd/y", maxdate) + "</i><br /><br />" + programstring;
-                    layer.desc = popuphtml;
-                    // layer.bindPopup(popuphtml);
+                    layer.desc = 'hi';
                 }
 
-                city_federal = L.geoJson(sumtotal, {
+                map_data = L.geoJson(sumtotal, {
                     filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [1]);
+                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"]);
                     },
                     pointToLayer: function(feature, latlng) {
                         return ptl(feature, latlng, "#0000FF", "city");
@@ -1138,207 +755,14 @@ function popopen(table) {
                         onEach(feature, layer, [1], "Federal ");
                     }
                 });
-                county_federal = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["1", "61", "70"], [1]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF", "county");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1], "Federal ");
-                    }
-                });
-                district_federal = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [1]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF", "district");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1], "Federal ");
-                    }
-                });
-                other_federal = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["100"], [1]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#0000FF", "other");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [1], "Federal ");
-                    }
-                });
-                //geojsonLayer
-                city_state = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [2]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000", "city");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [2], "State ");
-                    }
-                });
-                county_state = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["1", "61", "70"], [2]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000", "county");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [2], "State ");
-                    }
-                });
-                district_state = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [2]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000", "district");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [2], "State ");
-                    }
-                });
-                other_state = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["100"], [2]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#FF0000", "other");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [2], "State ");
-                    }
-                });
-                //geojsonLayer
-                city_formula = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [3]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000", "city");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [3], "Formula ");
-                    }
-                });
-                county_formula = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["1", "61", "70"], [3]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000", "county");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [3], "Formula ");
-                    }
-                });
-                district_formula = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [3]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000", "district");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [3], "Formula ");
-                    }
-                });
-                other_formula = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["100"], [3]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#008000", "other");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [3], "Formula ");
-                    }
-                });
-                //geojsonLayer
-                city_special = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["2", "3", "4", "5"], [4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080", "city");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [4], "Special ");
-                    }
-                });
-                county_special = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["1", "61", "70"], [4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080", "county");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [4], "Special ");
-                    }
-                });
-                district_special = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, false, ["1", "2", "3", "4", "5", "61", "70", "100"], [4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080", "district");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [4], "Special ");
-                    }
-                });
-                other_special = L.geoJson(sumtotal, {
-                    filter: function(feature, layer) {
-                        return filterfeatures(feature, layer, true, ["100"], [4]);
-                    },
-                    pointToLayer: function(feature, latlng) {
-                        return ptl(feature, latlng, "#800080", "other");
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEach(feature, layer, [4], "Special ");
-                    }
-                });
-                //var end = +new Date(); // log end timestamp
-                //var diff = end - start;
-                //console.log("build:" + diff);
-                //var start = +new Date(); // log start timestamp
-                if (city_flag === 1) {
-                    map.addLayer(city_formula);
-                    map.addLayer(city_special);
-                    map.addLayer(city_state);
-                    map.addLayer(city_federal);
-                }
-                if (county_flag === 1) {
-                    map.addLayer(county_formula);
-                    map.addLayer(county_special);
-                    map.addLayer(county_state);
-                    map.addLayer(county_federal);
-                }
-                if (district_flag === 1) {
-                    map.addLayer(district_formula);
-                    map.addLayer(district_special);
-                    map.addLayer(district_state);
-                    map.addLayer(district_federal);
-                }
-                if (other_flag === 1) {
-                    map.addLayer(other_formula);
-                    map.addLayer(other_special);
-                    map.addLayer(other_state);
-                    map.addLayer(other_federal);
-                }
-                //var end = +new Date(); // log end timestamp
-                //var diff = end - start;
-                //console.log("render:" + diff);
+
+
+
+                markers.addLayer(map_data);
+
             }
-            refreshdata();
-        } //end init
+
+            refreshdata(); //called once
+        } //end init  
     });
 }());
