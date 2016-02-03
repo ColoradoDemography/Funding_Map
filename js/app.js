@@ -59,7 +59,7 @@ function popopen(table) {
             var map_data = L.geoJson(null, {});
 
             var mbAttr = "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>",
-                mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ';
+                mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3RhdGVjb2RlbW9nIiwiYSI6Ikp0Sk1tSmsifQ.hl44-VjKTJNEP5pgDFcFPg';
 
             var classic = L.tileLayer(mbUrl, {
                 id: 'mapbox.streets-basic',
@@ -132,201 +132,202 @@ function popopen(table) {
                 });
             }).addTo(map); // probably just `map`
 
-            function field_onEachFeature(feature, layer) {
-                if (feature.properties && feature.properties.FieldReg_N) {
-                    layer.bindPopup(feature.properties.FieldReg_N + " Region");
-                }
-            }
+//             function field_onEachFeature(feature, layer) {
+//                 if (feature.properties && feature.properties.FieldReg_N) {
+//                     layer.bindPopup(feature.properties.FieldReg_N + " Region");
+//                 }
+//             }
 
-            function plan_onEachFeature(feature, layer) {
-                if (feature.properties && feature.properties.PlanRgn) {
-                    layer.bindPopup("Region " + feature.properties.PlanRgn);
-                }
-            }
+//             function plan_onEachFeature(feature, layer) {
+//                 if (feature.properties && feature.properties.PlanRgn) {
+//                     layer.bindPopup("Region " + feature.properties.PlanRgn);
+//                 }
+//             }
 
-            function score_onEachFeature(feature, layer) {
-                if (feature.properties && feature.properties.cnty) {
-                    layer.bindPopup("County: " + feature.properties.NAME + "<br />" + "Score: " + feature.properties.score);
-                }
-            }
+//             function score_onEachFeature(feature, layer) {
+//                 if (feature.properties && feature.properties.cnty) {
+//                     layer.bindPopup("County: " + feature.properties.NAME + "<br />" + "Score: " + feature.properties.score);
+//                 }
+//             }
 
-            function county_onEachFeature(feature, layer) {
-                if (feature.properties && feature.properties.NAME) {
-                    layer.bindPopup(feature.properties.NAME);
-                }
-            }
+//             function county_onEachFeature(feature, layer) {
+//                 if (feature.properties && feature.properties.NAME) {
+//                     layer.bindPopup(feature.properties.NAME);
+//                 }
+//             }
 
-            var field = new L.geoJson(null, {
+//             var field = new L.geoJson(null, {
 
-                style: function(feature) {
-                    switch (feature.properties.fieldreg) {
-                        case "sc":
-                            return {
-                                stroke: false,
-                                color: "rgb(102,237,100)"
-                            };
-                        case "sw":
-                            return {
-                                stroke: false,
-                                color: "rgb(176,118,79)"
-                            };
-                        case "se":
-                            return {
-                                stroke: false,
-                                color: "rgb(116,68,194)"
-                            };
-                        case "nw":
-                            return {
-                                stroke: false,
-                                color: "rgb(81,197,232)"
-                            };
-                        case "nm":
-                            return {
-                                stroke: false,
-                                color: "rgb(250,105,173)"
-                            };
-                        case "ne":
-                            return {
-                                stroke: false,
-                                color: "rgb(73,128,74)"
-                            };
-                        case "c":
-                            return {
-                                stroke: false,
-                                color: "rgb(255,255,115)"
-                            };
-                        case "nc":
-                            return {
-                                stroke: false,
-                                color: "rgb(47,80,130)"
-                            };
-                    }
-                },
-                onEachFeature: field_onEachFeature
-            });
+//                 style: function(feature) {
+//                     switch (feature.properties.fieldreg) {
+//                         case "sc":
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(102,237,100)"
+//                             };
+//                         case "sw":
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(176,118,79)"
+//                             };
+//                         case "se":
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(116,68,194)"
+//                             };
+//                         case "nw":
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(81,197,232)"
+//                             };
+//                         case "nm":
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(250,105,173)"
+//                             };
+//                         case "ne":
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(73,128,74)"
+//                             };
+//                         case "c":
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(255,255,115)"
+//                             };
+//                         case "nc":
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(47,80,130)"
+//                             };
+//                     }
+//                 },
+//                 onEachFeature: field_onEachFeature
+//             });
 
-            $.ajax({
+//             $.ajax({
 
-                dataType: "json",
-                url: "data/fieldregions.geojson",
-                success: function(data) {
-                    $(data.features).each(function(key, data) {
-                        field.addData(data);
-                    });
-                }
-            }).error(function() {});
-            var plan = new L.geoJson(null, {
-                style: function() { //feature
-                    return {
-                        weight: 2,
-                        color: "#000",
-                        fillOpacity: 0
-                    };
-                },
-                onEachFeature: plan_onEachFeature
-            });
+//                 dataType: "json",
+//                 url: "data/fieldregions.geojson",
+//                 success: function(data) {
+//                     $(data.features).each(function(key, data) {
+//                         field.addData(data);
+//                     });
+//                 }
+//             }).error(function() {});
+          
+//             var plan = new L.geoJson(null, {
+//                 style: function() { //feature
+//                     return {
+//                         weight: 2,
+//                         color: "#000",
+//                         fillOpacity: 0
+//                     };
+//                 },
+//                 onEachFeature: plan_onEachFeature
+//             });
 
-            $.ajax({
+//             $.ajax({
 
-                dataType: "json",
-                url: "data/planningregions.geojson",
-                success: function(data) {
-                    $(data.features).each(function(key, data) {
-                        plan.addData(data);
-                    });
-                }
-            }).error(function() {});
-            var coutline = new L.geoJson(null, {
-                style: function() { //feature
-                    return {
-                        weight: 1,
-                        color: "#444",
-                        fillOpacity: 0
-                    };
-                },
-                onEachFeature: county_onEachFeature
-            }).addTo(map);
+//                 dataType: "json",
+//                 url: "data/planningregions.geojson",
+//                 success: function(data) {
+//                     $(data.features).each(function(key, data) {
+//                         plan.addData(data);
+//                     });
+//                 }
+//             }).error(function() {});
+//             var coutline = new L.geoJson(null, {
+//                 style: function() { //feature
+//                     return {
+//                         weight: 1,
+//                         color: "#444",
+//                         fillOpacity: 0
+//                     };
+//                 },
+//                 onEachFeature: county_onEachFeature
+//             }).addTo(map);
 
-            $.ajax({
-                dataType: "json",
-                url: "data/counties.geojson",
-                success: function(data) {
-                    $(data.features).each(function(key, data) {
-                        coutline.addData(data);
-                    });
-                }
-            }).error(function() {});
+//             $.ajax({
+//                 dataType: "json",
+//                 url: "data/counties.geojson",
+//                 success: function(data) {
+//                     $(data.features).each(function(key, data) {
+//                         coutline.addData(data);
+//                     });
+//                 }
+//             }).error(function() {});
 
-            var score = new L.geoJson(null, {
+//             var score = new L.geoJson(null, {
 
-                style: function(feature) {
+//                 style: function(feature) {
 
-                    switch (feature.properties.score) {
-                        case 3:
-                            return {
-                                stroke: false,
-                                color: "rgb(255,255,128)"
-                            };
-                        case 4:
-                            return {
-                                stroke: false,
-                                color: "rgb(250,209,85)"
-                            };
-                        case 5:
-                            return {
-                                stroke: false,
-                                color: "rgb(250,209,85)"
-                            };
-                        case 6:
-                            return {
-                                stroke: false,
-                                color: "rgb(242,167,46)"
-                            };
-                        case 7:
-                            return {
-                                stroke: false,
-                                color: "rgb(173,83,19)"
-                            };
-                        case 8:
-                            return {
-                                stroke: false,
-                                color: "rgb(173,83,19)"
-                            };
-                        case 9:
-                            return {
-                                stroke: false,
-                                color: "rgb(107,0,0)"
-                            };
-                        case 10:
-                            return {
-                                stroke: false,
-                                color: "rgb(107,0,0)"
-                            };
-                    }
-                },
-                onEachFeature: score_onEachFeature
-            });
+//                     switch (feature.properties.score) {
+//                         case 3:
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(255,255,128)"
+//                             };
+//                         case 4:
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(250,209,85)"
+//                             };
+//                         case 5:
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(250,209,85)"
+//                             };
+//                         case 6:
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(242,167,46)"
+//                             };
+//                         case 7:
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(173,83,19)"
+//                             };
+//                         case 8:
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(173,83,19)"
+//                             };
+//                         case 9:
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(107,0,0)"
+//                             };
+//                         case 10:
+//                             return {
+//                                 stroke: false,
+//                                 color: "rgb(107,0,0)"
+//                             };
+//                     }
+//                 },
+//                 onEachFeature: score_onEachFeature
+//             });
 
-            $.ajax({
-                dataType: "json",
-                url: "data/counties.geojson",
-                success: function(data) {
-                    $(data.features).each(function(key, data) {
-                        score.addData(data);
-                    });
-                }
-            }).error(function() {});
+//             $.ajax({
+//                 dataType: "json",
+//                 url: "data/counties.geojson",
+//                 success: function(data) {
+//                     $(data.features).each(function(key, data) {
+//                         score.addData(data);
+//                     });
+//                 }
+//             }).error(function() {});
 
             var overlays = {
-                "Impact Score": score,
+                /*"Impact Score": score,
                 "Field Regions": field,
-                "Planning Regions": plan
+                "Planning Regions": plan*/
             };
 
             var basemaps = {
-                "Mapbox Emerald": emerald,
+               /* "Mapbox Emerald": emerald,
                 "Mapquest": mapquestOSM,
-                "Mapbox Streets": classic
+                "Mapbox Streets": classic*/
             };
 
             L.control.layers(basemaps, overlays).addTo(map);
@@ -723,12 +724,12 @@ function popopen(table) {
                         color: "#000",
                         weight: 1,
                         opacity: 1,
-                        fillOpacity: 0.8
+                        fillOpacity: 0.8,
+                        zIndexOffset: stackchips[tv]
                     };
 
 
                     var a_marker = L.circleMarker(reconlatlng, geojsonMarkerOptions);
-
 
                     markers.addLayer(a_marker);
 

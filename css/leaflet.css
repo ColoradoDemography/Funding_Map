@@ -182,11 +182,11 @@
 
 .leaflet-interactive {
 	cursor: pointer;
-	}
+	}/*
 .leaflet-grab {
 	cursor: -webkit-grab;
 	cursor:    -moz-grab;
-	}
+	}*/
 .leaflet-crosshair,
 .leaflet-crosshair .leaflet-interactive {
 	cursor: crosshair;
