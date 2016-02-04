@@ -42,7 +42,7 @@
 <script>
   
   var map;
-  
+  var indexnum=0;
   function popopen(table) {
     'use strict';
 
@@ -57,13 +57,49 @@
     'use strict';
     var searchstring = [];
 
-
+    
     $(document).ready(function() {
       
-               var basedate = new Date("01-01-2000");    
-              var mindate = new Date("Thu Jan 01 2014 00:00:00 GMT-0700");
-            var maxdate = new Date("Thu Jan 01 2016 00:00:00 GMT-0700");
+               var basedate = new Date("2000,1,1");    
+              var mindate = new Date("2014,1,1");
+            var maxdate = new Date("2016,1,1");
 
+      
+      
+          function valueize(d){
+      //sort by lgid, program, by date
+      //integer value for lgid plus hundredths for program plus thousands for date
+      //sorted by lgid so no overlaps between chip stacks
+      //TODO edge case remove alphachars from csbg
+      //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG", "DR"];
+      
+      
+      var start=parseFloat(d.lgid);
+
+    if(d.program==="FML"){start = start + .18;}
+    if(d.program==="CTF"){start = start + .19;}
+    if(d.program==="SEV_DIST"){start = start + .17;}
+    if(d.program==="CSBG"){start = start + .13;}
+    if(d.program==="CDBG"){start = start + .12;}
+    if(d.program==="EIAF"){start = start + .09;}
+    if(d.program==="GAME"){start = start + .10;}
+    if(d.program==="REDI"){start = start + .11;}
+    if(d.program==="VFP"){start = start + .15;}
+    if(d.program==="SAR"){start = start + .14;}
+    if(d.program==="FFB"){start = start + .16;}  
+      
+function daydiff(second) {
+    return Math.round((second-basedate)/(1000*60*60*24));
+}
+
+    start = start + ((daydiff(new Date(d.dateofaward)))/10000000)
+      
+    
+
+    return start;
+  }    
+    
+      
               var mbAttr = "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>",
                 mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3RhdGVjb2RlbW9nIiwiYSI6Ikp0Sk1tSmsifQ.hl44-VjKTJNEP5pgDFcFPg';
 
@@ -372,7 +408,7 @@
            
             $("#slider").dateRangeSlider({
                 bounds: {
-                    min: new Date("Thu Jan 01 2012 00:00:00 GMT-0700"),
+                    min: new Date("2012,1,1"),
                     max: maxdate
                 },
                 defaultValues: {
@@ -501,68 +537,135 @@
                 // Do something
             });
 
+      var cdbg_flag=1;
+      var csbg_flag=1;
+      var eiaf_flag=1;
+      var game_flag=1;      
+ 
+      var redi_flag=1;
+      var ctf_flag=1;
+      var fmldd_flag=1;
+      var fmlddsb106_flag=1;    
+
+      var sevedd_flag=1;
+      var ffb_flag=1;
+      var sar_flag=1;
+      var vfp_flag=1;    
+      
             function click_cdbg() {
-                //console.log('click cdbg');
+                if ($('#cdbg').is(':checked')) {
+                    cdbg_flag = 1;
+                } else {
+                    cdbg_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_csbg() {
-                //console.log('click csbg');
+                if ($('#csbg').is(':checked')) {
+                    csbg_flag = 1;
+                } else {
+                    csbg_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_eiaf() {
-                //console.log('click eiaf');
+                if ($('#eiaf').is(':checked')) {
+                    eiaf_flag = 1;
+                } else {
+                    eiaf_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_game() {
-                //console.log('click game');
+                if ($('#game').is(':checked')) {
+                    game_flag = 1;
+                } else {
+                    game_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_redi() {
-                //console.log('click redi');
+                if ($('#redi').is(':checked')) {
+                    redi_flag = 1;
+                } else {
+                    redi_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_ctf() {
-                //console.log('click ctf');
+                if ($('#ctf').is(':checked')) {
+                    ctf_flag = 1;
+                } else {
+                    ctf_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_fmldd() {
-                //console.log('click fmldd');
+                if ($('#fmldd').is(':checked')) {
+                    fmldd_flag = 1;
+                } else {
+                    fmldd_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_fmlddsb106() {
-                //console.log('click fmlddsb106');
+                if ($('#fmlddsb106').is(':checked')) {
+                    fmlddsb106_flag = 1;
+                } else {
+                    fmlddsb106_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_sevedd() {
-                //console.log('click sevedd');
+                if ($('#sevedd').is(':checked')) {
+                    sevedd_flag = 1;
+                } else {
+                    sevedd_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_ffb() {
-                //console.log('click ffb');
+                if ($('#ffb').is(':checked')) {
+                    ffb_flag = 1;
+                } else {
+                    ffb_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_sar() {
-                //console.log('click sar');
+                if ($('#sar').is(':checked')) {
+                    sar_flag = 1;
+                } else {
+                    sar_flag = 0;
+                }
                 refreshdata();
             }
 
             function click_vfp() {
-                //console.log('click vfp');
+                if ($('#vfp').is(':checked')) {
+                    vfp_flag = 1;
+                } else {
+                    vfp_flag = 0;
+                }
                 refreshdata();
             }
 
+      var city_flag=1;
+      var county_flag=1;
+      var district_flag=1;
+      var other_flag=1;
+      
             function click_city() {
-                //console.log('click city');
                 if ($('#city').is(':checked')) {
                     city_flag = 1;
                 } else {
@@ -572,7 +675,6 @@
             }
 
             function click_county() {
-                //console.log('click county');
                 if ($('#county').is(':checked')) {
                     county_flag = 1;
                 } else {
@@ -582,7 +684,6 @@
             }
 
             function click_district() {
-                //console.log('click district');
                 if ($('#district').is(':checked')) {
                     district_flag = 1;
                 } else {
@@ -592,7 +693,6 @@
             }
 
             function click_other() {
-                //console.log('click other');
                 if ($('#other').is(':checked')) {
                     other_flag = 1;
                 } else {
@@ -643,8 +743,14 @@
     .style("visibility", "hidden")
     .text("a simple tooltip");
   
+
+  var key = function(d){return d.id;}
+
+var csvdatacopy=[];
 var cities = [];
-var citiesOverlay = L.d3SvgOverlay(function(sel,proj){
+      
+      
+  var citiesOverlay = L.d3SvgOverlay(function(sel,proj){
 	 
   function getcolor(program){
      //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG"];
@@ -654,10 +760,11 @@ var citiesOverlay = L.d3SvgOverlay(function(sel,proj){
     if(program==="VFP" || program==="SAR" || program==="FFB"){return "purple";}    
     return "black";
   }
-  
+    
 
 
-  var citiesUpd = sel.selectAll('circle').data(cities);
+  var citiesUpd = sel.selectAll('circle').data(cities, key);
+    
   citiesUpd.enter()
     .append('circle')
     .attr('r', 0.8)
@@ -676,70 +783,141 @@ var citiesOverlay = L.d3SvgOverlay(function(sel,proj){
       content: "data"
     })
     ;});
+    
+    
+    	//move all circles	
+	citiesUpd.transition()
+	.duration(0)
+	.ease("linear")
+    .attr('cx',function(d){return proj.latLngToLayerPoint(d.latLng).x;})
+    .attr('cy',function(d){return proj.latLngToLayerPoint(d.latLng).y;})
+      .attr('fill',function(d){return getcolor(d.program);});
   
-    //.on('click', function(d){console.log(d.program);});
+      citiesUpd.exit().remove();
+    
+    
+    citiesUpd.order();
+    
 });
+      
+      var didit=0;
+      
+
+  
+  
+     
+d3.csv("../CO_Grants_Data/grantpts.csv",function(data){
+
+
   
   var stackchips=[];
-
-d3.csv("../CO_Grants_Data/grantpts.csv",function(data){
-  console.log(data);
-  
-    function valueize(d){
-      //sort by lgid, program, by date
-      //integer value for lgid plus hundredths for program plus thousands for date
-      //sorted by lgid so no overlaps between chip stacks
-      //TODO edge case remove alphachars from csbg
-      //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG", "DR"];
-      
-      
-      var start=parseFloat(d.lgid);
-
-    if(d.program==="FML"){start = start + .18;}
-    if(d.program==="CTF"){start = start + .19;}
-    if(d.program==="SEV_DIST"){start = start + .17;}
-    if(d.program==="CSBG"){start = start + .13;}
-    if(d.program==="CDBG"){start = start + .12;}
-    if(d.program==="EIAF"){start = start + .09;}
-    if(d.program==="GAME"){start = start + .10;}
-    if(d.program==="REDI"){start = start + .11;}
-    if(d.program==="VFP"){start = start + .15;}
-    if(d.program==="SAR"){start = start + .14;}
-    if(d.program==="FFB"){start = start + .16;}  
-      
-function daydiff(second) {
-    return Math.round((second-basedate)/(1000*60*60*24));
-}
-
-    start = start + ((daydiff(new Date(d.dateofaward)))/10000000)
-      
-    return start;
-  }
-  
-  data.sort(function(a,b) {return valueize(b)-valueize(a);});
-  
-  cities = data.map(function(d){
+ var v1 = data.map(function(d){
                     var tv = d.lgid;
-    
                     if (stackchips.hasOwnProperty(tv)) {
                         stackchips[tv]++;
                     } else {
                         stackchips[tv] = 0;
                     }
-
                     var rlat = (parseFloat(d.latitude) + (.002 * stackchips[tv]));
                     var rlng = d.longitude;
                     d.latLng = [rlat,rlng];
-    
+        d.id = valueize(d) + (.000001 * stackchips[tv]);
+       
+    if(didit<50){
+      console.log(stackchips[tv]);
+      console.log(d.id);
+      didit++;
+    }
+
+   
     return d;
-    
-    
   });
-  citiesOverlay.addTo(map);
-});
+  
+
+        var cities = v1.sort(function (a, b) {
+      if (a.id < b.id){
+        return 1;   
+      }else{
+        return -1; 
+      }
+  });
+  
+      csvdatacopy=cities;
+  
+  map.addLayer(citiesOverlay);
+  
+  refreshdata();
+}); //end d3.csv
       
-    });
-}());
+function refreshdata(){
+
+  
+  //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG", "DR"];
+  //filter out by returning false
+  //return true to keep
+  var v1 = csvdatacopy.filter(function(d) {
+    
+    //filter program
+   if(d.program==="FML" && fmldd_flag===0){return false;}
+   if(d.program==="SEV_DIST" && sevedd_flag===0){return false;}    
+   if(d.program==="VFP" && vfp_flag===0){return false;}    
+   if(d.program==="CTF" && ctf_flag===0){return false;}   
+    
+   if(d.program==="SAR" && sar_flag===0){return false;}
+   if(d.program==="FFB" && ffb_flag===0){return false;}    
+   if(d.program==="EIAF" && eiaf_flag===0){return false;}    
+   if(d.program==="GAME" && game_flag===0){return false;}  
+    
+   if(d.program==="REDI" && redi_flag===0){return false;}
+   if(d.program==="CSBG" && csbg_flag===0){return false;}    
+   if(d.program==="CDBG" && cdbg_flag===0){return false;}    
+   if(d.program==="FMLDDSB106" && fmlddsb106_flag===0){return false;}    
+
+    //filter geo
+   if((d.lgtype==="2" || d.lgtype==="3" || d.lgtype==="4" || d.lgtype==="5") && city_flag===0){return false;}
+   if((d.lgtype==="1" || d.lgtype==="61" || d.lgtype==="70") && county_flag===0){return false;}    
+   if((d.lgtype!=="1" && d.lgtype!=="2" && d.lgtype!=="3" && d.lgtype!=="4" && d.lgtype!=="5" && d.lgtype!=="61" && d.lgtype!=="70" && d.lgtype!=="100") && district_flag===0){return false;}    
+   if((d.lgtype==="100") && other_flag===0){return false;}    
+    
+    //filter date
+    if ((new Date(((d.dateofaward).split("-"))[0] + " " + ((d.dateofaward).split("-"))[1] + " 20" + ((d.dateofaward).split("-"))[2])) < mindate || (new Date(((d.dateofaward).split("-"))[0] + " " + ((d.dateofaward).split("-"))[1] + " 20" + ((d.dateofaward).split("-"))[2])) > maxdate){return false;}
+    
+  return true;
+  });
+  
+  
+    var stackchips=[];
+ cities = v1.map(function(d){
+                    var tv = d.lgid;
+                    if (stackchips.hasOwnProperty(tv)) {
+                        stackchips[tv]++;
+                    } else {
+                        stackchips[tv] = 0;
+                    }
+                    var rlat = (parseFloat(d.latitude) + (.002 * stackchips[tv]));
+                    var rlng = d.longitude;
+                    d.latLng = [rlat,rlng];
+        d.id = valueize(d) + (.000001 * stackchips[tv]);
+       
+    if(didit<50){
+      console.log(stackchips[tv]);
+      console.log(d.id);
+      didit++;
+    }
+
+   
+    return d;
+  });
+
+map.fireEvent('zoomend', { }); //lol, hack to refresh
+  
+}
+        
+
+      
+      
+    }); //end $ document
+}());  //end module
 
 </script>
     
