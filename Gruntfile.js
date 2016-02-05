@@ -12,6 +12,7 @@ module.exports = function(grunt) {
         jsbeautifier: {
             files: ['js/app.js', 'Gruntfile.js'],
             options: {}
+<<<<<<< HEAD
         },
 
         prettify: {
@@ -26,17 +27,26 @@ module.exports = function(grunt) {
                     'index.html': ['index.html']
                 }
             }
+=======
+>>>>>>> simplified
         }
 
     });
 
+<<<<<<< HEAD
 
     grunt.loadNpmTasks('grunt-prettify');
+=======
+>>>>>>> simplified
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks("grunt-jsbeautifier");
 
-    //grunt.registerTask('default', ['cssmin']);
     grunt.registerTask('default', ['watch']);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> simplified
 };

@@ -386,6 +386,24 @@
               $('.sl').width((browserwidth - 100) + "px");
           });
 
+<<<<<<< HEAD
+=======
+          $("#slider").dateRangeSlider({
+              bounds: {
+                  min: new Date("2012,1,1"),
+                  max: maxdate
+              },
+              defaultValues: {
+                  min: mindate,
+                  max: maxdate
+              }
+          });
+          $("#slider").bind("valuesChanged", function(e, data) {
+              mindate = data.values.min;
+              maxdate = data.values.max;
+              refreshdata();
+          });
+>>>>>>> simplified
 
 
           //Custom Title Control
@@ -410,6 +428,7 @@
           command.addTo(map);
           $(".command").tabs();
 
+<<<<<<< HEAD
           $("#slider").dateRangeSlider({
               bounds: {
                   min: new Date("2012,1,1"),
@@ -426,6 +445,8 @@
               refreshdata();
           });
 
+=======
+>>>>>>> simplified
           var substringMatcher = function(strs) {
               return function findMatches(q, cb) {
                   var matches;
@@ -803,9 +824,17 @@
 
           });
 
+<<<<<<< HEAD
 
 
           var didit = 0;
+=======
+          var didit = 0;
+
+
+
+
+>>>>>>> simplified
 
           d3.csv("../CO_Grants_Data/grantpts.csv", function(data) {
 
@@ -824,7 +853,11 @@
                   d.latLng = [rlat, rlng];
                   d.id = valueize(d) + (0.000001 * stackchips[tv]);
 
+<<<<<<< HEAD
                   if (didit < 5) {
+=======
+                  if (didit < 50) {
+>>>>>>> simplified
                       console.log(stackchips[tv]);
                       console.log(d.id);
                       didit++;
@@ -934,6 +967,15 @@
                   d.latLng = [rlat, rlng];
                   d.id = valueize(d) + (0.000001 * stackchips[tv]);
 
+<<<<<<< HEAD
+=======
+                  if (didit < 50) {
+                      console.log(stackchips[tv]);
+                      console.log(d.id);
+                      didit++;
+                  }
+
+>>>>>>> simplified
 
                   return d;
               });
