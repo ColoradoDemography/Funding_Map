@@ -4,8 +4,8 @@ node_js:
 
 
 before_script:
-  - npm install -g gulp
-script: gulp
+  - npm install -g grunt
+script: grunt jshint
 
 # Disable email notifications
 notifications:  
