@@ -1,14 +1,4 @@
   var map;
-  var indexnum = 0;
-
-  function popopen(table) {
-      'use strict';
-
-      map.openModal({
-          content: table.replace(/\?/g, "'")
-      });
-
-  }
 
   (function() {
 
@@ -18,12 +8,18 @@
 
       $(document).ready(function() {
 
+
+
           var basedate = new Date("2000,1,1");
           var mindate = new Date("2014,1,1");
           var maxdate = new Date("2016,1,1");
 
 
-
+          /**
+           * This function sorts chips.
+           * @param {Object} d any chip
+           * @returns {number} a numerical value indicating the sorting value of the chip.
+           */
           function valueize(d) {
               //sort by lgid, program, by date
               //integer value for lgid plus hundredths for program plus thousands for date
@@ -110,7 +106,7 @@
 
           L.Control.Command = L.Control.extend({
               options: {
-                  position: 'topright',
+                  position: 'topright'
               },
               onAdd: function() {
                   var opt2div = L.DomUtil.create('div', '');
@@ -152,6 +148,12 @@
               });
           }).addTo(map); // probably just `map`
 
+          /**
+           * This function creates a popup when a field region is clicked.
+           * @param {Object} feature the individual feature that was clicked on
+           * @param {Object} layer the layer that the feature belongs to           
+           * @returns {undefined} no return value.
+           */
           function field_onEachFeature(feature, layer) {
               if (feature.properties && feature.properties.FieldReg_N) {
                   layer.bindPopup(feature.properties.FieldReg_N + " Region");
@@ -468,10 +470,10 @@
                   //console.log('autocomplete');
                   searchresult(datum);
               });
-              $('.typeahead').bind('typeahead:select', function(ev, suggestion) {
+              /*$('.typeahead').bind('typeahead:select', function(ev, suggestion) {
                   console.log('ev: ' + ev);
                   console.log('Selection: ' + suggestion);
-              });
+              });*/
               //dropdown suggestions default to hidden.  
               $('.tt-menu').css("visibility", "hidden");
               //if textbox is cleared, dropdown suggestions become hidden again
@@ -489,9 +491,9 @@
               var latlng = null;
               for (var m = 0; m < searchstring.length; m = m + 1) {
                   if (result.value === searchstring[m]) {
-                      //console.log('hit');
-                      //console.log(coordinates[m]);
-                      latlng = L.latLng(coordinates[m][1], coordinates[m][0]);
+                      /*console.log('hit');
+                      console.log(coordinates[m]);
+                      latlng = L.latLng(coordinates[m][1], coordinates[m][0]);*/
                   }
               }
               map.setView(latlng, 12);
@@ -696,18 +698,23 @@
 
 
 
-          /* jshint ignore:start */
-          Number.prototype.formatMoney = function(c, d, t) {
+
+          Number.prototype.formatMoney = function(cc, dd, tt) {
               var n = this,
-                  c = isNaN(c = Math.abs(c)) ? 2 : c,
-                  d = d == undefined ? "." : d,
-                  t = t == undefined ? "," : t,
+                  c = isNaN(cc = Math.abs(cc)) ? 2 : cc,
+                  d = dd == undefined ? "." : dd,
+                  t = tt == undefined ? "," : tt,
                   s = n < 0 ? "-" : "",
                   i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
                   j = (j = i.length) > 3 ? j % 3 : 0;
+
               return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
           };
-          /* jshint ignore:end */
+
+
+
+
+
 
 
           var tooltip = d3.select("body")
@@ -745,7 +752,7 @@
                   if (program === "VFP" || program === "SAR" || program === "FFB") {
                       return "purple";
                   }
-                  return "black";
+                  return "grey";
               }
 
 
@@ -780,7 +787,7 @@
                   })
                   .on("click", function(d) {
                       map.openModal({
-                          content: "data"
+                          content: "data: " + d.toString()
                       });
                   });
 
@@ -807,15 +814,12 @@
           });
 
 
-          var didit = 0;
-
 
           d3.csv("../CO_Grants_Data/grantpts.csv", function(data) {
 
 
-
               var stackchips = [];
-              var v1 = data.map(function(d) {
+              var v1 = data.map(d => {
                   var tv = d.lgid;
                   if (stackchips.hasOwnProperty(tv)) {
                       stackchips[tv]++;
@@ -826,15 +830,6 @@
                   var rlng = d.longitude;
                   d.latLng = [rlat, rlng];
                   d.id = valueize(d) + (0.000001 * stackchips[tv]);
-
-
-                  if (didit < 5) {
-
-                      console.log(stackchips[tv]);
-                      console.log(d.id);
-                      didit++;
-                  }
-
 
                   return d;
               });

@@ -1,26 +1,52 @@
 module.exports = function(grunt) {
 
+    require("load-grunt-tasks")(grunt); // npm install --save-dev load-grunt-tasks
+
+
     grunt.initConfig({
 
         watch: {
-            files: ['js/app.js', 'Gruntfile.js', 'index.html'],
-            tasks: ['jshint', 'jsbeautifier']
+            files: ['js/app.js', 'Gruntfile.js', 'index.html', 'package.json'],
+            tasks: ['eslint', 'jsbeautifier', 'documentation']
         },
 
-        jshint: ['js/app.js', 'Gruntfile.js'],
+        eslint: {
+            target: ['js/app.js', 'Gruntfile.js']
+        },
 
         jsbeautifier: {
-            files: ['js/app.js', 'Gruntfile.js'],
+            files: ['js/app.js', 'Gruntfile.js', 'package.json'],
             options: {}
 
+        },
+
+        babel: {
+            options: {
+                sourceMap: true
+            },
+            dist: {
+                files: {
+                    "src/app.js": "js/app.js"
+                }
+            }
+        },
+
+        documentation: {
+            default: {
+                files: [{
+                    "expand": true,
+                    "cwd": "",
+                    "src": ["js/app.js"]
+                }],
+                options: {
+                    destination: "docs",
+                    format: "md"
+                }
+            }
         }
 
     });
 
-
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks("grunt-jsbeautifier");
 
     grunt.registerTask('default', ['watch']);
 
