@@ -1,3 +1,5 @@
-/img
+/dest/*
 /node_modules
-/build
+stats.json
+grantpts.csv
+

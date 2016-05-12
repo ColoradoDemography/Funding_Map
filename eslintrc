@@ -1,0 +1,19 @@
+{
+    "extends": "eslint:recommended",
+    "env": {
+      "browser": true,
+      "node": true,
+      "jquery": true,
+      "es6": true
+    },
+    "parserOptions": {
+      ecmaVersion: 6
+    },
+    "globals": {
+      "L": false,
+      "d3": false
+    },
+    "rules": {
+      "no-console": 0
+    }
+}

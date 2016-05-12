@@ -1,7 +1,0 @@
-{
-	"indentChar": "\t",
-	"indentSize": 1,
-	"breakChainedMethods": false,
-  "preserveNewlines": true,
-  "maxPreserveNewlines": 2
-}
