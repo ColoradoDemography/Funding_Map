@@ -1,5 +1,7 @@
-module.exports = function filter_prog_geo_date(d, flags, mindate, maxdate) {
+module.exports = function filter_prog_geo_date(d, flags, daterange) {
  'use strict';
+  
+  
     //filter program
     if (d.program === "FML" && flags.fmldd_flag === 0) {
         return false;
@@ -55,7 +57,7 @@ module.exports = function filter_prog_geo_date(d, flags, mindate, maxdate) {
     }
 
     //filter date
-    if ((new Date(((d.dateofaward).split("-"))[0] + " " + ((d.dateofaward).split("-"))[1] + " 20" + ((d.dateofaward).split("-"))[2])) < mindate || (new Date(((d.dateofaward).split("-"))[0] + " " + ((d.dateofaward).split("-"))[1] + " 20" + ((d.dateofaward).split("-"))[2])) > maxdate) {
+    if ((new Date(((d.dateofaward).split("-"))[0] + " " + ((d.dateofaward).split("-"))[1] + " 20" + ((d.dateofaward).split("-"))[2])) < daterange.mindate || (new Date(((d.dateofaward).split("-"))[0] + " " + ((d.dateofaward).split("-"))[1] + " 20" + ((d.dateofaward).split("-"))[2])) > daterange.maxdate) {
         return false;
     }
 
