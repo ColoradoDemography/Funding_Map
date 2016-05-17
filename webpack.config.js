@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 webpack.optimize.UglifyJsPlugin({ output: {comments: false} });
+var FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
 
 module.exports = {
     entry:  {
@@ -47,11 +48,11 @@ module.exports = {
                 warnings: false
             }
         }),
-    new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"vendor.bundle.js")
+    new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"vendor.bundle.js"),
+    new FlowStatusWebpackPlugin()
     ],
-  
 eslint: {  
-    configFile: 'eslintrc'
+    configFile: '.eslintrc'
 }
 
 };

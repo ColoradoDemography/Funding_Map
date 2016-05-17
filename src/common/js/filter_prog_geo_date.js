@@ -1,7 +1,7 @@
 module.exports = function filter_prog_geo_date(d, flags, daterange) {
- 'use strict';
-  
-  
+    'use strict';
+
+
     //filter program
     if (d.program === "FML" && flags.fmldd_flag === 0) {
         return false;

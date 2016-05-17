@@ -1,29 +1,27 @@
-module.exports = function(data){
-   'use strict';
+module.exports = function(data) {
+    'use strict';
 
-  
-  var basedate = new Date("2000,1,1");
-  var stackchips=[];
-  
-  var cities = data.map(function(d) {
-                 var tv = d.lgid;
-                 if (stackchips.hasOwnProperty(tv)) {
-                     stackchips[tv]++;
-                 } else {
-                     stackchips[tv] = 0;
-                 }
-                 var rlat = (parseFloat(d.latitude) + (0.002 * stackchips[tv]));
-                 var rlng = d.longitude;
-                 d.latLng = [rlat, rlng];
-                 d.id = valueize(d, basedate) + (0.000001 * stackchips[tv]);
+    var basedate = new Date("2000,1,1");
+    var stackchips = [];
 
-                 return d;
-             });
-  
-  return cities;
-  
+    var cities = data.map(function(d) {
+        var tv = d.lgid;
+        if (stackchips.hasOwnProperty(tv)) {
+            stackchips[tv]++;
+        } else {
+            stackchips[tv] = 0;
+        }
+        var rlat = (parseFloat(d.latitude) + (0.002 * stackchips[tv]));
+        var rlng = d.longitude;
+        d.latLng = [rlat, rlng];
+        d.id = valueize(d, basedate) + (0.000001 * stackchips[tv]);
+
+        return d;
+    });
+
+    return cities;
+
 };
-
 
 /**
  * This function sorts chips.
@@ -31,7 +29,7 @@ module.exports = function(data){
  * @returns {number} a numerical value indicating the sorting value of the chip.
  */
 function valueize(d, basedate) {
- 'use strict';
+    'use strict';
     //sort by lgid, program, by date
     //integer value for lgid plus hundredths for program plus thousands for date
     //sorted by lgid so no overlaps between chip stacks

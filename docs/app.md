@@ -1,6 +1,6 @@
 # field_onEachFeature
 
-[src/common/js/app.js:106-110](https://github.com/royhobbstn/CO_Grants/blob/0a22e0d4ac094c4c22d9c2f32484126384dcb0e8/src/common/js/app.js#L106-L110 "Source code on GitHub")
+[src/common/js/geojson_layers.js:10-14](https://github.com/royhobbstn/CO_Grants/blob/d10c321e6c7e8689b259f0f63eed8d46b74fe102/src/common/js/geojson_layers.js#L10-L14 "Source code on GitHub")
 
 This function creates a popup when a field region is clicked.
 
@@ -13,7 +13,7 @@ Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Re
 
 # valueize
 
-[src/common/js/valueize.js:7-61](https://github.com/royhobbstn/CO_Grants/blob/0a22e0d4ac094c4c22d9c2f32484126384dcb0e8/src/common/js/valueize.js#L7-L61 "Source code on GitHub")
+[src/common/js/stack_chips.js:34-85](https://github.com/royhobbstn/CO_Grants/blob/d10c321e6c7e8689b259f0f63eed8d46b74fe102/src/common/js/stack_chips.js#L34-L85 "Source code on GitHub")
 
 This function sorts chips.
 
