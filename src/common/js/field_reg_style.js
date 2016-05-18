@@ -44,6 +44,11 @@ module.exports = function(feature) {
                 stroke: false,
                 color: "rgb(47,80,130)"
             };
+        default:
+            return {
+                stroke: "black",
+                color: "black"
+            }
     }
 
 };

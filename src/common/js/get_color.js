@@ -14,6 +14,9 @@ module.exports = function getcolor(program) {
     if (program === "VFP" || program === "SAR" || program === "FFB") {
         return "purple";
     }
-    return "grey";
+    if (program === "DR") {
+        return "grey";
+    }  
+    return "black";
 
 }
