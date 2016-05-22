@@ -99,6 +99,26 @@ module.exports = function(map, refreshdata) {
         refreshdata();
     }, false);
 
+  var a = document.getElementsByClassName('leaflet-control-container')[0];
+  a.addEventListener('dblclick', function(event){
+    
+    event = event || window.event // cross-browser event
+    if (event.stopPropagation) {
+        event.stopPropagation()
+    } else {
+        event.cancelBubble = true
+    }
 
+  });
+  a.addEventListener('mousemove', function(event){
+    
+    event = event || window.event // cross-browser event
+    if (event.stopPropagation) {
+        event.stopPropagation()
+    } else {
+        event.cancelBubble = true
+    }
+
+  });
 
 }

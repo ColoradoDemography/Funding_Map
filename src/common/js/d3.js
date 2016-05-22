@@ -1,6 +1,6 @@
 // @flow
 
-module.exports = function(map: Object) {
+module.exports = function(map: Object, searchstring: Array<string>, coordinates: Array<Array<number>>) {
     'use strict';
 
 
@@ -10,7 +10,8 @@ module.exports = function(map: Object) {
     var sortNumeric = require("./util").sortNumeric;
     var monthNumStr = require("./util").monthNumStr;
     var stack_chips = require("./stack_chips");
-
+    //var saveAs = require("../../lib/FileSaver.min.js");
+    var saveAs = require("../../lib/js/FileSaver.min.js").saveAs;
 
     var csvdatacopy: Array < Object > = [];
     var cities: Array < Object > = [];
@@ -46,7 +47,7 @@ module.exports = function(map: Object) {
 
         citiesUpd.enter()
             .append('circle')
-         .style("opacity", 1e-6)
+            .style("opacity", 1e-6)
             .attr('r', 0.8)
             .attr('cx', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).x;
@@ -58,7 +59,7 @@ module.exports = function(map: Object) {
             .attr('stroke-width', 0.03)
             .attr('fill', function(d) {
                 return getcolor(d.program);
-            })        
+            })
             .on("mouseenter", function(d) {
                 var projoutput = "";
                 if (d.projname === "null" || d.projname === null) {
@@ -67,7 +68,7 @@ module.exports = function(map: Object) {
                     projoutput = '<span style="vertical-align: -5px"><i>' + d.projname + '</i></span><br />';
                 }
                 var a = formatMoney.call((parseFloat(d.award)), 0);
-                return tooltip.html('<b>' + d.govname + '</b>' + '<br /><span style="font-family: monospace;">' + projoutput + '-------<br /><span style="color: grey;">Program:</span>&nbsp;' + d.program + '<br /><span style="color: grey;">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;' + (d.dateofaward).toString().slice(4,15) + '<br />'  + '<span style="color: grey;">Award:</span>&nbsp;&nbsp;&nbsp;$' + a + '</span>');
+                return tooltip.html('<b>' + d.govname + '</b>' + '<br /><span style="font-family: monospace;">' + projoutput + '-------<br /><span style="color: grey;">Program:</span>&nbsp;' + d.program + '<br /><span style="color: grey;">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;' + (d.dateofaward).toString().slice(4, 15) + '<br />' + '<span style="color: grey;">Award:</span>&nbsp;&nbsp;&nbsp;$' + a + '</span>');
             })
             .on("mouseover", function() {
                 return tooltip.style("display", "block");
@@ -79,73 +80,109 @@ module.exports = function(map: Object) {
                 return tooltip.style("display", "none");
             })
             .on("click", function(d) {
-          
-          var tbl_results = [];
-          var len=cities.length;
-          for(let i=0; i<len; i++){
-            if(cities[i].lgid === d.lgid){
-                tbl_results.push(cities[i]);
-            }
-          }
-          
-          function compare(a,b) {
-  if (a.dateofaward < b.dateofaward)
-    return -1;
-  else if (a.dateofaward > b.dateofaward)
-    return 1;
-  else 
-    return 0;
-}
-          
-          tbl_results.sort(compare);
-          
-          
-         var content_tbl = "";
-          var award_ttl=0;
-          
-          for(var j=tbl_results.length-1; j; j--){
-            award_ttl = award_ttl + tbl_results[j].award;
-            content_tbl = content_tbl + "<tr><td>" + (tbl_results[j].projname).slice(0,60) + "</td><td>" + tbl_results[j].program + "</td><td>" + (tbl_results[j].dateofaward).toString().slice(4,15) + "</td><td align='right'>$" + formatMoney.call(tbl_results[j].award) + "</td></tr>";
-          }
-          
 
+                var tbl_results = [];
+                var len = cities.length;
+                for (let i = 0; i < len; i++) {
+                    if (cities[i].lgid === d.lgid) {
+                        tbl_results.push(cities[i]);
+                    }
+                }
+
+                function compare(a, b) {
+                    if (a.dateofaward < b.dateofaward)
+                        return -1;
+                    else if (a.dateofaward > b.dateofaward)
+                        return 1;
+                    else
+                        return 0;
+                }
+
+                tbl_results.sort(compare);
+
+
+                var content_tbl = "";
+                var award_ttl = 0;
+
+                var j = tbl_results.length;
           
-          
+                for (var i = 0; i<j; i++) {
+                    award_ttl = award_ttl + tbl_results[i].award;
+                    content_tbl = content_tbl + "<tr><td>" + (tbl_results[i].projname).slice(0, 60) + "</td><td>" + tbl_results[i].program + "</td><td>" + (tbl_results[i].dateofaward).toString().slice(4, 15) + "</td><td align='right'>$" + formatMoney.call(tbl_results[i].award) + "</td></tr>";
+                }
+
+
+
+
                 map.openModal({
-                    content: "<h2 style='margin-bottom: -10px; margin-left: -5px;'>Grant Report for: " + d.govname + "</h2><br /><i>From: " + (daterange.mindate).toString().slice(0,15) + " to " + (daterange.maxdate).toString().slice(0,15) + "</i><br /><br /><table><tr><th align='left'>Description</th><th>Program</th><th>Date</th><th align='right'>Total Award</th></tr>" + content_tbl + "</table><br /><h4>Total: $ " + formatMoney.call(award_ttl) + "</h4>"
+                    content: "<h2 style='margin-bottom: -10px; margin-left: -5px;'>Grant Report for: " + d.govname + "</h2><br /><i>From: " + (daterange.mindate).toString().slice(0, 15) + " to " + (daterange.maxdate).toString().slice(0, 15) + "</i><br /><br /><table id='resultstable'><tr><th align='left'>Description</th><th>Program</th><th>Date</th><th align='right'>Total Award</th></tr>" + content_tbl + "</table><br /><h4>Total: $ " + formatMoney.call(award_ttl) + "</h4><button id='dlcsv'>Download</button>"
                 });
-            })
-        ;
-      
+
+
+                var dlcsv = document.getElementById('dlcsv');
+
+                dlcsv.onclick = function() {
+
+                    var csvstring = "";
+                    var i = 0;
+
+                    var oTable : any = document.getElementById('resultstable');
+                    var rowLength = oTable.rows.length;
+                    for (i = 0; i < rowLength; i++) {
+                        var oCells = oTable.rows.item(i).cells;
+                        var cellLength = oCells.length;
+                        for (var j = 0; j < cellLength; j++) {
+                            /* get your cell info here */
+                            if (j === 0 && i > 0) {
+                                csvstring = csvstring + "\n";
+                            }
+                            csvstring = csvstring + '"' + oCells.item(j).innerHTML + '"';
+                            if (j < cellLength) {
+                                csvstring = csvstring + ",";
+                            }
+                        }
+                    }
+
+
+                    var blob = new Blob([csvstring], {
+                        type: "text/csv;charset=utf-8"
+                    });
+                    saveAs(blob, "grant_report.csv");
+
+                }
+
+
+            });
+
 
 
         //move all circles	
         citiesUpd
-        .transition()
-                  .duration(1000)
+            .transition()
+            .duration(1000)
             .ease("linear")
-                .style("opacity", 1)
+            .style("opacity", 1)
             .attr('cx', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).x;
             })
             .attr('cy', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).y;
             });
-//             .attr('fill', function(d) {
-//                 return getcolor(d.program);
-//             });
-            
+        //             .attr('fill', function(d) {
+        //                 return getcolor(d.program);
+        //             });
+
         citiesUpd.exit()
             .transition()
-      .duration(1500)
-      .style("opacity", 1e-6).remove()
-                  .attr('cx', function(d) {
+            .duration(1500)
+            .style("opacity", 1e-6).remove()
+            .attr('cx', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).x;
             })
             .attr('cy', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).y;
             });
-      
+
         citiesUpd.order();
     });
 
@@ -153,17 +190,37 @@ module.exports = function(map: Object) {
 
     d3.csv("grantpts.csv", function(data) {
 
-
+     
         //map
         var data_translated = data.map(d => {
-            //console.log(d);
+          if(d.program==="EIAF"){
+                        console.log(d);
+          }
 
+          
+          //seed the search arrays
+          if(searchstring.indexOf(d.govname)===-1){
+            searchstring.push(d.govname);
+            coordinates.push([parseFloat(d.longitude),parseFloat(d.latitude)]);
+            searchstring.push(d.lgid);
+            coordinates.push([parseFloat(d.longitude),parseFloat(d.latitude)]);
+          }
+          //search by EIAF project number - precede search with #
+          if(d.program === "EIAF" && d.projectnmbr>0 && (searchstring.indexOf(("#"+d.projectnmbr))===-1)){
+            searchstring.push(("#" + d.projectnmbr));
+            coordinates.push([parseFloat(d.longitude),parseFloat(d.latitude)]);
+          }
+          
             var dateofaward = (d.dateofaward).split("-");
             var awrd = new Date(Number("20" + dateofaward[2]), monthNumStr(dateofaward[1]), Number(dateofaward[0]));
 
-            if(d.projectnmbr==="null"){d.projectnmbr = "";}
-            if(d.projname==="null"){d.projname = d.program + " Distribution";}
-          
+            if (d.projectnmbr === "null") {
+                d.projectnmbr = "";
+            }
+            if (d.projname === "null") {
+                d.projname = d.program + " Distribution";
+            }
+
             var rObj = {};
             rObj['award'] = parseFloat(d.award);
             rObj['dateofaward'] = awrd;
@@ -178,6 +235,8 @@ module.exports = function(map: Object) {
             rObj['projname'] = d.projname;
             return rObj;
         });
+      
+      
         cities = stack_chips(data_translated);
         cities = cities.sort(sortNumeric);
         csvdatacopy = cities;

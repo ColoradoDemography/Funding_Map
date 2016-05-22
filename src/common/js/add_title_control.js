@@ -7,7 +7,7 @@ module.exports = function(map) {
     });
     title.onAdd = function() {
         var div = L.DomUtil.create('div', 'title bord');
-        div.innerHTML = '<h2>Colorado Financial Assistance</h2>';
+        div.innerHTML = '<h2>DOLA Financial Assistance</h2>';
         return div;
     };
     title.addTo(map);

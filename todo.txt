@@ -1,23 +1,39 @@
 
-Filtering not quite right
+
+Everything Filters Under DISTRICT!!
+
+Unobtrusive Geolocation?  (so you see chips right away if youre in Colorado - otherwise, if not in Colorado, just Denver)
+
+Flash Chips on Search
+
+
+beautify CSS
+
+Legend Chips
+
+Fonts
+
+Should not turn into cursor
+
+Legend - Mouseover for Full Names  (Abbreviate by Program name in Legend)
+
+Hidden Chips problems
+
+Symbol (City, County, Dist) on top Chip
+
+Device Check
+ - Mobile buttons
+
+mobile mode???
 
 ---
-
-Click on Grant to see all Grants for Entity
-  -with Export
+A bit of refactor
+----
 
 Data Pipeline
   -Add DR
   -FML DD SB 106
   -Converting new LGIDs (for CSBG) to integer
-
-Search Box Functionality
-  -Add Proj Numbers
-  
-Symbol (City, County, Dist) on top Chip
-
-Device Check
- - Mobile buttons
 
 
 

@@ -16,12 +16,17 @@ $(document).ready(function() {
         layers: [basemaps.emerald],
         zoomControl: false
     });
+  
+
+  
+    require("./add_credits")(map);
+
 
     require("./add_title_control")(map);
 
     require("./add_search_control")(map);
 
-    require("./add_typeahead.js")(map);
+
 
     L.control.zoom({
         position: 'topright'
@@ -33,7 +38,13 @@ $(document).ready(function() {
 
     require("./add_layer_control.js")(map, instance, basemaps);
 
-    require("./d3")(map);
 
+    var searchstring = [];
+    var coordinates = [];
 
+  
+    require("./d3")(map, searchstring, coordinates);
+
+    require("./add_typeahead.js")(map, searchstring, coordinates);
+  
 }); //end $ document

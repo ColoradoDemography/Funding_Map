@@ -1,7 +1,6 @@
-module.exports = function(map) {
+module.exports = function(map, searchstring, coordinates) {
     'use strict';
 
-    var searchstring = [];
 
     var substringMatcher = function(strs) {
         return function findMatches(q, cb) {
@@ -39,6 +38,19 @@ module.exports = function(map) {
             //console.log('autocomplete');
             searchresult(datum);
         });
+      
+      
+      $('.typeahead').on('keyup', function(e) {
+    if(e.which == 13) {
+       //console.log('pressed return');
+        e.preventDefault();
+        //find the selectable item under the input, if any:
+        var selectables = $('.typeahead').siblings(".tt-menu").find(".tt-selectable");
+        if (selectables.length > 0){
+             $(selectables[0]).trigger('click');    
+        } 
+    }
+});
         /*$('.typeahead').bind('typeahead:select', function(ev, suggestion) {
             console.log('ev: ' + ev);
             console.log('Selection: ' + suggestion);
@@ -47,25 +59,31 @@ module.exports = function(map) {
         $('.tt-menu').css("visibility", "hidden");
         //if textbox is cleared, dropdown suggestions become hidden again
         $('#slgid').on('input', function() {
-            if ($('#slgid').val() === "") {
+            if ($('#slgid').val().length < 4) {
                 $('.tt-menu').css("visibility", "hidden");
             } else {
                 $('.tt-menu').css("visibility", "visible");
             }
         });
+        $('#slgid').on('click', function() {
+          //clear box on click
+            $('#slgid').val("");
+        });
     }
 
     function searchresult(result) {
-        //console.log(result);
+
         var latlng = null;
         for (var m = 0; m < searchstring.length; m = m + 1) {
             if (result.value === searchstring[m]) {
-                /*console.log('hit');
+                console.log('hit');
                 console.log(coordinates[m]);
-                latlng = L.latLng(coordinates[m][1], coordinates[m][0]);*/
+                latlng = L.latLng(coordinates[m][1], coordinates[m][0]);
             }
         }
         map.setView(latlng, 12);
+        console.log(L.version);
+        map.fireEvent('zoomend'); //hack to refresh D3
         $('.tt-menu').css("visibility", "hidden");
     }
 
