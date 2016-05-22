@@ -1,4 +1,5 @@
              html,
+
           body {
             width: 100%;
             height: 100%;
@@ -9,10 +10,15 @@
           #map {
             width: 100%;
             height: 100%;
+            cursor: move !important;
           }
 
-div{
-  
+circle {
+  cursor: pointer;
+}
+
+path {
+  cursor: move !important;
 }
           
           .btn {
@@ -75,7 +81,7 @@ div{
           }
           
           .sl {
-            bottom: 10px;
+            bottom: 40px;
             left: 40px;
           }
           
@@ -145,7 +151,7 @@ div{
           }
           
           .modal {
-            cursor: text;
+            cursor: default;
           }
           
           .ui-rangeSlider-bar {
@@ -191,7 +197,7 @@ div{
             border: 1px solid #999;
             border-color: rgba(0, 0, 0, .4);
             box-shadow: none;
-            cursor: auto;
+            cursor: default;
             text-align: center;
             background-color: #FFFFFF;
             color: rgba(0, 0, 0, .75);

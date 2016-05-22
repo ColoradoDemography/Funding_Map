@@ -1,6 +1,6 @@
 module.exports = function getcolor(program) {
     'use strict';
-  
+
     //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG"];
     if (program === "FML" || program === "CTF" || program === "SEV_DIST") {
         return "green";
@@ -16,7 +16,7 @@ module.exports = function getcolor(program) {
     }
     if (program === "DR") {
         return "grey";
-    }  
+    }
     return "black";
 
 }

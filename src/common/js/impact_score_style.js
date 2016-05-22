@@ -1,46 +1,61 @@
 module.exports = function(feature) {
     'use strict';
-  
+
+    var style_obj = {};
+
     switch (feature.properties.score) {
         case 3:
-            return {
+            style_obj = {
                 stroke: false,
                 color: "rgb(255,255,128)"
             };
+            break;
         case 4:
-            return {
+            style_obj = {
                 stroke: false,
                 color: "rgb(250,209,85)"
             };
+            break;
         case 5:
-            return {
+            style_obj = {
                 stroke: false,
                 color: "rgb(250,209,85)"
             };
+            break;
         case 6:
-            return {
+            style_obj = {
                 stroke: false,
                 color: "rgb(242,167,46)"
             };
+            break;
         case 7:
-            return {
+            style_obj = {
                 stroke: false,
                 color: "rgb(173,83,19)"
             };
+            break;
         case 8:
-            return {
+            style_obj = {
                 stroke: false,
                 color: "rgb(173,83,19)"
             };
+            break;
         case 9:
-            return {
+            style_obj = {
                 stroke: false,
                 color: "rgb(107,0,0)"
             };
+            break;
         case 10:
-            return {
+            style_obj = {
                 stroke: false,
                 color: "rgb(107,0,0)"
             };
+            break;
+        default:
+            style_obj = "Error";
+            break;
     }
+
+    return style_obj;
 }

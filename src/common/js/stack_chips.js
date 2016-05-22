@@ -1,20 +1,22 @@
 module.exports = function(data) {
+
     'use strict';
 
-    var basedate = new Date("2000,1,1");
+
+    var basedate = new Date(2000, 0, 0);
     var stackchips = [];
 
     var cities = data.map(function(d) {
-        var tv = d.lgid;
-        if (stackchips.hasOwnProperty(tv)) {
-            stackchips[tv]++;
+        var lgid = d.lgid;
+        if (stackchips.hasOwnProperty(lgid)) {
+            stackchips[lgid]++;
         } else {
-            stackchips[tv] = 0;
+            stackchips[lgid] = 0;
         }
-        var rlat = (parseFloat(d.latitude) + (0.002 * stackchips[tv]));
+        var rlat = (d.latitude + (0.002 * stackchips[lgid]));
         var rlng = d.longitude;
         d.latLng = [rlat, rlng];
-        d.id = valueize(d, basedate) + (0.000001 * stackchips[tv]);
+        d.id = valueize(d, basedate) + (0.000001 * stackchips[lgid]);
 
         return d;
     });
@@ -30,45 +32,47 @@ module.exports = function(data) {
  */
 function valueize(d, basedate) {
     'use strict';
+
     //sort by lgid, program, by date
     //integer value for lgid plus hundredths for program plus thousands for date
     //sorted by lgid so no overlaps between chip stacks
     //TODO edge case remove alphachars from csbg
     //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG", "DR"];
 
-    var start = parseFloat(d.lgid);
+    var start = d.lgid;
+    var program = d.program;
 
-    if (d.program === "FML") {
+    if (program === "FML") {
         start = start + 0.18;
     }
-    if (d.program === "CTF") {
+    if (program === "CTF") {
         start = start + 0.19;
     }
-    if (d.program === "SEV_DIST") {
+    if (program === "SEV_DIST") {
         start = start + 0.17;
     }
-    if (d.program === "CSBG") {
+    if (program === "CSBG") {
         start = start + 0.13;
     }
-    if (d.program === "CDBG") {
+    if (program === "CDBG") {
         start = start + 0.12;
     }
-    if (d.program === "EIAF") {
+    if (program === "EIAF") {
         start = start + 0.09;
     }
-    if (d.program === "GAME") {
+    if (program === "GAME") {
         start = start + 0.10;
     }
-    if (d.program === "REDI") {
+    if (program === "REDI") {
         start = start + 0.11;
     }
-    if (d.program === "VFP") {
+    if (program === "VFP") {
         start = start + 0.15;
     }
-    if (d.program === "SAR") {
+    if (program === "SAR") {
         start = start + 0.14;
     }
-    if (d.program === "FFB") {
+    if (program === "FFB") {
         start = start + 0.16;
     }
 
@@ -76,7 +80,7 @@ function valueize(d, basedate) {
         return Math.round((second - basedate) / (1000 * 60 * 60 * 24));
     }
 
-    start = start + ((daydiff(new Date(d.dateofaward))) / 10000000);
+    start = start + ((daydiff(d.dateofaward)) / 10000000);
 
     return start;
 }

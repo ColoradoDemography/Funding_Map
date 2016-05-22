@@ -1,7 +1,6 @@
-
 module.exports.formatMoney = function(cc, dd, tt) {
     'use strict';
-  
+
     var n = this,
         c = isNaN(cc = Math.abs(cc)) ? 2 : cc,
         d = dd == undefined ? "." : dd,
@@ -16,10 +15,56 @@ module.exports.formatMoney = function(cc, dd, tt) {
 
 module.exports.sortNumeric = function(a, b) {
     'use strict';
-  
+
     if (a.id < b.id) {
         return 1;
     } else {
         return -1;
     }
+};
+
+
+
+
+module.exports.monthNumStr = function(monthText) {
+    'use strict';
+
+    if (monthText === "JAN") {
+        return 0;
+    }
+    if (monthText === "FEB") {
+        return 1;
+    }
+    if (monthText === "MAR") {
+        return 2;
+    }
+    if (monthText === "APR") {
+        return 3;
+    }
+    if (monthText === "MAY") {
+        return 4;
+    }
+    if (monthText === "JUN") {
+        return 5;
+    }
+    if (monthText === "JUL") {
+        return 6;
+    }
+    if (monthText === "AUG") {
+        return 7;
+    }
+    if (monthText === "SEP") {
+        return 8;
+    }
+    if (monthText === "OCT") {
+        return 9;
+    }
+    if (monthText === "NOV") {
+        return 10;
+    }
+    if (monthText === "DEC") {
+        return 11;
+    }
+
+    return "Error";
 };

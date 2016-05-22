@@ -1,6 +1,6 @@
 module.exports = function(map) {
     'use strict';
-  
+
     //Custom Title Control
     var title = L.control({
         position: 'topleft'

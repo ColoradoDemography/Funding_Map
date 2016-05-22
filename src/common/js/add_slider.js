@@ -1,13 +1,15 @@
 module.exports = function(map, daterange, refreshdata) {
     'use strict';
 
+
+
     // create the control
     var sliderctrl = L.control({
         position: 'bottomleft'
     });
     sliderctrl.onAdd = function() {
         var div = L.DomUtil.create('div', 'sl');
-        div.width = 500;
+        div.width = 400;
         div.innerHTML = '<div id="slider"></div>';
         return div;
     };
@@ -27,7 +29,7 @@ module.exports = function(map, daterange, refreshdata) {
 
     $("#slider").dateRangeSlider({
         bounds: {
-            min: new Date("2012,1,1"),
+            min: new Date(2012, 0, 0),
             max: daterange.maxdate
         },
         defaultValues: {

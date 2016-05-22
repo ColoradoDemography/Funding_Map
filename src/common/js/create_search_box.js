@@ -1,6 +1,6 @@
 module.exports = function() {
-      'use strict';
-  
+    'use strict';
+
     var opt2div = L.DomUtil.create('div', '');
     opt2div.id = 'opt2div';
     opt2div.className = "form-group has-feedback";

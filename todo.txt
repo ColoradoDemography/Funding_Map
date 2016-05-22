@@ -1,0 +1,23 @@
+
+Filtering not quite right
+
+---
+
+Click on Grant to see all Grants for Entity
+  -with Export
+
+Data Pipeline
+  -Add DR
+  -FML DD SB 106
+  -Converting new LGIDs (for CSBG) to integer
+
+Search Box Functionality
+  -Add Proj Numbers
+  
+Symbol (City, County, Dist) on top Chip
+
+Device Check
+ - Mobile buttons
+
+
+

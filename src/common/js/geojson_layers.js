@@ -70,6 +70,7 @@ module.exports = function(map) {
             });
         }
     }).error(function() {});
+
     var coutline = new L.geoJson(null, {
         style: function() { //feature
             return {
@@ -81,18 +82,7 @@ module.exports = function(map) {
         onEachFeature: county_onEachFeature
     }).addTo(map);
 
-    $.ajax({
-        dataType: "json",
-        url: "data/counties.geojson",
-        success: function(data) {
-            $(data.features).each(function(key, data) {
-                coutline.addData(data);
-            });
-        }
-    }).error(function() {});
-
     var score = new L.geoJson(null, {
-
         style: require('./impact_score_style'),
         onEachFeature: score_onEachFeature
     });
@@ -101,6 +91,9 @@ module.exports = function(map) {
         dataType: "json",
         url: "data/counties.geojson",
         success: function(data) {
+            $(data.features).each(function(key, data) {
+                coutline.addData(data);
+            });
             $(data.features).each(function(key, data) {
                 score.addData(data);
             });

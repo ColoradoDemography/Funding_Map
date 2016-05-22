@@ -16,5 +16,8 @@ describe('get_color', function() {
     it('should return "black" if given a non-existant program', function () {
       assert.equal(get_color("BLAHBLAH"), 'black');
     });
-  
+
+    it('should return "black" if given null', function () {
+      assert.equal(get_color(null), 'black');
+    });  
 });

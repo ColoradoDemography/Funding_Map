@@ -1,8 +1,7 @@
-
 module.exports = function(map, instance, basemaps) {
     'use strict';
 
-    var overlays : object = {
+    var overlays: object = {
         "Impact Score": instance[0],
         "Field Regions": instance[1],
         "Planning Regions": instance[2]

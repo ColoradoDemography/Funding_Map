@@ -1,6 +1,6 @@
 module.exports = function(map) {
     'use strict';
-  
+
     L.Control.Command = L.Control.extend({
         options: {
             position: 'topright'
