@@ -91,11 +91,13 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
 
                 function compare(a, b) {
                     if (a.dateofaward < b.dateofaward)
-                        return -1;
-                    else if (a.dateofaward > b.dateofaward)
-                        return 1;
-                    else
-                        return 0;
+                    {
+                      return -1;
+                    } else if (a.dateofaward > b.dateofaward) {
+                      return 1;
+                    } else {
+                      return 0;
+                    }
                 }
 
                 tbl_results.sort(compare);
@@ -105,7 +107,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
                 var award_ttl = 0;
 
                 var j = tbl_results.length;
-          
+
                 for (var i = 0; i<j; i++) {
                     award_ttl = award_ttl + tbl_results[i].award;
                     content_tbl = content_tbl + "<tr><td>" + (tbl_results[i].projname).slice(0, 60) + "</td><td>" + tbl_results[i].program + "</td><td>" + (tbl_results[i].dateofaward).toString().slice(4, 15) + "</td><td align='right'>$" + formatMoney.call(tbl_results[i].award) + "</td></tr>";
@@ -156,7 +158,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
 
 
 
-        //move all circles	
+        //move all circles
         citiesUpd
             .transition()
             .duration(1000)
@@ -188,16 +190,16 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
 
 
 
-    d3.csv("grantpts.csv", function(data) {
+    d3.csv("https://storage.googleapis.com/co-publicdata/grantpts.csv", function(data) {
 
-     
+
         //map
         var data_translated = data.map(d => {
           if(d.program==="EIAF"){
-                        console.log(d);
+                        //console.log(d);
           }
 
-          
+
           //seed the search arrays
           if(searchstring.indexOf(d.govname)===-1){
             searchstring.push(d.govname);
@@ -210,7 +212,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
             searchstring.push(("#" + d.projectnmbr));
             coordinates.push([parseFloat(d.longitude),parseFloat(d.latitude)]);
           }
-          
+
             var dateofaward = (d.dateofaward).split("-");
             var awrd = new Date(Number("20" + dateofaward[2]), monthNumStr(dateofaward[1]), Number(dateofaward[0]));
 
@@ -235,8 +237,8 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
             rObj['projname'] = d.projname;
             return rObj;
         });
-      
-      
+
+
         cities = stack_chips(data_translated);
         cities = cities.sort(sortNumeric);
         csvdatacopy = cities;

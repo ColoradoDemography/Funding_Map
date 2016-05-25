@@ -2,7 +2,7 @@
 
 Everything Filters Under DISTRICT!!
 
-Unobtrusive Geolocation?  (so you see chips right away if youre in Colorado - otherwise, if not in Colorado, just Denver)
+Unobtrusive Geolocation?  (so your see chips right away if youre in Colorado - otherwise, if not in Colorado, just Denver)
 
 Flash Chips on Search
 

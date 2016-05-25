@@ -7,6 +7,8 @@ module.exports = function(map) {
         },
         onAdd: require("./create_search_box")
     });
+  
+    L.c
 
     L.control.command = function(options) {
         return new L.Control.Command(options);

@@ -1,8 +1,6 @@
 module.exports = function(map, daterange, refreshdata) {
     'use strict';
 
-
-
     // create the control
     var sliderctrl = L.control({
         position: 'bottomleft'

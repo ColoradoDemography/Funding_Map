@@ -11,5 +11,4 @@ module.exports = function(map) {
         return div;
     };
     title.addTo(map);
-
 };

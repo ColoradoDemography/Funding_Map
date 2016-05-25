@@ -2,23 +2,6 @@ module.exports = function() {
 
     'use strict';
 
-    //credits
-    //         var popmodal = function() {
-
-    //         map.openModal({
-    //             content: '<h4>Development</h4><p>' +
-    //                 '<a target ="_blank" href="https://jqueryui.com/">JQuery</a>, ' +
-    //                 '<a target ="_blank" href="https://jqueryui.com/">JQuery UI</a>, ' +
-    //                 '<a target ="_blank" href="http://leafletjs.com/">Leaflet</a>, ' +
-    //                 '<a target ="_blank" href="https://d3js.org/">D3 Data Visualization Library</a>, ' +
-    //                 '<a target ="_blank" href="https://github.com/teralytics/Leaflet.D3SvgOverlay">D3 SVG Overlay</a>, ' +
-    //                 '<a target ="_blank" href="https://fortawesome.github.io/Font-Awesome/">Font-Awesome</a>, ' +
-    //                 '<a target ="_blank" href="https://github.com/CliffCloud/Leaflet.EasyButton">Leaflet Easy Button</a>, ' +
-    //                 '<a target ="_blank" href="https://github.com/w8r/Leaflet.Modal">Leaflet Modal</a>, ' +
-    //                 '<a target ="_blank" href="https://ghusse.github.io/jQRangeSlider/index.html">JQRangeSlider</a>, ' +
-    //                 '<a target ="_blank" href="https://twitter.github.io/typeahead.js/">Twitter Typeahead</a> </p>'
-    //         });
-    //     };
 
     var basemaps = {};
 
