@@ -36,17 +36,23 @@ module.exports = function(map) {
         onEachFeature: field_onEachFeature
     });
 
-    $.ajax({
 
-        dataType: "json",
-        url: "data/fieldregions.geojson",
-        success: function(data) {
-            $(data.features).each(function(key, data) {
-                field.addData(data);
-            });
-        }
-    }).error(function() {
-        console.log('error loading fieldregions.geojson');
+    var p1 = new Promise(function(resolve, reject) {
+        $.ajax({
+
+            dataType: "json",
+            url: "data/fieldregions.geojson",
+            success: function(data) {
+                $(data.features).each(function(key, data) {
+                    field.addData(data);
+                });
+                resolve("");
+            }
+        }).error(function() {
+            console.log('error loading fieldregions.geojson');
+            reject("");
+        });
+
     });
 
     var plan = new L.geoJson(null, {
@@ -60,16 +66,23 @@ module.exports = function(map) {
         onEachFeature: plan_onEachFeature
     });
 
-    $.ajax({
 
-        dataType: "json",
-        url: "data/planningregions.geojson",
-        success: function(data) {
-            $(data.features).each(function(key, data) {
-                plan.addData(data);
-            });
-        }
-    }).error(function() {});
+    var p2 = new Promise(function(resolve, reject) {
+        $.ajax({
+
+            dataType: "json",
+            url: "data/planningregions.geojson",
+            success: function(data) {
+                $(data.features).each(function(key, data) {
+                    plan.addData(data);
+                });
+                resolve("");
+            }
+        }).error(function() {
+            reject("");
+        });
+    });
+
 
     var coutline = new L.geoJson(null, {
         style: function() { //feature
@@ -87,19 +100,26 @@ module.exports = function(map) {
         onEachFeature: score_onEachFeature
     });
 
-    $.ajax({
-        dataType: "json",
-        url: "data/counties.geojson",
-        success: function(data) {
-            $(data.features).each(function(key, data) {
-                coutline.addData(data);
-            });
-            $(data.features).each(function(key, data) {
-                score.addData(data);
-            });
-        }
-    }).error(function() {});
+    var p3 = new Promise(function(resolve, reject) {
+        $.ajax({
+            dataType: "json",
+            url: "data/counties.geojson",
+            success: function(data) {
+                $(data.features).each(function(key, data) {
+                    coutline.addData(data);
+                });
+                $(data.features).each(function(key, data) {
+                    score.addData(data);
+                });
+                resolve("");
+            }
+        }).error(function() {
+            reject("");
+        });
+    });
 
 
-    return [score, field, plan];
+
+    return [score, field, plan, p1, p2, p3];
+
 }

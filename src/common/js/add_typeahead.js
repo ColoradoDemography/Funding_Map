@@ -38,19 +38,19 @@ module.exports = function(map, searchstring, coordinates) {
             //console.log('autocomplete');
             searchresult(datum);
         });
-      
-      
-      $('.typeahead').on('keyup', function(e) {
-    if(e.which == 13) {
-       //console.log('pressed return');
-        e.preventDefault();
-        //find the selectable item under the input, if any:
-        var selectables = $('.typeahead').siblings(".tt-menu").find(".tt-selectable");
-        if (selectables.length > 0){
-             $(selectables[0]).trigger('click');    
-        } 
-    }
-});
+
+
+        $('.typeahead').on('keyup', function(e) {
+            if (e.which == 13) {
+                //console.log('pressed return');
+                e.preventDefault();
+                //find the selectable item under the input, if any:
+                var selectables = $('.typeahead').siblings(".tt-menu").find(".tt-selectable");
+                if (selectables.length > 0) {
+                    $(selectables[0]).trigger('click');
+                }
+            }
+        });
         /*$('.typeahead').bind('typeahead:select', function(ev, suggestion) {
             console.log('ev: ' + ev);
             console.log('Selection: ' + suggestion);
@@ -66,7 +66,7 @@ module.exports = function(map, searchstring, coordinates) {
             }
         });
         $('#slgid').on('click', function() {
-          //clear box on click
+            //clear box on click
             $('#slgid').val("");
         });
     }
@@ -76,13 +76,10 @@ module.exports = function(map, searchstring, coordinates) {
         var latlng = null;
         for (var m = 0; m < searchstring.length; m = m + 1) {
             if (result.value === searchstring[m]) {
-                console.log('hit');
-                console.log(coordinates[m]);
                 latlng = L.latLng(coordinates[m][1], coordinates[m][0]);
             }
         }
         map.setView(latlng, 12);
-        console.log(L.version);
         map.fireEvent('zoomend'); //hack to refresh D3
         $('.tt-menu').css("visibility", "hidden");
     }

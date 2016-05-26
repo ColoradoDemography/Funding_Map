@@ -1,6 +1,6 @@
 // @flow
 
-module.exports = function(map: Object, searchstring: Array<string>, coordinates: Array<Array<number>>) {
+module.exports = function(map: Object, searchstring: Array < string > , coordinates: Array < Array < number >> , p1: any, p2: any, p3: any) {
     'use strict';
 
 
@@ -22,7 +22,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
 
     //not constants... can be changed by slider
     var daterange: Object = {
-        mindate: new Date(2014, 0, 0),
+        mindate: new Date(2014, 0, 1),
         maxdate: new Date()
     };
 
@@ -90,13 +90,12 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
                 }
 
                 function compare(a, b) {
-                    if (a.dateofaward < b.dateofaward)
-                    {
-                      return -1;
+                    if (a.dateofaward < b.dateofaward) {
+                        return -1;
                     } else if (a.dateofaward > b.dateofaward) {
-                      return 1;
+                        return 1;
                     } else {
-                      return 0;
+                        return 0;
                     }
                 }
 
@@ -108,7 +107,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
 
                 var j = tbl_results.length;
 
-                for (var i = 0; i<j; i++) {
+                for (var i = 0; i < j; i++) {
                     award_ttl = award_ttl + tbl_results[i].award;
                     content_tbl = content_tbl + "<tr><td>" + (tbl_results[i].projname).slice(0, 60) + "</td><td>" + tbl_results[i].program + "</td><td>" + (tbl_results[i].dateofaward).toString().slice(4, 15) + "</td><td align='right'>$" + formatMoney.call(tbl_results[i].award) + "</td></tr>";
                 }
@@ -128,7 +127,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
                     var csvstring = "";
                     var i = 0;
 
-                    var oTable : any = document.getElementById('resultstable');
+                    var oTable: any = document.getElementById('resultstable');
                     var rowLength = oTable.rows.length;
                     for (i = 0; i < rowLength; i++) {
                         var oCells = oTable.rows.item(i).cells;
@@ -195,26 +194,33 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
 
         //map
         var data_translated = data.map(d => {
-          if(d.program==="EIAF"){
-                        //console.log(d);
-          }
 
+            if (d.program === "FML_SB106") {
+                d.program = "FML";
+            }
 
-          //seed the search arrays
-          if(searchstring.indexOf(d.govname)===-1){
-            searchstring.push(d.govname);
-            coordinates.push([parseFloat(d.longitude),parseFloat(d.latitude)]);
-            searchstring.push(d.lgid);
-            coordinates.push([parseFloat(d.longitude),parseFloat(d.latitude)]);
-          }
-          //search by EIAF project number - precede search with #
-          if(d.program === "EIAF" && d.projectnmbr>0 && (searchstring.indexOf(("#"+d.projectnmbr))===-1)){
-            searchstring.push(("#" + d.projectnmbr));
-            coordinates.push([parseFloat(d.longitude),parseFloat(d.latitude)]);
-          }
+            //seed the search arrays
+            if (searchstring.indexOf(d.govname) === -1) {
+                searchstring.push(d.govname);
+                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
+                searchstring.push(d.lgid);
+                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
+            }
+            //search by EIAF project number - precede search with #
+            if (d.program === "EIAF" && d.projectnmbr > 0 && (searchstring.indexOf(("#" + d.projectnmbr)) === -1)) {
+                searchstring.push(("#" + d.projectnmbr));
+                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
+            }
+            //search by EIAF project number - precede search with #
+            if (d.program === "EIAF" && d.projectnmbr > 0 && (searchstring.indexOf(("#" + d.projectnmbr)) === -1)) {
+                searchstring.push(("#" + d.projectnmbr));
+                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
+            }
+
 
             var dateofaward = (d.dateofaward).split("-");
             var awrd = new Date(Number("20" + dateofaward[2]), monthNumStr(dateofaward[1]), Number(dateofaward[0]));
+
 
             if (d.projectnmbr === "null") {
                 d.projectnmbr = "";
@@ -229,7 +235,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
             rObj['govname'] = d.govname;
             rObj['latitude'] = parseFloat(d.latitude);
             rObj['longitude'] = parseFloat(d.longitude);
-            rObj['lgid'] = parseInt(d.lgid, 10);
+            rObj['lgid'] = d.lgid;
             rObj['lgstatus'] = parseInt(d.lgstatus, 10);
             rObj['lgtype'] = parseInt(d.lgtype, 10);
             rObj['program'] = d.program;
@@ -241,9 +247,16 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
 
         cities = stack_chips(data_translated);
         cities = cities.sort(sortNumeric);
-        csvdatacopy = cities;
-        map.addLayer(citiesOverlay);
-        refreshdata();
+        csvdatacopy = cities; //huh? should be pointing to same object?
+
+        //so that geojson layers do not load before chips (preventing them from being clickable)
+        Promise.all([p1, p2, p3]).then(function() {
+            map.addLayer(citiesOverlay);
+            refreshdata();
+        });
+
+
+
     }); //end d3.csv
 
 
@@ -261,7 +274,6 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
         (($('#redi').is(':checked'))) ? flags.redi_flag = 1: flags.redi_flag = 0;
         (($('#ctf').is(':checked'))) ? flags.ctf_flag = 1: flags.ctf_flag = 0;
         (($('#fmldd').is(':checked'))) ? flags.fmldd_flag = 1: flags.fmldd_flag = 0;
-        (($('#fmlddsb106').is(':checked'))) ? flags.fmlddsb106_flag = 1: flags.fmlddsb106_flag = 0;
         (($('#sevedd').is(':checked'))) ? flags.sevedd_flag = 1: flags.sevedd_flag = 0;
         (($('#ffb').is(':checked'))) ? flags.ffb_flag = 1: flags.ffb_flag = 0;
         (($('#sar').is(':checked'))) ? flags.sar_flag = 1: flags.sar_flag = 0;

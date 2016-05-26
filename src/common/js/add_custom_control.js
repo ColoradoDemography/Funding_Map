@@ -9,31 +9,31 @@ module.exports = function(map, refreshdata) {
         var div = L.DomUtil.create('div', 'command bord');
         div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' +
             '<div id="tabs-1">' +
-            '<form><h4>Programs</h4>' +
-            '&nbsp;&nbsp;&nbsp;<img src="images/blue_chip.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Federal<br />' +
-            '&nbsp;&nbsp;&nbsp;<img src="images/red_chip.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;State<br />' +
-            '&nbsp;&nbsp;&nbsp;<img src="images/green_chip.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Formula<br />' +
-            '&nbsp;&nbsp;&nbsp;<img src="images/purple_chip.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Special<br />' +
-            '&nbsp;&nbsp;&nbsp;<img src="images/grey_chip.png" style="position: relative; top: 2px;" />&nbsp;&nbsp;&nbsp;Disaster Recovery<br />' +
+            '<form><h4>Funding Source</h4>' +
+            '&nbsp;&nbsp;&nbsp;<svg width="12" height="12"><circle cx="6" cy="6" r="6" stroke="black" stroke-width="0.2" fill="blue" /></svg>&nbsp;&nbsp;&nbsp;Federal<br />' +
+            '&nbsp;&nbsp;&nbsp;<svg width="12" height="12"><circle cx="6" cy="6" r="6" stroke="black" stroke-width="0.2" fill="red" /></svg>&nbsp;&nbsp;&nbsp;State<br />' +
+            '&nbsp;&nbsp;&nbsp;<svg width="12" height="12"><circle cx="6" cy="6" r="6" stroke="black" stroke-width="0.2" fill="green" /></svg>&nbsp;&nbsp;&nbsp;Formula<br />' +
+            '&nbsp;&nbsp;&nbsp;<svg width="12" height="12"><circle cx="6" cy="6" r="6" stroke="black" stroke-width="0.2" fill="pruple" /></svg>&nbsp;&nbsp;&nbsp;Special<br />' +
+            '&nbsp;&nbsp;&nbsp;<svg width="12" height="12"><circle cx="6" cy="6" r="6" stroke="black" stroke-width="0.2" fill="grey" /></svg>&nbsp;&nbsp;&nbsp;Disaster Recovery<br />' +
             '<h4>Organization Type</h4>' +
-            '&nbsp;&nbsp;&nbsp;<span style="font-size:16px;" >&#10022;</span>&nbsp;&nbsp;&nbsp;City<br />' +
-            '&nbsp;&nbsp;&nbsp;<span style="font-size:16px;" >&#9733;</span>&nbsp;&nbsp;&nbsp;County<br />' +
-            '&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:16px;" >&#9642;</span>&nbsp;&nbsp;&nbsp;&nbsp;District<br />' +
-            '&nbsp;&nbsp;&nbsp;<span style="font-size:16px;" >&#9899;</span>&nbsp;&nbsp;&nbsp;Other</form></div>' +
-            '<div id="tabs-2">' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Development Block Grants</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)">Community Services Block Grants</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Energy/Mineral Impact Assistance Fund</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Limited Gaming Impact Program</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)">Rural Economic Development Initiative</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Conservation Trust Fund</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmldd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Direct Distribution</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmlddsb106" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Federal Mineral Lease Supplemental Distribution</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)">Severance Direct Distribution</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Firefighter Cardiac Benefit Program</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="sar" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Search and Rescue</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="vfp" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)">Volunteer Firefighter Pension Fund</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="dr" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(100,100,100)">Disaster Recovery Grant</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<span style="padding-left: 2px;">&#10022;</span>&nbsp;&nbsp;&nbsp;City<br />' +
+            '&nbsp;&nbsp;&nbsp;<span style="padding-left: 2px;">&#9733;</span>&nbsp;&nbsp;&nbsp;County<br />' +
+            '&nbsp;&nbsp;&nbsp;<span style="padding-left: 2px;">&#8718;</span>&nbsp;&nbsp;&nbsp;District<br />' +
+            '&nbsp;&nbsp;&nbsp;<span style="padding-left: 2px;">&#9899;</span>&nbsp;&nbsp;&nbsp;Other</form></div>' +
+
+            '<div id="tabs-2"><h4 style="margin-bottom: 10px;">Programs&nbsp;&nbsp;<span id="prgbtn" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" style="margin-top: -10px; margin-left: 20px;" title="Program Information" ><span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text">Program Information</span></span></h4>' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grants">CDBG</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Services Block Grants">CSBG</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Energy/Mineral Impact Assistance Fund">EIAF</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Limited Gaming Impact Program">GAME</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Rural Economic Development Initiative">REDI</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Conservation Trust Fund">CTF</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmldd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Federal Mineral Lease Direct Distribution">FML</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Severance Direct Distribution">SEV</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Firefighter Cardiac Benefit Program">FFB</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="sar" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Search and Rescue">SAR</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="vfp" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Volunteer Firefighter Pension Fund">VFP</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="dr" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(100,100,100)" title="Disaster Recovery Grant">DR</span><br />' +
             '<hr>' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;&nbsp;City<br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;&nbsp;County<br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="district" type="checkbox" checked />&nbsp;&nbsp;&nbsp;District<br />' +
@@ -46,6 +46,10 @@ module.exports = function(map, refreshdata) {
 
     $(".command").tabs();
 
+
+    $("#prgbtn").on('click', function() {
+        require("./info_modal.js")(map);
+    });
 
     document.getElementById("cdbg").addEventListener("click", function() {
         refreshdata();
@@ -68,9 +72,7 @@ module.exports = function(map, refreshdata) {
     document.getElementById("fmldd").addEventListener("click", function() {
         refreshdata();
     }, false);
-    document.getElementById("fmlddsb106").addEventListener("click", function() {
-        refreshdata();
-    }, false);
+
     document.getElementById("sevedd").addEventListener("click", function() {
         refreshdata();
     }, false);
@@ -99,26 +101,26 @@ module.exports = function(map, refreshdata) {
         refreshdata();
     }, false);
 
-  var a = document.getElementsByClassName('leaflet-control-container')[0];
-  a.addEventListener('dblclick', function(event){
-    
-    event = event || window.event // cross-browser event
-    if (event.stopPropagation) {
-        event.stopPropagation()
-    } else {
-        event.cancelBubble = true
-    }
+    var a = document.getElementsByClassName('leaflet-control-container')[0];
+    a.addEventListener('dblclick', function(event) {
 
-  });
-  a.addEventListener('mousemove', function(event){
-    
-    event = event || window.event // cross-browser event
-    if (event.stopPropagation) {
-        event.stopPropagation()
-    } else {
-        event.cancelBubble = true
-    }
+        event = event || window.event // cross-browser event
+        if (event.stopPropagation) {
+            event.stopPropagation()
+        } else {
+            event.cancelBubble = true
+        }
 
-  });
+    });
+    a.addEventListener('mousemove', function(event) {
+
+        event = event || window.event // cross-browser event
+        if (event.stopPropagation) {
+            event.stopPropagation()
+        } else {
+            event.cancelBubble = true
+        }
+
+    });
 
 }

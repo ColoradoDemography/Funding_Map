@@ -8,7 +8,7 @@ module.exports = function() {
     w.id = "slgid";
     w.class = 'typeahead';
     w.type = 'text';
-    w.placeholder = "Search...";
+    w.placeholder = "Place Search...";
     w.className = "form-control typeahead";
     return opt2div;
 };

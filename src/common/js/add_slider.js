@@ -27,12 +27,15 @@ module.exports = function(map, daterange, refreshdata) {
 
     $("#slider").dateRangeSlider({
         bounds: {
-            min: new Date(2012, 0, 0),
+            min: new Date(2012, 0, 1),
             max: daterange.maxdate
         },
         defaultValues: {
             min: daterange.mindate,
             max: daterange.maxdate
+        },
+        step: {
+            days: 1
         }
     });
     $("#slider").bind("valuesChanged", function(e, data) {

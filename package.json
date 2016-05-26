@@ -4,7 +4,9 @@
   "description": "dola financial services grants webmap",
   "scripts": {
     "doc": "documentation build src/common/js/**.js -f md -g -o docs/app.md",
-    "beautify": "find ./src/common/js/ -type f -name '*.js' -exec js-beautify -r {} \\;",
+    "beauJS": "find ./src/common/js/ -type f -name '*.js' -exec js-beautify -r {} \\;",
+    "beauCSS": "find ./src/common/css/ -type f -name '*.css' -exec js-beautify -r {} \\;",
+    "beauHTML": "js-beautify ./index.html -r",    
     "build": "webpack --display-error-details -p",
     "websrv": "webpack-dev-server --host 0.0.0.0 --port 8080 --watch --inline --content-base /home/nitrous/public_html/CO_Grants/",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000"

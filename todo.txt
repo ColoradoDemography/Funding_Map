@@ -1,39 +1,33 @@
 
-
-Everything Filters Under DISTRICT!!
-
-Unobtrusive Geolocation?  (so your see chips right away if youre in Colorado - otherwise, if not in Colorado, just Denver)
-
 Flash Chips on Search
 
+Geolocation of one sort or another
 
-beautify CSS
+It's filtering twice on load
 
-Legend Chips
-
-Fonts
-
-Should not turn into cursor
-
-Legend - Mouseover for Full Names  (Abbreviate by Program name in Legend)
-
-Hidden Chips problems
+Delete should be Dissapear, then Move new Chips to Correct Spot
 
 Symbol (City, County, Dist) on top Chip
+
+Custom Name for Grant Report Export based upon Place Name
 
 Device Check
  - Mobile buttons
 
-mobile mode???
+mobile mode??? : Only Search and + - (and EASY BUTTON for Legend / Info?)
+
+Initial Startup Time
+ - re-examine copy of data array.  isnt it the same object?
+
+Tags to end of body?
 
 ---
 A bit of refactor
 ----
 
 Data Pipeline
-  -Add DR
-  -FML DD SB 106
-  -Converting new LGIDs (for CSBG) to integer
-
+- all NodeJS
+- Single File
+- Data Validation Baked in
 
 

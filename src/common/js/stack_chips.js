@@ -3,7 +3,7 @@ module.exports = function(data) {
     'use strict';
 
 
-    var basedate = new Date(2000, 0, 0);
+    var basedate = new Date(2000, 0, 1);
     var stackchips = [];
 
     var cities = data.map(function(d) {
@@ -16,7 +16,7 @@ module.exports = function(data) {
         var rlat = (d.latitude + (0.002 * stackchips[lgid]));
         var rlng = d.longitude;
         d.latLng = [rlat, rlng];
-        d.id = valueize(d, basedate) + (0.000001 * stackchips[lgid]);
+        d.id = valueize(d, basedate) + (0.001 * stackchips[lgid]);
 
         return d;
     });
@@ -39,9 +39,20 @@ function valueize(d, basedate) {
     //TODO edge case remove alphachars from csbg
     //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG", "DR"];
 
-    var start = d.lgid;
+
+    //some lgid's aren't parseable to integers because of a leading X or x.  Just set them to 100000 as a base.
+    var start = parseInt(d.lgid);
+    if (!start) {
+        start = 100000;
+    }
+
+
+
     var program = d.program;
 
+    if (program === "DR") {
+        start = start + 0.08;
+    }
     if (program === "FML") {
         start = start + 0.18;
     }
@@ -77,7 +88,7 @@ function valueize(d, basedate) {
     }
 
     function daydiff(second) {
-        return Math.round((second - basedate) / (1000 * 60 * 60 * 24));
+        return ((second - basedate) / (1000 * 60 * 60 * 24));
     }
 
     start = start + ((daydiff(d.dateofaward)) / 10000000);
