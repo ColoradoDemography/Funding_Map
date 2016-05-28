@@ -1,3 +1,5 @@
+async load grant data upfront
+
 formatMoney function is a beast.  replace with tolocale in all browsers?
 
 Four-Mile and Little Thompson awards in/around Teller

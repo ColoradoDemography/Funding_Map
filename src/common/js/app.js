@@ -1,6 +1,7 @@
 // @flow
 
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function() {
+  
     'use strict';
 
     require("!style!css!../../lib/css/uirange-min.css");
@@ -41,4 +42,4 @@ $(document).ready(function() {
 
 
 
-}); //end $ document
+}); //end DOM Content Loaded

@@ -20,7 +20,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
 
     //not constants... can be changed by slider
-    var daterange: Object = {
+    var daterange: {mindate: Date, maxdate: Date} = {
         mindate: new Date(2014, 0, 1),
         maxdate: new Date()
     };
@@ -143,7 +143,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
     function refreshdata() {
 
-        var flags: Object = {};
+        var flags: {cdbg_flag?: number; csbg_flag?: number, eiaf_flag?: number; game_flag?: number; redi_flag?: number; ctf_flag?: number; fml_flag?: number; sevedd_flag?: number; ffb_flag?: number; sar_flag?: number; vfp_flag?: number; dr_flag?: number; city_flag?: number; county_flag?: number; district_flag?: number; other_flag?: number;} = {};
 
         (($('#cdbg').is(':checked'))) ? flags.cdbg_flag = 1: flags.cdbg_flag = 0;
         (($('#csbg').is(':checked'))) ? flags.csbg_flag = 1: flags.csbg_flag = 0;
@@ -151,7 +151,6 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
         (($('#game').is(':checked'))) ? flags.game_flag = 1: flags.game_flag = 0;
         (($('#redi').is(':checked'))) ? flags.redi_flag = 1: flags.redi_flag = 0;
         (($('#ctf').is(':checked'))) ? flags.ctf_flag = 1: flags.ctf_flag = 0;
-        (($('#fmldd').is(':checked'))) ? flags.fmldd_flag = 1: flags.fmldd_flag = 0;
         (($('#sevedd').is(':checked'))) ? flags.sevedd_flag = 1: flags.sevedd_flag = 0;
         (($('#ffb').is(':checked'))) ? flags.ffb_flag = 1: flags.ffb_flag = 0;
         (($('#sar').is(':checked'))) ? flags.sar_flag = 1: flags.sar_flag = 0;
