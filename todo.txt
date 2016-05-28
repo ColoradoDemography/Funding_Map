@@ -3,26 +3,29 @@ Flash Chips on Search
 
 Geolocation of one sort or another
 
-It's filtering twice on load
-
-Delete should be Dissapear, then Move new Chips to Correct Spot
-
 Symbol (City, County, Dist) on top Chip
 
-Custom Name for Grant Report Export based upon Place Name
+Padding between Download and Total Button
+
+CSBG $0 Amounts
+
+Also sum Each Program on Grant Report (Total Rows for each Program?)
+
+Overlapping Chips
 
 Device Check
  - Mobile buttons
 
+Check browser for Download Report Capability
+
 mobile mode??? : Only Search and + - (and EASY BUTTON for Legend / Info?)
 
-Initial Startup Time
- - re-examine copy of data array.  isnt it the same object?
+Flow and Documentation
 
-Tags to end of body?
+Load Data grants data asynchronously??  (startup time kills)
 
 ---
-A bit of refactor
+A bit of refactor on d3.js
 ----
 
 Data Pipeline

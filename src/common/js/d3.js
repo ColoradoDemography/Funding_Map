@@ -1,23 +1,22 @@
 // @flow
 
-module.exports = function(map: Object, searchstring: Array < string > , coordinates: Array < Array < number >> , p1: any, p2: any, p3: any) {
-    'use strict';
-
-
+    var grant_report = require("./grant_report.js");
     var filter_prog_geo_date = require('./filter_prog_geo_date');
     var getcolor = require("./get_color");
     var formatMoney = require("./util").formatMoney;
     var sortNumeric = require("./util").sortNumeric;
-    var monthNumStr = require("./util").monthNumStr;
     var stack_chips = require("./stack_chips");
-    //var saveAs = require("../../lib/FileSaver.min.js");
-    var saveAs = require("../../lib/js/FileSaver.min.js").saveAs;
+    var initial_grantdata_crunch = require("./initial_grantdata_crunch.js")
+    var valueize = require("./valueize.js");
+
+module.exports = function(map: Object, searchstring: Array < string > , coordinates: Array < Array < number >> , p1: any, p2: any, p3: any) {
+    'use strict';
+
+
+
 
     var csvdatacopy: Array < Object > = [];
     var cities: Array < Object > = [];
-
-
-
 
 
     //not constants... can be changed by slider
@@ -39,7 +38,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
     var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
 
-        var key = function(d): string {
+        var key = function(d): number {
             return d.id;
         };
 
@@ -79,81 +78,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
             .on("mouseout", function() {
                 return tooltip.style("display", "none");
             })
-            .on("click", function(d) {
-
-                var tbl_results = [];
-                var len = cities.length;
-                for (let i = 0; i < len; i++) {
-                    if (cities[i].lgid === d.lgid) {
-                        tbl_results.push(cities[i]);
-                    }
-                }
-
-                function compare(a, b) {
-                    if (a.dateofaward < b.dateofaward) {
-                        return -1;
-                    } else if (a.dateofaward > b.dateofaward) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                }
-
-                tbl_results.sort(compare);
-
-
-                var content_tbl = "";
-                var award_ttl = 0;
-
-                var j = tbl_results.length;
-
-                for (var i = 0; i < j; i++) {
-                    award_ttl = award_ttl + tbl_results[i].award;
-                    content_tbl = content_tbl + "<tr><td>" + (tbl_results[i].projname).slice(0, 60) + "</td><td>" + tbl_results[i].program + "</td><td>" + (tbl_results[i].dateofaward).toString().slice(4, 15) + "</td><td align='right'>$" + formatMoney.call(tbl_results[i].award) + "</td></tr>";
-                }
-
-
-
-
-                map.openModal({
-                    content: "<h2 style='margin-bottom: -10px; margin-left: -5px;'>Grant Report for: " + d.govname + "</h2><br /><i>From: " + (daterange.mindate).toString().slice(0, 15) + " to " + (daterange.maxdate).toString().slice(0, 15) + "</i><br /><br /><table id='resultstable'><tr><th align='left'>Description</th><th>Program</th><th>Date</th><th align='right'>Total Award</th></tr>" + content_tbl + "</table><br /><h4>Total: $ " + formatMoney.call(award_ttl) + "</h4><button id='dlcsv'>Download</button>"
-                });
-
-
-                var dlcsv = document.getElementById('dlcsv');
-
-                dlcsv.onclick = function() {
-
-                    var csvstring = "";
-                    var i = 0;
-
-                    var oTable: any = document.getElementById('resultstable');
-                    var rowLength = oTable.rows.length;
-                    for (i = 0; i < rowLength; i++) {
-                        var oCells = oTable.rows.item(i).cells;
-                        var cellLength = oCells.length;
-                        for (var j = 0; j < cellLength; j++) {
-                            /* get your cell info here */
-                            if (j === 0 && i > 0) {
-                                csvstring = csvstring + "\n";
-                            }
-                            csvstring = csvstring + '"' + oCells.item(j).innerHTML + '"';
-                            if (j < cellLength) {
-                                csvstring = csvstring + ",";
-                            }
-                        }
-                    }
-
-
-                    var blob = new Blob([csvstring], {
-                        type: "text/csv;charset=utf-8"
-                    });
-                    saveAs(blob, "grant_report.csv");
-
-                }
-
-
-            });
+            .on("click", function(d){grant_report(d, map, cities, daterange)});
 
 
 
@@ -169,13 +94,11 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
             .attr('cy', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).y;
             });
-        //             .attr('fill', function(d) {
-        //                 return getcolor(d.program);
-        //             });
+
 
         citiesUpd.exit()
             .transition()
-            .duration(1500)
+            .duration(1000)
             .style("opacity", 1e-6).remove()
             .attr('cx', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).x;
@@ -191,67 +114,22 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
     d3.csv("https://storage.googleapis.com/co-publicdata/grantpts.csv", function(data) {
 
-
-        //map
         var data_translated = data.map(d => {
-
-            if (d.program === "FML_SB106") {
-                d.program = "FML";
-            }
-
-            //seed the search arrays
-            if (searchstring.indexOf(d.govname) === -1) {
-                searchstring.push(d.govname);
-                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
-                searchstring.push(d.lgid);
-                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
-            }
-            //search by EIAF project number - precede search with #
-            if (d.program === "EIAF" && d.projectnmbr > 0 && (searchstring.indexOf(("#" + d.projectnmbr)) === -1)) {
-                searchstring.push(("#" + d.projectnmbr));
-                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
-            }
-            //search by EIAF project number - precede search with #
-            if (d.program === "EIAF" && d.projectnmbr > 0 && (searchstring.indexOf(("#" + d.projectnmbr)) === -1)) {
-                searchstring.push(("#" + d.projectnmbr));
-                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
-            }
-
-
-            var dateofaward = (d.dateofaward).split("-");
-            var awrd = new Date(Number("20" + dateofaward[2]), monthNumStr(dateofaward[1]), Number(dateofaward[0]));
-
-
-            if (d.projectnmbr === "null") {
-                d.projectnmbr = "";
-            }
-            if (d.projname === "null") {
-                d.projname = d.program + " Distribution";
-            }
-
-            var rObj = {};
-            rObj['award'] = parseFloat(d.award);
-            rObj['dateofaward'] = awrd;
-            rObj['govname'] = d.govname;
-            rObj['latitude'] = parseFloat(d.latitude);
-            rObj['longitude'] = parseFloat(d.longitude);
-            rObj['lgid'] = d.lgid;
-            rObj['lgstatus'] = parseInt(d.lgstatus, 10);
-            rObj['lgtype'] = parseInt(d.lgtype, 10);
-            rObj['program'] = d.program;
-            rObj['projectnmbr'] = d.projectnmbr;
-            rObj['projname'] = d.projname;
-            return rObj;
+          return initial_grantdata_crunch(d, searchstring, coordinates);
         });
 
-
         cities = stack_chips(data_translated);
+        cities.forEach((d,i)=>valueize(d,i));
         cities = cities.sort(sortNumeric);
-        csvdatacopy = cities; //huh? should be pointing to same object?
+        csvdatacopy = cities; //the same object
 
         //so that geojson layers do not load before chips (preventing them from being clickable)
         Promise.all([p1, p2, p3]).then(function() {
             map.addLayer(citiesOverlay);
+          
+          var latlng = L.latLng(38.9983, -105.6417);
+          
+            map.setView( latlng, 9  );
             refreshdata();
         });
 
