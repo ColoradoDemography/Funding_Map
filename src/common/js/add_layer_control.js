@@ -1,13 +1,15 @@
-module.exports = function(map, instance, basemaps) {
+// @flow
+
+module.exports = function(map: Object, instance: Array<Object>, basemaps: Object) {
     'use strict';
 
-    var overlays: object = {
+    var overlays: Object = {
         "Impact Score": instance[0],
         "Field Regions": instance[1],
         "Planning Regions": instance[2]
     };
 
-    var basemap = {
+    var basemap: Object = {
         "Mapbox Emerald": basemaps.emerald,
         "Mapquest": basemaps.mapquestOSM,
         "Mapbox Streets": basemaps.classic

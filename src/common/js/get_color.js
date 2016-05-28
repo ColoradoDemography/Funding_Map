@@ -1,4 +1,6 @@
-module.exports = function getcolor(program) {
+// @flow
+
+module.exports = function getcolor(program: string): string {
     'use strict';
 
     //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG"];

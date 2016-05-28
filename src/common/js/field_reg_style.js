@@ -1,7 +1,9 @@
-module.exports = function(feature) {
+// @flow
+
+module.exports = function(feature: Object): Object {
     'use strict';
 
-    var style_obj = {};
+    var style_obj: Object = {};
 
     switch (feature.properties.fieldreg) {
         case "sc":

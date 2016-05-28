@@ -1,7 +1,9 @@
-module.exports = function(feature) {
+// @flow
+
+module.exports = function(feature: Object): Object {
     'use strict';
 
-    var style_obj = {};
+    var style_obj: Object = {};
 
     switch (feature.properties.score) {
         case 3:
@@ -53,7 +55,8 @@ module.exports = function(feature) {
             };
             break;
         default:
-            style_obj = "Error";
+            console.log('error unexpected default case');
+            style_obj = {};
             break;
     }
 

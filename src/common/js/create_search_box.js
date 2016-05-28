@@ -1,3 +1,5 @@
+// @flow
+
 module.exports = function() {
     'use strict';
 

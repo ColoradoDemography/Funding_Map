@@ -1,9 +1,10 @@
+// @flow
+
 module.exports = function() {
 
     'use strict';
-
-
-    var basemaps = {};
+  
+    var basemaps: Object = {};
 
     basemaps.mbAttr = "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> | © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap Contributors</a> | <a href='#' id='devcred'>Credits</a>",
         basemaps.mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3RhdGVjb2RlbW9nIiwiYSI6Ikp0Sk1tSmsifQ.hl44-VjKTJNEP5pgDFcFPg';

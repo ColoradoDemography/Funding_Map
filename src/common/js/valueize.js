@@ -1,6 +1,8 @@
-var lgidset = [];
+// @flow
 
-module.exports = function(d){
+var lgidset: Array<Object> = [];
+
+module.exports = function(d: Object): Object{
   
     'use strict';
 
@@ -12,18 +14,18 @@ module.exports = function(d){
 
     
 
-    var basedate = new Date(2000, 0, 1);
+    var basedate: Date = new Date(2000, 0, 1);
 
     if(lgidset.indexOf(d.lgid) === -1){
       lgidset.push(d.lgid);
     }
-    var lgid_index = lgidset.indexOf(d.lgid);
+    var lgid_index: number = lgidset.indexOf(d.lgid);
   
   
   //each index in multiples of 10,000,000
-    var start = 100000000*lgid_index;
+    var start: number = 100000000*lgid_index;
 
-    var program = d.program;
+    var program: Object = d.program;
 
     if (program === "DR") {
         start = start + 100000;
@@ -63,14 +65,14 @@ module.exports = function(d){
     }
 
   //return difference from year Jan 1, 2000 in number of days
-    function daydiff(second) {
+    function daydiff(second: Date): number {
         var diff = ((second - basedate) / (1000 * 60 * 60 * 24));
       return diff;
       
     }
 
   //entropy - so that 2 awards on the same date are not in the same place??
-  var entropy = Math.random();
+  const entropy: number = Math.random();
   
     start = start + daydiff(d.dateofaward) + entropy;
     d.id = start;

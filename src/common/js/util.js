@@ -1,4 +1,6 @@
-module.exports.formatMoney = function(cc, dd, tt) {
+
+
+module.exports.formatMoney = function(cc: any, dd: any, tt: any) {
     'use strict';
 
     var n = this,
@@ -13,7 +15,7 @@ module.exports.formatMoney = function(cc, dd, tt) {
 };
 
 
-module.exports.sortNumeric = function(a, b) {
+module.exports.sortNumeric = function(a: Object, b: Object): number {
     'use strict';
 
     if (a.id < b.id) {
@@ -26,7 +28,7 @@ module.exports.sortNumeric = function(a, b) {
 
 
 
-module.exports.monthNumStr = function(monthText) {
+module.exports.monthNumStr = function(monthText: string): number {
     'use strict';
 
     if (monthText === "JAN") {
@@ -66,5 +68,6 @@ module.exports.monthNumStr = function(monthText) {
         return 11;
     }
 
-    return "Error";
+    console.log('unexpected fall through on monthNumStr');
+    return 99;
 };

@@ -1,10 +1,13 @@
-module.exports = function(map, refreshdata) {
+// @flow
+
+module.exports = function(map: Object, refreshdata: Function) {
     'use strict';
 
     //Custom Layer Control
-    var command = L.control({
+    var command: Object = L.control({
         position: 'topleft'
     });
+  
     command.onAdd = function() {
         var div = L.DomUtil.create('div', 'command bord');
         div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' +
@@ -101,7 +104,7 @@ module.exports = function(map, refreshdata) {
         refreshdata();
     }, false);
 
-    var a = document.getElementsByClassName('leaflet-control-container')[0];
+    var a: Object = document.getElementsByClassName('leaflet-control-container')[0];
     a.addEventListener('dblclick', function(event) {
 
         event = event || window.event // cross-browser event
@@ -116,9 +119,9 @@ module.exports = function(map, refreshdata) {
 
         event = event || window.event // cross-browser event
         if (event.stopPropagation) {
-            event.stopPropagation()
+            event.stopPropagation();
         } else {
-            event.cancelBubble = true
+            event.cancelBubble = true;
         }
 
     });

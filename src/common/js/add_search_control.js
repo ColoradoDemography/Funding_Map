@@ -1,4 +1,6 @@
-module.exports = function(map) {
+// @flow
+
+module.exports = function(map: Object) {
     'use strict';
 
     L.Control.Command = L.Control.extend({
@@ -8,7 +10,6 @@ module.exports = function(map) {
         onAdd: require("./create_search_box")
     });
 
-    L.c
 
     L.control.command = function(options) {
         return new L.Control.Command(options);

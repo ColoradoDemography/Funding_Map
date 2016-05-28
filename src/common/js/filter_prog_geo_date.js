@@ -1,4 +1,6 @@
-module.exports = function filter_prog_geo_date(d, flags, daterange) {
+// @flow
+
+module.exports = function filter_prog_geo_date(d: Object, flags: Object, daterange: Object): boolean {
 
     'use strict';
 

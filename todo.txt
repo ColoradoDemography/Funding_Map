@@ -1,3 +1,6 @@
+formatMoney function is a beast.  replace with tolocale in all browsers?
+
+Four-Mile and Little Thompson awards in/around Teller
 
 Flash Chips on Search
 
@@ -24,9 +27,7 @@ Flow and Documentation
 
 Load Data grants data asynchronously??  (startup time kills)
 
----
-A bit of refactor on d3.js
-----
+
 
 Data Pipeline
 - all NodeJS

@@ -114,12 +114,12 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
     d3.csv("https://storage.googleapis.com/co-publicdata/grantpts.csv", function(data) {
 
-        var data_translated = data.map(d => {
+        var data_translated: Array<Object> = data.map(d => {
           return initial_grantdata_crunch(d, searchstring, coordinates);
         });
 
         cities = stack_chips(data_translated);
-        cities.forEach((d,i)=>valueize(d,i));
+        cities.forEach( d => valueize(d) );
         cities = cities.sort(sortNumeric);
         csvdatacopy = cities; //the same object
 
@@ -127,7 +127,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
         Promise.all([p1, p2, p3]).then(function() {
             map.addLayer(citiesOverlay);
           
-          var latlng = L.latLng(38.9983, -105.6417);
+          var latlng: Object = L.latLng(38.9983, -105.6417);
           
             map.setView( latlng, 9  );
             refreshdata();
@@ -143,7 +143,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
     function refreshdata() {
 
-        var flags = {};
+        var flags: Object = {};
 
         (($('#cdbg').is(':checked'))) ? flags.cdbg_flag = 1: flags.cdbg_flag = 0;
         (($('#csbg').is(':checked'))) ? flags.csbg_flag = 1: flags.csbg_flag = 0;

@@ -1,6 +1,8 @@
-    var monthNumStr = require("./util").monthNumStr;
+// @flow
 
-module.exports = function (d, searchstring, coordinates) {
+var monthNumStr = require("./util").monthNumStr;
+
+module.exports = function (d: Object, searchstring: Array<string>, coordinates: Array<[number, number]>) {
           
           
 
@@ -27,8 +29,8 @@ module.exports = function (d, searchstring, coordinates) {
             }
 
 
-            var dateofaward = (d.dateofaward).split("-");
-            var awrd = new Date(Number("20" + dateofaward[2]), monthNumStr(dateofaward[1]), Number(dateofaward[0]));
+            var dateofaward: string = (d.dateofaward).split("-");
+            var awrd: Date = new Date(Number("20" + dateofaward[2]), monthNumStr(dateofaward[1]), Number(dateofaward[0]));
 
 
             if (d.projectnmbr === "null") {

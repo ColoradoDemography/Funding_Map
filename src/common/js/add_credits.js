@@ -1,6 +1,8 @@
-module.exports = function(map) {
+// @flow
 
-    var content = '<table class="abbrev">' +
+module.exports = function(map: Object) {
+
+    var content: string = '<table class="abbrev">' +
         '<h3>Development Credits</h3>' +
         '<ul>' +
         '<li><a href="http://leafletjs.com/" target="_blank">Leaflet Mapping Library</a> - <a href="http://agafonkin.com/en/" target="_blank">Vladimir Agafonkin</a></li>' +

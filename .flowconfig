@@ -4,3 +4,6 @@
 [libs]
 decls/vendor.bundle.js
 interfaces/
+
+[options]
+module.name_mapper.extension='css' -> '<PROJECT_ROOT>/flow/CSSModuleStub.js'

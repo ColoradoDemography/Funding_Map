@@ -1,3 +1,5 @@
+// @flow
+
 $(document).ready(function() {
     'use strict';
 

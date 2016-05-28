@@ -1,19 +1,21 @@
-module.exports = function(data) {
+// @flow
+
+module.exports = function(data: Array<Object>): Array<Object> {
 
     'use strict';
 
 
-    var stackchips = [];
+    var chipstack: Array<number> = [];
 
-    var cities = data.map(function(d) {
+    var cities: Array<Object> = data.map(function(d) {
         var lgid = d.lgid;
-        if (stackchips.hasOwnProperty(lgid)) {
-            stackchips[lgid]++;
+        if (chipstack.hasOwnProperty(lgid)) {
+            chipstack[lgid]++;
         } else {
-            stackchips[lgid] = 0;
+            chipstack[lgid] = 0;
         }
-        var rlat = (d.latitude + (0.002 * stackchips[lgid]));
-        var rlng = d.longitude;
+        var rlat: number = (d.latitude + (0.002 * chipstack[lgid]));
+        var rlng: number = d.longitude;
         d.latLng = [rlat, rlng];
 
         return d;

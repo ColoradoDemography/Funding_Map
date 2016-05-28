@@ -1,4 +1,6 @@
-module.exports = function(map) {
+// @flow
+
+module.exports = function(map: Object) {
     'use strict';
 
     /**
@@ -31,13 +33,13 @@ module.exports = function(map) {
         }
     }
 
-    var field = new L.geoJson(null, {
+    var field: Object = new L.geoJson(null, {
         style: require("./field_reg_style"),
         onEachFeature: field_onEachFeature
     });
 
 
-    var p1 = new Promise(function(resolve, reject) {
+    var p1: Promise = new Promise(function(resolve, reject) {
         $.ajax({
 
             dataType: "json",
@@ -55,7 +57,7 @@ module.exports = function(map) {
 
     });
 
-    var plan = new L.geoJson(null, {
+    var plan: Object = new L.geoJson(null, {
         style: function() {
             return {
                 weight: 2,
@@ -67,7 +69,7 @@ module.exports = function(map) {
     });
 
 
-    var p2 = new Promise(function(resolve, reject) {
+    var p2: Promise = new Promise(function(resolve, reject) {
         $.ajax({
 
             dataType: "json",
@@ -85,7 +87,7 @@ module.exports = function(map) {
 
 
     var coutline = new L.geoJson(null, {
-        style: function() { //feature
+        style: function(): Object { //feature
             return {
                 weight: 1,
                 color: "#444",
@@ -95,12 +97,12 @@ module.exports = function(map) {
         onEachFeature: county_onEachFeature
     }).addTo(map);
 
-    var score = new L.geoJson(null, {
+    var score: Object = new L.geoJson(null, {
         style: require('./impact_score_style'),
         onEachFeature: score_onEachFeature
     });
 
-    var p3 = new Promise(function(resolve, reject) {
+    var p3: Promise = new Promise(function(resolve, reject) {
         $.ajax({
             dataType: "json",
             url: "data/counties.geojson",

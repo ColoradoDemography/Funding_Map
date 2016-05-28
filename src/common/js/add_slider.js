@@ -1,8 +1,10 @@
-module.exports = function(map, daterange, refreshdata) {
+// @flow
+
+module.exports = function(map: Object, daterange: {mindate: Date, maxdate: Date}, refreshdata: Function) {
     'use strict';
 
     // create the control
-    var sliderctrl = L.control({
+    var sliderctrl: Object = L.control({
         position: 'bottomleft'
     });
     sliderctrl.onAdd = function() {
@@ -17,6 +19,7 @@ module.exports = function(map, daterange, refreshdata) {
     //disable click propogation to map below
     var diva = L.DomUtil.get('slider');
     L.DomEvent.disableClickPropagation(diva);
+  
     var browserwidth = $(window).width();
     $('.sl').width((browserwidth - 100) + "px");
     $(window).resize(function() {

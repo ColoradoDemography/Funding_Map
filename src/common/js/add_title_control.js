@@ -1,4 +1,6 @@
-module.exports = function(map) {
+// @flow
+
+module.exports = function(map: Object) {
     'use strict';
 
     //Custom Title Control

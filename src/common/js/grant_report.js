@@ -1,10 +1,12 @@
+// @flow
+
 var formatMoney = require("./util").formatMoney;
 var saveAs = require("../../lib/js/FileSaver.min.js").saveAs;
 
-module.exports = function(d, map, cities, daterange){
+module.exports = function(d: Object, map: Object, cities: Array<Object>, daterange: Object){
   
   
-                var tbl_results = [];
+                var tbl_results: Array<Object> = [];
                 var len = cities.length;
                 for (let i = 0; i < len; i++) {
                     if (cities[i].lgid === d.lgid) {
@@ -12,7 +14,7 @@ module.exports = function(d, map, cities, daterange){
                     }
                 }
 
-                function compare(a, b) {
+                function compare(a: Object, b: Object) {
                     if (a.dateofaward < b.dateofaward) {
                         return -1;
                     } else if (a.dateofaward > b.dateofaward) {
@@ -25,17 +27,15 @@ module.exports = function(d, map, cities, daterange){
                 tbl_results.sort(compare);
 
 
-                var content_tbl = "";
-                var award_ttl = 0;
+                var content_tbl: string = "";
+                var award_ttl: number = 0;
 
-                var j = tbl_results.length;
+                var j: number = tbl_results.length;
 
                 for (var i = 0; i < j; i++) {
                     award_ttl = award_ttl + tbl_results[i].award;
                     content_tbl = content_tbl + "<tr><td>" + (tbl_results[i].projname).slice(0, 60) + "</td><td>" + tbl_results[i].program + "</td><td>" + (tbl_results[i].dateofaward).toString().slice(4, 15) + "</td><td align='right'>$" + formatMoney.call(tbl_results[i].award) + "</td></tr>";
                 }
-
-
 
 
                 map.openModal({
@@ -47,8 +47,8 @@ module.exports = function(d, map, cities, daterange){
 
                 dlcsv.onclick = function() {
 
-                    var csvstring = "";
-                    var i = 0;
+                    var csvstring: string = "";
+                    var i: number = 0;
 
                     var oTable: any = document.getElementById('resultstable');
                     var rowLength = oTable.rows.length;
@@ -67,9 +67,9 @@ module.exports = function(d, map, cities, daterange){
                         }
                     }
 
-                  var outputname = (d.govname).replace(/[^\w]/gi, '');
+                  var outputname: string = (d.govname).replace(/[^\w]/gi, '');
 
-                    var blob = new Blob([csvstring], {
+                    var blob: Blob = new Blob([csvstring], {
                         type: "text/csv;charset=utf-8"
                     });
                     saveAs(blob, "grant_report_" + outputname + ".csv");
