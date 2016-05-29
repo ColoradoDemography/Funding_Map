@@ -1,4 +1,4 @@
-async load grant data upfront
+web worker async load grant data upfront
 
 formatMoney function is a beast.  replace with tolocale in all browsers?
 
