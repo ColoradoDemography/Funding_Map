@@ -2,30 +2,12 @@
 
 var monthNumStr = require("./util").monthNumStr;
 
-module.exports = function (d: Object, searchstring: Array<string>, coordinates: Array<[number, number]>) {
+module.exports = function (d: Object, searchstring: Array<string>, coordinates: Array<[number, number]>, keys: Array<Object>) {
           
-          
+
 
             if (d.program === "FML_SB106") {
                 d.program = "FML";
-            }
-
-            //seed the search arrays
-            if (searchstring.indexOf(d.govname) === -1) {
-                searchstring.push(d.govname);
-                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
-                searchstring.push(d.lgid);
-                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
-            }
-            //search by EIAF project number - precede search with #
-            if (d.program === "EIAF" && d.projectnmbr > 0 && (searchstring.indexOf(("#" + d.projectnmbr)) === -1)) {
-                searchstring.push(("#" + d.projectnmbr));
-                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
-            }
-            //search by EIAF project number - precede search with #
-            if (d.program === "EIAF" && d.projectnmbr > 0 && (searchstring.indexOf(("#" + d.projectnmbr)) === -1)) {
-                searchstring.push(("#" + d.projectnmbr));
-                coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
             }
 
 
@@ -40,17 +22,35 @@ module.exports = function (d: Object, searchstring: Array<string>, coordinates: 
                 d.projname = d.program + " Distribution";
             }
 
+function matchLGID(element, index, array) {
+  if(array[index].lgid===d.lgid){
+    return true;
+    }
+  }
+  
+var matched_index = keys.findIndex(matchLGID); 
+  
+  
+  if(matched_index>-1){
+
             var rObj = {};
             rObj['award'] = parseFloat(d.award);
             rObj['dateofaward'] = awrd;
-            rObj['govname'] = d.govname;
-            rObj['latitude'] = parseFloat(d.latitude);
-            rObj['longitude'] = parseFloat(d.longitude);
+            rObj['govname'] = keys[matched_index].govname;
+            rObj['latitude'] = parseFloat(keys[matched_index].latitude);
+            rObj['longitude'] = parseFloat(keys[matched_index].longitude);
             rObj['lgid'] = d.lgid;
-            rObj['lgstatus'] = parseInt(d.lgstatus, 10);
-            rObj['lgtype'] = parseInt(d.lgtype, 10);
+            rObj['lgtype'] = parseInt(keys[matched_index].lgtype, 10);
             rObj['program'] = d.program;
             rObj['projectnmbr'] = d.projectnmbr;
             rObj['projname'] = d.projname;
             return rObj;
+}else{
+  console.log('problem?');
+   console.log(keys[0]);
+    console.log(d.lgid);
+    console.log(keys[0].lgid===d.lgid);
+  console.log('---');
+}
+  
         }

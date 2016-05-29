@@ -13,7 +13,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
     'use strict';
 
 
-
+    var animation_ms: number = 1000;
 
     var csvdatacopy: Array < Object > = [];
     var cities: Array < Object > = [];
@@ -85,7 +85,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
         //move all circles
         citiesUpd
             .transition()
-            .duration(1000)
+            .duration(animation_ms)
             .ease("linear")
             .style("opacity", 1)
             .attr('cx', function(d) {
@@ -98,7 +98,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
         citiesUpd.exit()
             .transition()
-            .duration(1000)
+            .duration(animation_ms)
             .style("opacity", 1e-6).remove()
             .attr('cx', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).x;
@@ -114,8 +114,17 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
     d3.csv("https://storage.googleapis.com/co-publicdata/grantpts.csv", function(data) {
 
+          d3.csv("https://storage.googleapis.com/co-publicdata/keypts.csv", function(keys) {
+            
+        var seed_search = require("./seed_search.js");
+            
+        keys.forEach(d => {
+          seed_search(d, searchstring, coordinates);
+        });    
+
+            
         var data_translated: Array<Object> = data.map(d => {
-          return initial_grantdata_crunch(d, searchstring, coordinates);
+          return initial_grantdata_crunch(d, searchstring, coordinates, keys);
         });
 
         cities = stack_chips(data_translated);
@@ -133,9 +142,9 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
             refreshdata();
         });
 
+    }); //end d3.csv keyfile
 
-
-    }); //end d3.csv
+    }); //end d3.csv data file
 
 
 

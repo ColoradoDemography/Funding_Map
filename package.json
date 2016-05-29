@@ -6,9 +6,10 @@
     "doc": "documentation build src/common/js/**.js -f md -g -o docs/app.md",
     "beauJS": "find ./src/common/js/ -type f -name '*.js' -exec js-beautify -r {} \\;",
     "beauCSS": "find ./src/common/css/ -type f -name '*.css' -exec js-beautify -r {} \\;",
-    "beauHTML": "js-beautify ./index.html -r",    
+    "beauHTML": "js-beautify ./index.html -r",
     "build": "webpack --display-error-details -p",
     "websrv": "webpack-dev-server --host 0.0.0.0 --port 8080 --watch --inline --content-base /home/nitrous/public_html/CO_Grants/",
+    "testsrv": "webpack-dev-server 'mocha!./test/test.js' --host 0.0.0.0 --port 8888 --watch --inline ",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000"
   },
   "repository": {
@@ -45,9 +46,11 @@
     "flow-bin": "^0.25.0",
     "flow-status-webpack-plugin": "^0.1.4",
     "istanbul": "^0.4.3",
+    "istanbul-instrumenter-loader": "^0.2.0",
     "js-beautify": "^1.6.2",
     "mocha": "^2.4.5",
     "mocha-lcov-reporter": "^1.2.0",
+    "mocha-loader": "^0.7.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "watch": "^0.18.0",
