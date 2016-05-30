@@ -1,12 +1,12 @@
 // @flow
 
-module.exports = function(map: Object, searchstring: Array<string>, coordinates: Array<[number, number]>) {
+module.exports = function(map: Object, searchstring: Array < string > , coordinates: Array < [number, number] > ) {
     'use strict';
 
 
     var substringMatcher = function(strs) {
         return function findMatches(q, cb) {
-            var matches: Array<Object> = []; // an array that will be populated with substring matches
+            var matches: Array < Object > = []; // an array that will be populated with substring matches
             var substrRegex = new RegExp(q, 'i'); // regex used to determine if a string contains the substring `q`
             // iterate through the pool of strings and for any string that
             // contains the substring `q`, add it to the `matches` array
@@ -22,7 +22,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
             cb(matches);
         };
     };
-  
+
     //Typeahead (Name or ID Search)
     {
         $('.typeahead').typeahead({
@@ -34,7 +34,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
             displayKey: 'value',
             source: substringMatcher(searchstring)
         });
-      
+
         $('.typeahead').on('typeahead:select', function(e, datum) {
             //console.log('select');
             searchresult(datum);
@@ -58,7 +58,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
 
         //dropdown suggestions default to hidden.  
         $('.tt-menu').css("visibility", "hidden");
-      
+
         //if textbox is cleared, dropdown suggestions become hidden again
         $('#slgid').on('input', function() {
             if ($('#slgid').val().length < 4) {
@@ -67,7 +67,7 @@ module.exports = function(map: Object, searchstring: Array<string>, coordinates:
                 $('.tt-menu').css("visibility", "visible");
             }
         });
-      
+
         $('#slgid').on('click', function() {
             //clear box on click
             $('#slgid').val("");

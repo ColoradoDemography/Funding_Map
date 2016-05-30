@@ -1,4 +1,11 @@
-web worker async load grant data upfront
+
+Padding between Download and Total Button
+Also sum Each Program on Grant Report (Total Rows for each Program?)
+
+GeoJSON all one Layer
+
+
+SourceMap?
 
 formatMoney function is a beast.  replace with tolocale in all browsers?
 
@@ -10,28 +17,23 @@ Geolocation of one sort or another
 
 Symbol (City, County, Dist) on top Chip
 
-Padding between Download and Total Button
-
-CSBG $0 Amounts
-
-Also sum Each Program on Grant Report (Total Rows for each Program?)
 
 Overlapping Chips
 
 Device Check
  - Mobile buttons
 
-Check browser for Download Report Capability
+Check browser for Download Report Capability / Web Worker Capability
 
+Set Viewport?   <meta name=viewport content="width=device-width, initial-scale=1">
 mobile mode??? : Only Search and + - (and EASY BUTTON for Legend / Info?)
 
-Flow and Documentation
-
-Load Data grants data asynchronously??  (startup time kills)
+DocumentationJS
 
 
 
 Data Pipeline
+- CSBG $0 Amounts
 - all NodeJS
 - Single File
 - Data Validation Baked in

@@ -1,13 +1,13 @@
 // @flow
 
-module.exports = function(data: Array<Object>): Array<Object> {
+module.exports = function(data: Array < Object > ): Array < Object > {
 
     'use strict';
 
 
-    var chipstack: Array<number> = [];
+    var chipstack: Array < number > = [];
 
-    var cities: Array<Object> = data.map(function(d) {
+    var cities: Array < Object > = data.map(function(d) {
         var lgid = d.lgid;
         if (chipstack.hasOwnProperty(lgid)) {
             chipstack[lgid]++;
@@ -24,4 +24,3 @@ module.exports = function(data: Array<Object>): Array<Object> {
     return cities;
 
 };
-

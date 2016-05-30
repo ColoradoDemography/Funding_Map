@@ -39,24 +39,6 @@ module.exports = function(map: Object) {
     });
 
 
-    var p1: Promise = new Promise(function(resolve, reject) {
-        $.ajax({
-
-            dataType: "json",
-            url: "data/fieldregions.geojson",
-            success: function(data) {
-                $(data.features).each(function(key, data) {
-                    field.addData(data);
-                });
-                resolve("");
-            }
-        }).error(function() {
-            console.log('error loading fieldregions.geojson');
-            reject("");
-        });
-
-    });
-
     var plan: Object = new L.geoJson(null, {
         style: function() {
             return {
@@ -68,22 +50,6 @@ module.exports = function(map: Object) {
         onEachFeature: plan_onEachFeature
     });
 
-
-    var p2: Promise = new Promise(function(resolve, reject) {
-        $.ajax({
-
-            dataType: "json",
-            url: "data/planningregions.geojson",
-            success: function(data) {
-                $(data.features).each(function(key, data) {
-                    plan.addData(data);
-                });
-                resolve("");
-            }
-        }).error(function() {
-            reject("");
-        });
-    });
 
 
     var coutline = new L.geoJson(null, {
@@ -102,7 +68,7 @@ module.exports = function(map: Object) {
         onEachFeature: score_onEachFeature
     });
 
-    var p3: Promise = new Promise(function(resolve, reject) {
+    var p1: Promise = new Promise(function(resolve, reject) {
         $.ajax({
             dataType: "json",
             url: "data/counties.geojson",
@@ -122,6 +88,6 @@ module.exports = function(map: Object) {
 
 
 
-    return [score, field, plan, p1, p2, p3];
+    return [score, field, plan, p1];
 
 }

@@ -53,7 +53,13 @@ module.exports = {
     ],
 eslint: {  
     configFile: '.eslintrc'
-}
+},
+  worker: {
+		output: {
+			filename: "hash.worker.js",
+			chunkFilename: "[id].hash.worker.js"
+		}
+	}
 
 };
 

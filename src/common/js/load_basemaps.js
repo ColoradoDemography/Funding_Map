@@ -3,7 +3,7 @@
 module.exports = function() {
 
     'use strict';
-  
+
     var basemaps: Object = {};
 
     basemaps.mbAttr = "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> | © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap Contributors</a> | <a href='#' id='devcred'>Credits</a>",

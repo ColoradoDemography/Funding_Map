@@ -7,7 +7,7 @@ module.exports = function(map: Object, refreshdata: Function) {
     var command: Object = L.control({
         position: 'topleft'
     });
-  
+
     command.onAdd = function() {
         var div = L.DomUtil.create('div', 'command bord');
         div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' +

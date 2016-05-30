@@ -1,15 +1,14 @@
 // @flow
 
-    var grant_report = require("./grant_report.js");
-    var filter_prog_geo_date = require('./filter_prog_geo_date');
-    var getcolor = require("./get_color");
-    var formatMoney = require("./util").formatMoney;
-    var sortNumeric = require("./util").sortNumeric;
-    var stack_chips = require("./stack_chips");
-    var initial_grantdata_crunch = require("./initial_grantdata_crunch.js")
-    var valueize = require("./valueize.js");
+var grant_report = require("./grant_report.js");
+var filter_prog_geo_date = require('./filter_prog_geo_date');
+var getcolor = require("./get_color");
+var formatMoney = require("./util").formatMoney;
+var stack_chips = require("./stack_chips");
 
-module.exports = function(map: Object, searchstring: Array < string > , coordinates: Array < Array < number >> , p1: any, p2: any, p3: any) {
+
+
+module.exports = function(map: Object, p1: Promise, p2: Promise) {
     'use strict';
 
 
@@ -20,10 +19,14 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
 
     //not constants... can be changed by slider
-    var daterange: {mindate: Date, maxdate: Date} = {
+    var daterange: {
+        mindate: Date,
+        maxdate: Date
+    } = {
         mindate: new Date(2014, 0, 1),
         maxdate: new Date()
     };
+
 
     var tooltip = d3.select("body")
         .append("div")
@@ -78,7 +81,9 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
             .on("mouseout", function() {
                 return tooltip.style("display", "none");
             })
-            .on("click", function(d){grant_report(d, map, cities, daterange)});
+            .on("click", function(d) {
+                grant_report(d, map, cities, daterange)
+            });
 
 
 
@@ -108,51 +113,45 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
             });
 
         citiesUpd.order();
+
     });
 
 
+    //so that geojson layers do not load before chips (preventing them from being clickable)
+    Promise.all([p1, p2]).then(function(values) {
 
-    d3.csv("https://storage.googleapis.com/co-publicdata/grantpts.csv", function(data) {
+        cities = values[1][0];
+        csvdatacopy = cities;
 
-          d3.csv("https://storage.googleapis.com/co-publicdata/keypts.csv", function(keys) {
-            
-        var seed_search = require("./seed_search.js");
-            
-        keys.forEach(d => {
-          seed_search(d, searchstring, coordinates);
-        });    
+        require("./add_typeahead.js")(map, values[1][1], values[1][2]);
 
-            
-        var data_translated: Array<Object> = data.map(d => {
-          return initial_grantdata_crunch(d, searchstring, coordinates, keys);
-        });
+        map.setView(L.latLng(38.9983, -105.6417), 9);
+        refreshdata();
+        map.addLayer(citiesOverlay);
 
-        cities = stack_chips(data_translated);
-        cities.forEach( d => valueize(d) );
-        cities = cities.sort(sortNumeric);
-        csvdatacopy = cities; //the same object
-
-        //so that geojson layers do not load before chips (preventing them from being clickable)
-        Promise.all([p1, p2, p3]).then(function() {
-            map.addLayer(citiesOverlay);
-          
-          var latlng: Object = L.latLng(38.9983, -105.6417);
-          
-            map.setView( latlng, 9  );
-            refreshdata();
-        });
-
-    }); //end d3.csv keyfile
-
-    }); //end d3.csv data file
-
-
+    });
 
 
 
     function refreshdata() {
 
-        var flags: {cdbg_flag?: number; csbg_flag?: number, eiaf_flag?: number; game_flag?: number; redi_flag?: number; ctf_flag?: number; fml_flag?: number; sevedd_flag?: number; ffb_flag?: number; sar_flag?: number; vfp_flag?: number; dr_flag?: number; city_flag?: number; county_flag?: number; district_flag?: number; other_flag?: number;} = {};
+        var flags: {
+            cdbg_flag ? : number;
+            csbg_flag ? : number, eiaf_flag ? : number;
+            game_flag ? : number;
+            redi_flag ? : number;
+            ctf_flag ? : number;
+            fml_flag ? : number;
+            sevedd_flag ? : number;
+            ffb_flag ? : number;
+            sar_flag ? : number;
+            vfp_flag ? : number;
+            dr_flag ? : number;
+            city_flag ? : number;
+            county_flag ? : number;
+            district_flag ? : number;
+            other_flag ? : number;
+        } = {};
 
         (($('#cdbg').is(':checked'))) ? flags.cdbg_flag = 1: flags.cdbg_flag = 0;
         (($('#csbg').is(':checked'))) ? flags.csbg_flag = 1: flags.csbg_flag = 0;

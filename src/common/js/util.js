@@ -1,5 +1,3 @@
-
-
 module.exports.formatMoney = function(cc: any, dd: any, tt: any) {
     'use strict';
 

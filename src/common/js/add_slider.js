@@ -1,6 +1,9 @@
 // @flow
 
-module.exports = function(map: Object, daterange: {mindate: Date, maxdate: Date}, refreshdata: Function) {
+module.exports = function(map: Object, daterange: {
+    mindate: Date,
+    maxdate: Date
+}, refreshdata: Function) {
     'use strict';
 
     // create the control
@@ -19,7 +22,7 @@ module.exports = function(map: Object, daterange: {mindate: Date, maxdate: Date}
     //disable click propogation to map below
     var diva = L.DomUtil.get('slider');
     L.DomEvent.disableClickPropagation(diva);
-  
+
     var browserwidth = $(window).width();
     $('.sl').width((browserwidth - 100) + "px");
     $(window).resize(function() {

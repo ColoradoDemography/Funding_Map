@@ -1,6 +1,6 @@
 // @flow
 
-module.exports = function(map: Object, instance: Array<Object>, basemaps: Object) {
+module.exports = function(map: Object, instance: Array < Object > , basemaps: Object) {
     'use strict';
 
     var overlays: Object = {

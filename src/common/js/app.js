@@ -1,14 +1,28 @@
 // @flow
 
+var p2: Promise = new Promise(function(resolve) {
+
+    /* $FlowIssue - Flow throws cannot find module error on Worker */
+    var Worker = require("worker!./workers/load_data.js");
+
+    var worker: Worker = new Worker;
+
+    worker.postMessage("start");
+
+    worker.onmessage = function(e) {
+        resolve(e.data);
+    }
+
+});
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
-  
     'use strict';
 
     require("!style!css!../../lib/css/uirange-min.css");
     require("!style!css!../../lib/css/leaflet.modal.css");
-
     require("!style!css!../css/app.css");
-
 
     var basemaps = require("./load_basemaps")();
 
@@ -29,16 +43,10 @@ document.addEventListener("DOMContentLoaded", function() {
         position: 'topright'
     }).addTo(map);
 
-
     require("./add_layer_control.js")(map, instance, basemaps);
 
-    var searchstring = [];
-    var coordinates = [];
 
-
-    require("./d3")(map, searchstring, coordinates, instance[3], instance[4], instance[5]);
-    require("./add_typeahead.js")(map, searchstring, coordinates);
-
+    require("./d3")(map, instance[3], p2);
 
 
 
