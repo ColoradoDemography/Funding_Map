@@ -3,7 +3,7 @@
 var grant_report = require("./grant_report.js");
 var filter_prog_geo_date = require('./filter_prog_geo_date');
 var getcolor = require("./get_color");
-var formatMoney = require("./util").formatMoney;
+var accounting = require("accounting");
 var stack_chips = require("./stack_chips");
 
 
@@ -69,8 +69,8 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
                 } else {
                     projoutput = '<span style="vertical-align: -5px"><i>' + d.projname + '</i></span><br />';
                 }
-                var a = formatMoney.call((parseFloat(d.award)), 0);
-                return tooltip.html('<b>' + d.govname + '</b>' + '<br /><span style="font-family: monospace;">' + projoutput + '-------<br /><span style="color: grey;">Program:</span>&nbsp;' + d.program + '<br /><span style="color: grey;">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;' + (d.dateofaward).toString().slice(4, 15) + '<br />' + '<span style="color: grey;">Award:</span>&nbsp;&nbsp;&nbsp;$' + a + '</span>');
+                var a = accounting.formatMoney(parseFloat(d.award));
+                return tooltip.html('<b>' + d.govname + '</b>' + '<br /><span style="font-family: monospace;">' + projoutput + '-------<br /><span style="color: grey;">Program:</span>&nbsp;' + d.program + '<br /><span style="color: grey;">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;' + (d.dateofaward).toString().slice(4, 15) + '<br />' + '<span style="color: grey;">Award:</span>&nbsp;&nbsp;&nbsp;' + a + '</span>');
             })
             .on("mouseover", function() {
                 return tooltip.style("display", "block");
@@ -132,26 +132,28 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
     });
 
 
-
     function refreshdata() {
 
         var flags: {
-            cdbg_flag ? : number;
-            csbg_flag ? : number, eiaf_flag ? : number;
-            game_flag ? : number;
-            redi_flag ? : number;
-            ctf_flag ? : number;
-            fml_flag ? : number;
-            sevedd_flag ? : number;
-            ffb_flag ? : number;
-            sar_flag ? : number;
-            vfp_flag ? : number;
-            dr_flag ? : number;
-            city_flag ? : number;
-            county_flag ? : number;
-            district_flag ? : number;
-            other_flag ? : number;
-        } = {};
+            cdbg_flag: number;csbg_flag: number;eiaf_flag: number;game_flag: number;redi_flag: number;ctf_flag: number;fml_flag: number;sevedd_flag: number;ffb_flag: number;sar_flag: number;vfp_flag: number;dr_flag: number;city_flag: number;county_flag: number;district_flag: number;other_flag: number
+        } = {
+            cdbg_flag: 0,
+            csbg_flag: 0,
+            eiaf_flag: 0,
+            game_flag: 0,
+            redi_flag: 0,
+            ctf_flag: 0,
+            fml_flag: 0,
+            sevedd_flag: 0,
+            ffb_flag: 0,
+            sar_flag: 0,
+            vfp_flag: 0,
+            dr_flag: 0,
+            city_flag: 0,
+            county_flag: 0,
+            district_flag: 0,
+            other_flag: 0
+        };
 
         (($('#cdbg').is(':checked'))) ? flags.cdbg_flag = 1: flags.cdbg_flag = 0;
         (($('#csbg').is(':checked'))) ? flags.csbg_flag = 1: flags.csbg_flag = 0;
@@ -163,7 +165,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         (($('#ffb').is(':checked'))) ? flags.ffb_flag = 1: flags.ffb_flag = 0;
         (($('#sar').is(':checked'))) ? flags.sar_flag = 1: flags.sar_flag = 0;
         (($('#vfp').is(':checked'))) ? flags.vfp_flag = 1: flags.vfp_flag = 0;
-
+        (($('#fml').is(':checked'))) ? flags.fml_flag = 1: flags.fml_flag = 0;
         (($('#dr').is(':checked'))) ? flags.dr_flag = 1: flags.dr_flag = 0;
 
         (($('#city').is(':checked'))) ? flags.city_flag = 1: flags.city_flag = 0;

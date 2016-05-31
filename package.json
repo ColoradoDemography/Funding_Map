@@ -61,5 +61,8 @@
   "main": "app.min.js",
   "directories": {
     "doc": "docs"
+  },
+  "dependencies": {
+    "accounting": "^0.4.1"
   }
 }

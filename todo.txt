@@ -1,41 +1,35 @@
 
-Padding between Download and Total Button
-Also sum Each Program on Grant Report (Total Rows for each Program?)
+B&W Basemap Option - remove others
+Exclusive Overlay Layers
 
-GeoJSON all one Layer
-
-
-SourceMap?
-
-formatMoney function is a beast.  replace with tolocale in all browsers?
-
-Four-Mile and Little Thompson awards in/around Teller
+Search box : Previous Location Flashes on Double Click
 
 Flash Chips on Search
-
 Geolocation of one sort or another
-
 Symbol (City, County, Dist) on top Chip
-
-
 Overlapping Chips
 
-Device Check
+Device Check - Test on iPhone
  - Mobile buttons
-
-Check browser for Download Report Capability / Web Worker Capability
 
 Set Viewport?   <meta name=viewport content="width=device-width, initial-scale=1">
 mobile mode??? : Only Search and + - (and EASY BUTTON for Legend / Info?)
 
-DocumentationJS
+Filter control - main streets & broadband
+Browser Req's Info
 
+SourceMap?
+DocumentationJS
+Better Flow
+Unit Tests
+ES Lint Rules
 
 
 Data Pipeline
+- Four-Mile and Little Thompson awards in/around Teller
 - CSBG $0 Amounts
 - all NodeJS
 - Single File
 - Data Validation Baked in
 
-
+- County Dollars Summary

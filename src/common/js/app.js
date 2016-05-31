@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
     require("!style!css!../../lib/css/leaflet.modal.css");
     require("!style!css!../css/app.css");
 
+
     var basemaps = require("./load_basemaps")();
 
     var map = L.map('map', {
@@ -46,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
     require("./add_layer_control.js")(map, instance, basemaps);
 
 
-    require("./d3")(map, instance[3], p2);
+    require("./d3")(map, instance[0], p2);
 
 
 

@@ -31,7 +31,7 @@ module.exports = function(map: Object, refreshdata: Function) {
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Limited Gaming Impact Program">GAME</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Rural Economic Development Initiative">REDI</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Conservation Trust Fund">CTF</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="fmldd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Federal Mineral Lease Direct Distribution">FML</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="fml" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Federal Mineral Lease Direct Distribution">FML</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Severance Direct Distribution">SEV</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Firefighter Cardiac Benefit Program">FFB</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="sar" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Search and Rescue">SAR</span><br />' +
@@ -72,7 +72,7 @@ module.exports = function(map: Object, refreshdata: Function) {
     document.getElementById("ctf").addEventListener("click", function() {
         refreshdata();
     }, false);
-    document.getElementById("fmldd").addEventListener("click", function() {
+    document.getElementById("fml").addEventListener("click", function() {
         refreshdata();
     }, false);
 
