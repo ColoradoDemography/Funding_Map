@@ -16,11 +16,11 @@ module.exports = function(map: Object) {
     }
 
     function plan_onEachFeature(feature, layer) {
-        layer.bindPopup("Region " + feature.properties.PlanRgn);
+        layer.bindPopup("County: " + feature.properties.NAME + "<br />" + "Region " + feature.properties.PlanRgn);
     }
 
     function field_onEachFeature(feature, layer) {
-        layer.bindPopup(feature.properties.FieldReg_N + " Region");
+        layer.bindPopup("County: " + feature.properties.NAME + "<br />" + feature.properties.FieldReg_N + " Region");
     }
 
     function score_onEachFeature(feature, layer) {
@@ -53,6 +53,9 @@ module.exports = function(map: Object) {
         onEachFeature: score_onEachFeature
     });
 
+    var blank_layer: Object = new L.geoJson(null, {
+    //empty
+    }).addTo(map);
 
     var p1: Promise = new Promise(function(resolve, reject) {
 
@@ -77,6 +80,6 @@ module.exports = function(map: Object) {
 
     }); //end promise
 
-    return [p1, coutline, planning_region, field_region, impact_score];
+    return [p1, coutline, planning_region, field_region, impact_score, blank_layer];
 
 }

@@ -1,29 +1,14 @@
 
-B&W Basemap Option - remove others
-Exclusive Overlay Layers
+Mobile: Remove Title, Layer Control, Legend - Only
+Credits Leaflet Grouped Layer Control
 
 Search box : Previous Location Flashes on Double Click
-
 Flash Chips on Search
-Geolocation of one sort or another
 Symbol (City, County, Dist) on top Chip
-Overlapping Chips
 
-Device Check - Test on iPhone
- - Mobile buttons
-
-Set Viewport?   <meta name=viewport content="width=device-width, initial-scale=1">
-mobile mode??? : Only Search and + - (and EASY BUTTON for Legend / Info?)
-
-Filter control - main streets & broadband
-Browser Req's Info
-
-SourceMap?
 DocumentationJS
 Better Flow
 Unit Tests
-ES Lint Rules
-
 
 Data Pipeline
 - Four-Mile and Little Thompson awards in/around Teller
@@ -31,5 +16,4 @@ Data Pipeline
 - all NodeJS
 - Single File
 - Data Validation Baked in
-
 - County Dollars Summary

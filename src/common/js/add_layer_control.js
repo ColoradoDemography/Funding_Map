@@ -3,18 +3,34 @@
 module.exports = function(map: Object, instance: Array < Object > , basemaps: Object) {
     'use strict';
 
+//         "Mapquest": basemaps.mapquestOSM,
+//         "Mapbox Streets": basemaps.classic,
+  
     var basemap: Object = {
-        "Mapbox Emerald": basemaps.emerald,
-        "Mapquest": basemaps.mapquestOSM,
-        "Mapbox Streets": basemaps.classic
+        "Mapbox Light": basemaps.light,
+        "Mapbox Emerald": basemaps.emerald
     };
 
-    var overlays: Object = {
-        "Planning Regions": instance[2],
-        "Field Regions": instance[3],
-        "Impact Score": instance[4]
-    };
+  
+var groupedOverlays: Object = {
+  "Overlays": {
+    "None": instance[5],
+    "Planning Regions": instance[2],
+    "Field Regions": instance[3],
+    "Impact Score": instance[4]
+  }
+};
+  
+var options = {
+  exclusiveGroups: ["Overlays"]
+};
 
-    L.control.layers(basemap, overlays).addTo(map);
+L.control.groupedLayers(basemap, groupedOverlays, options).addTo(map);
+  
 
+  
+  
+  
+  
+  
 }

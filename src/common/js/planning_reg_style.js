@@ -9,85 +9,85 @@ module.exports = function(feature: Object): Object {
         case 1:
             style_obj = {
                 stroke: false,
-                color: "rgb(102,237,100)"
+                color: "rgb(63,114,252)"
             };
             break;
         case 2:
             style_obj = {
                 stroke: false,
-                color: "rgb(176,118,79)"
+                color: "rgb(56,168,0)"
             };
             break;
         case 3:
             style_obj = {
                 stroke: false,
-                color: "rgb(116,68,194)"
+                color: "rgb(252,114,101)"
             };
             break;
         case 4:
             style_obj = {
                 stroke: false,
-                color: "rgb(81,197,232)"
+                color: "rgb(63,252,224)"
             };
             break;
         case 5:
             style_obj = {
                 stroke: false,
-                color: "rgb(250,105,173)"
+                color: "rgb(252,63,237)"
             };
             break;
         case 6:
             style_obj = {
                 stroke: false,
-                color: "rgb(73,128,74)"
+                color: "rgb(252,205,63)"
             };
             break;
         case 7:
             style_obj = {
                 stroke: false,
-                color: "rgb(255,255,115)"
+                color: "rgb(168,112,0)"
             };
             break;
         case 8:
             style_obj = {
                 stroke: false,
-                color: "rgb(47,80,130)"
+                color: "rgb(252,235,190)"
             };
             break;
         case 9:
             style_obj = {
                 stroke: false,
-                color: "rgb(47,80,130)"
+                color: "rgb(255,170,0)"
             };
             break;
         case 10:
             style_obj = {
                 stroke: false,
-                color: "rgb(47,80,130)"
+                color: "rgb(63,158,252)"
             };
             break;
         case 11:
             style_obj = {
                 stroke: false,
-                color: "rgb(47,80,130)"
+                color: "rgb(136,252,101)"
             };
             break;
         case 12:
             style_obj = {
                 stroke: false,
-                color: "rgb(47,80,130)"
+                color: "rgb(230,252,63)"
             };
             break;
         case 13:
             style_obj = {
                 stroke: false,
-                color: "rgb(47,80,130)"
+                color: "rgb(252,25,109)"
             };
             break;
         case 14:
             style_obj = {
                 stroke: false,
-                color: "rgb(47,80,130)"
+                color: "rgb(0,168,132)"
             };
             break;
 

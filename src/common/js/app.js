@@ -23,14 +23,14 @@ document.addEventListener("DOMContentLoaded", function() {
     require("!style!css!../../lib/css/uirange-min.css");
     require("!style!css!../../lib/css/leaflet.modal.css");
     require("!style!css!../css/app.css");
-
+    require("!style!css!../../lib/css/leaflet.groupedlayercontrol.min.css");
 
     var basemaps = require("./load_basemaps")();
 
     var map = L.map('map', {
         center: [39, -105.5],
-        zoom: 7,
-        layers: [basemaps.emerald],
+        zoom: 9,
+        layers: [basemaps.light],
         zoomControl: false
     });
 

@@ -23,7 +23,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         mindate: Date,
         maxdate: Date
     } = {
-        mindate: new Date(2014, 0, 1),
+        mindate: new Date(2015, 0, 1),
         maxdate: new Date()
     };
 
@@ -50,7 +50,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         citiesUpd.enter()
             .append('circle')
             .style("opacity", 1e-6)
-            .attr('r', 0.8)
+            .attr('r', 3.2)
             .attr('cx', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).x;
             })
@@ -58,7 +58,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
                 return proj.latLngToLayerPoint(d.latLng).y;
             })
             .attr('stroke', 'black')
-            .attr('stroke-width', 0.03)
+            .attr('stroke-width', 0.12)
             .attr('fill', function(d) {
                 return getcolor(d.program);
             })
@@ -125,7 +125,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
 
         require("./add_typeahead.js")(map, values[1][1], values[1][2]);
 
-        map.setView(L.latLng(38.9983, -105.6417), 9);
+//      map.setView(L.latLng(38.9983, -105.6417), 9);
         refreshdata();
         map.addLayer(citiesOverlay);
 

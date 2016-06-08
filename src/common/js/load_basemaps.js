@@ -20,7 +20,11 @@ module.exports = function() {
         id: 'mapbox.streets-basic',
         attribution: basemaps.mbAttr
     });
-
+  
+    basemaps.light = L.tileLayer(basemaps.mbUrl, {
+        id: 'mapbox.light',
+        attribution: basemaps.mbAttr
+    });
 
     basemaps.mapquestOSM = L.tileLayer("https://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png", {
         maxZoom: 19,
