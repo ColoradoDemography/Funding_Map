@@ -54,7 +54,7 @@ module.exports = function(map: Object) {
     });
 
     var blank_layer: Object = new L.geoJson(null, {
-    //empty
+        //empty
     }).addTo(map);
 
     var p1: Promise = new Promise(function(resolve, reject) {

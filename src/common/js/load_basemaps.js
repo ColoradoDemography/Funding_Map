@@ -20,7 +20,7 @@ module.exports = function() {
         id: 'mapbox.streets-basic',
         attribution: basemaps.mbAttr
     });
-  
+
     basemaps.light = L.tileLayer(basemaps.mbUrl, {
         id: 'mapbox.light',
         attribution: basemaps.mbAttr

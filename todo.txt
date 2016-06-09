@@ -4,13 +4,14 @@ Credits Leaflet Grouped Layer Control
 
 Search box : Previous Location Flashes on Double Click
 Flash Chips on Search
-Symbol (City, County, Dist) on top Chip
+
 
 DocumentationJS
 Better Flow
 Unit Tests
 
 Data Pipeline
+- Space Chips
 - Four-Mile and Little Thompson awards in/around Teller
 - CSBG $0 Amounts
 - all NodeJS

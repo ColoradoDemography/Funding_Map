@@ -5,18 +5,49 @@ var filter_prog_geo_date = require('./filter_prog_geo_date');
 var getcolor = require("./get_color");
 var accounting = require("accounting");
 var stack_chips = require("./stack_chips");
-
+var top_text = require("./top_text.js");
 
 
 module.exports = function(map: Object, p1: Promise, p2: Promise) {
     'use strict';
 
+  function symbolize(d){
+    if(d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5){ return "✦"; }
+    if(d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70){ return "★"; }    
+    if(d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100){ return "∎"; }
+    if(d.lgtype === 100){ return "▲"; }   
+    
+    return "ARG!!!";  //hopefully not
+    
+  } //✦★∎▲
 
+
+  function fontSize(d){
+    if(d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5){ return "3.9pt"; }
+    if(d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70){ return "3.9pt"; }    
+    if(d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100){ return "3.5pt"; }
+    if(d.lgtype === 100){ return "3.1pt"; }   
+    
+    return "100pt";  //hopefully not
+    
+  } //✦★∎▲
+  
+
+  function offSet(d){
+    if(d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5){ return 1.7; }
+    if(d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70){ return 1.6; }    
+    if(d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100){ return 1.25; }
+    if(d.lgtype === 100){ return 1.4; }   
+    
+    return 4;  //hopefully not
+    
+  } //✦★∎▲
+  
     var animation_ms: number = 1000;
 
     var csvdatacopy: Array < Object > = [];
     var cities: Array < Object > = [];
-
+    var texts: Array < Object > = [];
 
     //not constants... can be changed by slider
     var daterange: {
@@ -39,13 +70,14 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         .text("a simple tooltip");
 
 
-    var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
+var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
 
         var key = function(d): number {
             return d.id;
         };
 
-        var citiesUpd = sel.selectAll('circle').data(cities, key);
+        var citiesUpd = sel.selectAll('circle')
+        .data(cities, key);
 
         citiesUpd.enter()
             .append('circle')
@@ -86,7 +118,6 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
             });
 
 
-
         //move all circles
         citiesUpd
             .transition()
@@ -104,31 +135,75 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         citiesUpd.exit()
             .transition()
             .duration(animation_ms)
-            .style("opacity", 1e-6).remove()
-            .attr('cx', function(d) {
-                return proj.latLngToLayerPoint(d.latLng).x;
-            })
-            .attr('cy', function(d) {
-                return proj.latLngToLayerPoint(d.latLng).y;
-            });
+            .style("opacity", 1e-6)
+            .remove();
+
 
         citiesUpd.order();
 
+  
+  var textUpd = sel.selectAll('text')
+        .data(texts, key);
+
+        textUpd.enter()
+            .append('text')
+            .style('text-anchor', 'middle')
+            .style('pointer-events', 'none')
+                    .style("opacity", 1e-6)
+        .style('stroke', '#2f4f4f')
+        .style('stroke-width' , '0.1')
+               .style('fill', '#eee9e9')
+        .style('font-size',fontSize)
+            .attr('x', function(d) {
+                return proj.latLngToLayerPoint(d.latLng).x;
+            })
+            .attr('y', function(d) {
+                return proj.latLngToLayerPoint(d.latLng).y + offSet(d);
+            })
+          .text(symbolize);
+
+
+        //move all circles
+        textUpd
+            .transition()
+            .duration(animation_ms)
+            .ease("linear")
+                    .style("opacity", 1)
+            .attr('x', function(d) {
+                return proj.latLngToLayerPoint(d.latLng).x;
+            })
+            .attr('y', function(d) {
+                return proj.latLngToLayerPoint(d.latLng).y + offSet(d);
+            });
+
+
+        textUpd.exit()
+            .transition()
+            .duration(animation_ms)
+            .style("opacity", 1e-6)
+            .remove();
+
+        textUpd.order();
     });
+
 
 
     //so that geojson layers do not load before chips (preventing them from being clickable)
     Promise.all([p1, p2]).then(function(values) {
 
+
+      
         cities = values[1][0];
         csvdatacopy = cities;
 
+
         require("./add_typeahead.js")(map, values[1][1], values[1][2]);
 
-//      map.setView(L.latLng(38.9983, -105.6417), 9);
+        //      map.setView(L.latLng(38.9983, -105.6417), 9);
         refreshdata();
         map.addLayer(citiesOverlay);
 
+      
     });
 
 
@@ -175,6 +250,8 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
 
         cities = csvdatacopy.filter(d => filter_prog_geo_date(d, flags, daterange));
         cities = stack_chips(cities);
+        texts = top_text(cities);
+      
         map.fireEvent('zoomend', {}); //lol, hack to refresh
     }
 
