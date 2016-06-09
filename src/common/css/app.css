@@ -450,3 +450,29 @@ h3 {
 #bblink {
     font-family: Courier, sans-serif;
 }
+
+
+@media (max-width: 599px) {
+  .command, #slider, .title, .leaflet-control-layers {
+    display: none;
+  }
+  .ifmobile {
+    display: visible;
+  }
+  .notmobile {
+    display: none;
+  }
+}
+
+
+@media (min-width: 600px) {
+  .command, #slider, .title, .leaflet-control-layers {
+    display: visible;
+  }
+  .ifmobile {
+    display: none;
+  }
+  .notmobile {
+    display: visible;
+  }
+}

@@ -1,20 +1,37 @@
 
+Blockers
+---------
 Mobile: Remove Title, Layer Control, Legend - Only
-Credits Leaflet Grouped Layer Control
+Space Chips (abandon automated searching of Muni Bounds and Special Districts for getting centroid pts)
+Four-Mile and Little Thompson awards in/around Teller
 
+
+BUGs: 
+------
 Search box : Previous Location Flashes on Double Click
-Flash Chips on Search
 
 
+Data Pipeline Improvments:
+--------------------------
+CSBG $0 Amounts
+all NodeJS
+Single File Pipeline
+Data Validation Report (as CSV product from Data Pipeline)
+
+
+Enhancements:
+------------
+Control Box cosmetic improvments
+Animate a shrinking search circle marker
+County Dollars Summary Download (as CSV product from Data Pipeline)
+Better Popup boxes for Planning and Field Regions
+
+
+Development:
+-----------
 DocumentationJS
-Better Flow
-Unit Tests
 
-Data Pipeline
-- Space Chips
-- Four-Mile and Little Thompson awards in/around Teller
-- CSBG $0 Amounts
-- all NodeJS
-- Single File
-- Data Validation Baked in
-- County Dollars Summary
+
+Reminders
+---------
+Check on Firefox, IE, Safari

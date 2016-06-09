@@ -23,10 +23,10 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
 
 
   function fontSize(d){
-    if(d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5){ return "3.9pt"; }
-    if(d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70){ return "3.9pt"; }    
+    if(d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5){ return "4pt"; }
+    if(d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70){ return "4pt"; }    
     if(d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100){ return "3.5pt"; }
-    if(d.lgtype === 100){ return "3.1pt"; }   
+    if(d.lgtype === 100){ return "3pt"; }   
     
     return "100pt";  //hopefully not
     
@@ -57,8 +57,15 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         mindate: new Date(2015, 0, 1),
         maxdate: new Date()
     };
+  
+  function dateShort(dateobj){
+    return (dateobj.getMonth() + 1) + '/' + dateobj.getDate() + '/' +  dateobj.getFullYear();
+  }
 
+  var ifmobile = document.getElementById('ifmobile');
+ifmobile.innerHTML = " | <a href='https://dola.colorado.gov'>DOLA</a> | " + dateShort(daterange.mindate) + " to " + dateShort(daterange.maxdate);
 
+  
     var tooltip = d3.select("body")
         .append("div")
         .style("position", "absolute")
@@ -94,28 +101,9 @@ var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
             .attr('fill', function(d) {
                 return getcolor(d.program);
             })
-            .on("mouseenter", function(d) {
-                var projoutput = "";
-                if (d.projname === "null" || d.projname === null) {
-                    projoutput = '';
-                } else {
-                    projoutput = '<span style="vertical-align: -5px"><i>' + d.projname + '</i></span><br />';
-                }
-                var a = accounting.formatMoney(parseFloat(d.award));
-                return tooltip.html('<b>' + d.govname + '</b>' + '<br /><span style="font-family: monospace;">' + projoutput + '-------<br /><span style="color: grey;">Program:</span>&nbsp;' + d.program + '<br /><span style="color: grey;">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;' + (d.dateofaward).toString().slice(4, 15) + '<br />' + '<span style="color: grey;">Award:</span>&nbsp;&nbsp;&nbsp;' + a + '</span>');
-            })
-            .on("mouseover", function() {
-                return tooltip.style("display", "block");
-            })
-            .on("mousemove", function() {
-                return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
-            })
-            .on("mouseout", function() {
-                return tooltip.style("display", "none");
-            })
-            .on("click", function(d) {
-                grant_report(d, map, cities, daterange)
-            });
+        .style('pointer-events', 'none');
+            
+        
 
 
         //move all circles
@@ -148,8 +136,7 @@ var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
         textUpd.enter()
             .append('text')
             .style('text-anchor', 'middle')
-            .style('pointer-events', 'none')
-                    .style("opacity", 1e-6)
+                  .style("opacity", 1e-6)
         .style('stroke', '#2f4f4f')
         .style('stroke-width' , '0.1')
                .style('fill', '#eee9e9')
@@ -160,7 +147,29 @@ var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
             .attr('y', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).y + offSet(d);
             })
-          .text(symbolize);
+          .text(symbolize)
+        .on("mouseenter", function(d) {
+                var projoutput = "";
+                if (d.projname === "null" || d.projname === null) {
+                    projoutput = '';
+                } else {
+                    projoutput = '<span style="vertical-align: -5px"><i>' + d.projname + '</i></span><br />';
+                }
+                var a = accounting.formatMoney(parseFloat(d.award));
+                return tooltip.html('<b>' + d.govname + '</b>' + '<br /><span style="font-family: monospace;">' + projoutput + '-------<br /><span style="color: grey;">Program:</span>&nbsp;' + d.program + '<br /><span style="color: grey;">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;' + (d.dateofaward).toString().slice(4, 15) + '<br />' + '<span style="color: grey;">Award:</span>&nbsp;&nbsp;&nbsp;' + a + '</span>');
+            })
+            .on("mouseover", function() {
+                return tooltip.style("display", "block");
+            })
+            .on("mousemove", function() {
+                return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
+            })
+            .on("mouseout", function() {
+                return tooltip.style("display", "none");
+            })
+            .on("click", function(d) {
+                grant_report(d, map, cities, daterange)
+            });
 
 
         //move all circles
