@@ -11,38 +11,62 @@ var top_text = require("./top_text.js");
 module.exports = function(map: Object, p1: Promise, p2: Promise) {
     'use strict';
 
-  function symbolize(d){
-    if(d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5){ return "✦"; }
-    if(d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70){ return "★"; }    
-    if(d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100){ return "∎"; }
-    if(d.lgtype === 100){ return "▲"; }   
-    
-    return "ARG!!!";  //hopefully not
-    
-  } //✦★∎▲
+    function symbolize(d) {
+        if (d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5) {
+            return "✦";
+        }
+        if (d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70) {
+            return "★";
+        }
+        if (d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100) {
+            return "∎";
+        }
+        if (d.lgtype === 100) {
+            return "▲";
+        }
+
+        return "ARG!!!"; //hopefully not
+
+    } //✦★∎▲
 
 
-  function fontSize(d){
-    if(d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5){ return "4pt"; }
-    if(d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70){ return "4pt"; }    
-    if(d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100){ return "3.5pt"; }
-    if(d.lgtype === 100){ return "3pt"; }   
-    
-    return "100pt";  //hopefully not
-    
-  } //✦★∎▲
-  
+    function fontSize(d) {
+        if (d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5) {
+            return "4pt";
+        }
+        if (d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70) {
+            return "4pt";
+        }
+        if (d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100) {
+            return "3.5pt";
+        }
+        if (d.lgtype === 100) {
+            return "3pt";
+        }
 
-  function offSet(d){
-    if(d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5){ return 1.7; }
-    if(d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70){ return 1.6; }    
-    if(d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100){ return 1.25; }
-    if(d.lgtype === 100){ return 1.4; }   
-    
-    return 4;  //hopefully not
-    
-  } //✦★∎▲
-  
+        return "100pt"; //hopefully not
+
+    } //✦★∎▲
+
+
+    function offSet(d) {
+        if (d.lgtype === 2 || d.lgtype === 3 || d.lgtype === 4 || d.lgtype === 5) {
+            return 1.7;
+        }
+        if (d.lgtype === 1 || d.lgtype === 61 || d.lgtype === 70) {
+            return 1.6;
+        }
+        if (d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100) {
+            return 1.25;
+        }
+        if (d.lgtype === 100) {
+            return 1.4;
+        }
+
+        return 4; //hopefully not
+
+    } //✦★∎▲
+
     var animation_ms: number = 1000;
 
     var csvdatacopy: Array < Object > = [];
@@ -54,18 +78,18 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         mindate: Date,
         maxdate: Date
     } = {
-        mindate: new Date(2015, 0, 1),
+        mindate: new Date(2012, 0, 1),
         maxdate: new Date()
     };
-  
-  function dateShort(dateobj){
-    return (dateobj.getMonth() + 1) + '/' + dateobj.getDate() + '/' +  dateobj.getFullYear();
-  }
 
-  var ifmobile = document.getElementById('ifmobile');
-ifmobile.innerHTML = " | <a href='https://dola.colorado.gov'>DOLA</a> | " + dateShort(daterange.mindate) + " to " + dateShort(daterange.maxdate);
+    function dateShort(dateobj) {
+        return (dateobj.getMonth() + 1) + '/' + dateobj.getDate() + '/' + dateobj.getFullYear();
+    }
 
-  
+    var ifmobile = document.getElementById('ifmobile');
+    ifmobile.innerHTML = " | <a href='https://dola.colorado.gov'>DOLA</a> | " + dateShort(daterange.mindate) + " to " + dateShort(daterange.maxdate);
+
+
     var tooltip = d3.select("body")
         .append("div")
         .style("position", "absolute")
@@ -77,14 +101,14 @@ ifmobile.innerHTML = " | <a href='https://dola.colorado.gov'>DOLA</a> | " + date
         .text("a simple tooltip");
 
 
-var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
+    var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
 
         var key = function(d): number {
             return d.id;
         };
 
         var citiesUpd = sel.selectAll('circle')
-        .data(cities, key);
+            .data(cities, key);
 
         citiesUpd.enter()
             .append('circle')
@@ -101,9 +125,31 @@ var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
             .attr('fill', function(d) {
                 return getcolor(d.program);
             })
-        .style('pointer-events', 'none');
-            
-        
+                    .on("mouseenter", function(d) {
+                var projoutput = "";
+                if (d.projname === "null" || d.projname === null) {
+                    projoutput = '';
+                } else {
+                    projoutput = '<span style="vertical-align: -5px"><i>' + d.projname + '</i></span><br />';
+                }
+                var a = accounting.formatMoney(parseFloat(d.award));
+          //console.log('{"lgid": "' + d.lgid + '", "fips":null, "lgname": "' + d.govname + '", "lgtype": "'+d.lgtype+'", "lgstatus":"1", "bbox":"", "coordinates":[' + d.longitude + ',' + d.latitude + ']},');
+                return tooltip.html('<b>' + d.govname + '</b>' + '<br /><span style="font-family: monospace;">' + projoutput + '-------<br /><span style="color: grey;">Program:</span>&nbsp;' + d.program + '<br /><span style="color: grey;">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;' + (d.dateofaward).toString().slice(4, 15) + '<br />' + '<span style="color: grey;">Award:</span>&nbsp;&nbsp;&nbsp;' + a + '</span>');
+            })
+            .on("mouseover", function() {
+                return tooltip.style("display", "block");
+            })
+            .on("mousemove", function() {
+                return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
+            })
+            .on("mouseout", function() {
+                return tooltip.style("display", "none");
+            })
+            .on("click", function(d) {
+                grant_report(d, map, cities, daterange)
+            });
+
+
 
 
         //move all circles
@@ -129,47 +175,27 @@ var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
 
         citiesUpd.order();
 
-  
-  var textUpd = sel.selectAll('text')
-        .data(texts, key);
+
+        var textUpd = sel.selectAll('text')
+            .data(texts, key);
 
         textUpd.enter()
             .append('text')
             .style('text-anchor', 'middle')
-                  .style("opacity", 1e-6)
-        .style('stroke', '#2f4f4f')
-        .style('stroke-width' , '0.1')
-               .style('fill', '#eee9e9')
-        .style('font-size',fontSize)
+            .style("opacity", 1e-6)
+            .style('stroke', '#2f4f4f')
+            .style('stroke-width', '0.1')
+            .style('fill', '#eee9e9')
+            .style('font-size', fontSize)
             .attr('x', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).x;
             })
             .attr('y', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).y + offSet(d);
             })
-          .text(symbolize)
-        .on("mouseenter", function(d) {
-                var projoutput = "";
-                if (d.projname === "null" || d.projname === null) {
-                    projoutput = '';
-                } else {
-                    projoutput = '<span style="vertical-align: -5px"><i>' + d.projname + '</i></span><br />';
-                }
-                var a = accounting.formatMoney(parseFloat(d.award));
-                return tooltip.html('<b>' + d.govname + '</b>' + '<br /><span style="font-family: monospace;">' + projoutput + '-------<br /><span style="color: grey;">Program:</span>&nbsp;' + d.program + '<br /><span style="color: grey;">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;' + (d.dateofaward).toString().slice(4, 15) + '<br />' + '<span style="color: grey;">Award:</span>&nbsp;&nbsp;&nbsp;' + a + '</span>');
-            })
-            .on("mouseover", function() {
-                return tooltip.style("display", "block");
-            })
-            .on("mousemove", function() {
-                return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
-            })
-            .on("mouseout", function() {
-                return tooltip.style("display", "none");
-            })
-            .on("click", function(d) {
-                grant_report(d, map, cities, daterange)
-            });
+            .text(symbolize)
+                    .style('pointer-events', 'none');
+
 
 
         //move all circles
@@ -177,7 +203,7 @@ var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
             .transition()
             .duration(animation_ms)
             .ease("linear")
-                    .style("opacity", 1)
+            .style("opacity", 1)
             .attr('x', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).x;
             })
@@ -201,7 +227,7 @@ var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
     Promise.all([p1, p2]).then(function(values) {
 
 
-      
+
         cities = values[1][0];
         csvdatacopy = cities;
 
@@ -212,7 +238,7 @@ var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
         refreshdata();
         map.addLayer(citiesOverlay);
 
-      
+
     });
 
 
@@ -260,7 +286,7 @@ var citiesOverlay = L.d3SvgOverlay(function(sel, proj) {
         cities = csvdatacopy.filter(d => filter_prog_geo_date(d, flags, daterange));
         cities = stack_chips(cities);
         texts = top_text(cities);
-      
+
         map.fireEvent('zoomend', {}); //lol, hack to refresh
     }
 

@@ -47,7 +47,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
 
         $('.typeahead').on('keyup', function(e) {
             if (e.which == 13) {
-              
+
                 //console.log('pressed return');
                 e.preventDefault();
                 //find the selectable item under the input, if any:
@@ -73,7 +73,7 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
         $('#slgid').on('click', function() {
             //clear box on click
             $('#slgid').val("");
-       //   $('pre').empty();
+            //   $('pre').empty();
         });
     }
 
@@ -87,16 +87,18 @@ module.exports = function(map: Object, searchstring: Array < string > , coordina
         }
         map.setView(latlng, 12);
         map.fireEvent('zoomend'); //hack to refresh D3
-      
-     var circle = L.circle(latlng, 1500, {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5
-});
-      circle.addTo(map);
-      
-      window.setTimeout(function(){ map.removeLayer(circle);}, 3000);
-      
+
+        var circle = L.circle(latlng, 1500, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5
+        });
+        circle.addTo(map);
+
+        window.setTimeout(function() {
+            map.removeLayer(circle);
+        }, 3000);
+
         $('.tt-menu').css("visibility", "hidden");
     }
 

@@ -25,12 +25,12 @@ module.exports = function(map: Object, refreshdata: Function) {
             '&nbsp;&nbsp;<span style="padding-left: 7px; padding-right: 3px; font-size: 13pt; line-height: 15pt;">&#9650;</span>&nbsp;&nbsp;&nbsp;Other</form></div>' +
 
             '<div id="tabs-2"><h4 style="margin-bottom: 10px;">Programs&nbsp;&nbsp;<span id="prgbtn" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" style="margin-top: -10px; margin-left: 20px;" title="Program Information" ><span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text">Program Information</span></span></h4>' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grants">CDBG</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Services Block Grants">CSBG</span><br />' +
+            //'&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grants">CDBG</span><br />' +
+            //'&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Services Block Grants">CSBG</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Energy/Mineral Impact Assistance Fund">EIAF</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Limited Gaming Impact Program">GAME</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Rural Economic Development Initiative">REDI</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Conservation Trust Fund">CTF</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox"  />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Conservation Trust Fund">CTF</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="fml" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Federal Mineral Lease Direct Distribution">FML</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Severance Direct Distribution">SEV</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Firefighter Cardiac Benefit Program">FFB</span><br />' +
