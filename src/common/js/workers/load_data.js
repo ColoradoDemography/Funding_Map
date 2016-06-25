@@ -38,7 +38,7 @@ onmessage = function(e) {
         var coordinates = [];
 
         d3.csv("https://storage.googleapis.com/co-publicdata/grants.csv", function(data) {
-            d3.csv("/data/keypts.csv", function(keys) {
+            d3.csv("../data/keypts.csv", function(keys) {
               
                 //seed search box            
                 keys.forEach(d => {
