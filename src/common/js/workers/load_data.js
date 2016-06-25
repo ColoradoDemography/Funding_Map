@@ -37,8 +37,8 @@ onmessage = function(e) {
         var searchstring = [];
         var coordinates = [];
 
-        d3.csv("https://storage.googleapis.com/co-publicdata/grantpts.csv", function(data) {
-            d3.csv("https://storage.googleapis.com/co-publicdata/keypts.csv", function(keys) {
+        d3.csv("https://storage.googleapis.com/co-publicdata/grants.csv", function(data) {
+            d3.csv("https://storage.googleapis.com/co-publicdata/newkeypts.csv", function(keys) {
 
                 //seed search box            
                 keys.forEach(d => {
@@ -65,7 +65,12 @@ onmessage = function(e) {
                     return initial_grantdata_crunch(d, searchstring, coordinates, keys);
                 });
 
-                var cities = stack_chips(data_translated);
+              //remove undefineds
+              var rem_undef=data_translated.filter(d => {
+                if(d){return true;}else{return false;}
+              })
+              
+                var cities = stack_chips(rem_undef);
                 cities.forEach(d => valueize(d));
                 cities = cities.sort(sortNumeric);
 

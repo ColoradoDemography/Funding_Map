@@ -5,7 +5,6 @@ var monthNumStr = require("./util").monthNumStr;
 module.exports = function(d: Object, searchstring: Array < string > , coordinates: Array < [number, number] > , keys: Array < Object > ) {
 
 
-
     if (d.program === "FML_SB106") {
         d.program = "FML";
     }

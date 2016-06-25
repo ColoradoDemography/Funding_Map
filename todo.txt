@@ -1,10 +1,15 @@
 
+Flag lgids that dont match newkeypts file
+this happens when data is being joined in webworker (grants vs newkeypts)
+rem_undef is temp hack
+
 Blockers
 ---------
-Space Chips (abandon automated searching of Muni Bounds and Special Districts for getting centroid pts)
 
 Upper Arkansas Area Council O(o)f Governments duplicate x00111 X00010
-  - potentially fixed
+  - here's the deal:  csbg_pts should only be used to add points that already already represented elsewhere.  Otherwise Duplicates.
+  
+  
   
 Four-Mile and Little Thompson awards in/around Teller
   - email sent to Dave Bowman to correct data in Oracle to proper LGID
@@ -12,6 +17,7 @@ Four-Mile and Little Thompson awards in/around Teller
 Sometimes dissapearing text markers
   - probably occurs when circle SVG renders before text SVG
 
+CTF clickbox not triggering change immediately
 
 
 BUGs: 

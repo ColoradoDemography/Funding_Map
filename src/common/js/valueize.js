@@ -12,8 +12,6 @@ module.exports = function(d: Object): Object {
     //TODO edge case remove alphachars from csbg
     //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG", "DR"];
 
-
-
     var basedate: Date = new Date(2000, 0, 1);
 
     if (lgidset.indexOf(d.lgid) === -1) {
