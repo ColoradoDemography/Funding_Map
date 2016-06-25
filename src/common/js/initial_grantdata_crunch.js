@@ -21,6 +21,7 @@ module.exports = function(d: Object, searchstring: Array < string > , coordinate
         d.projname = d.program + " Distribution";
     }
 
+  
     function matchLGID(element, index, array) {
         if (array[index].lgid === d.lgid) {
             return true;
@@ -45,7 +46,8 @@ module.exports = function(d: Object, searchstring: Array < string > , coordinate
         rObj['projname'] = d.projname;
         return rObj;
     } else {
-        console.log('problem?');
+        console.log('problem? no match for ' + d.lgid);
+        console.log('please add an entry in the keypts.csv file for ' + d.lgid);
     }
 
 }

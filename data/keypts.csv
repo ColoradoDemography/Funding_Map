@@ -1,0 +1,980 @@
+lgid,lgtype,latitude,longitude,govname
+01001,1,39.99,-104.82,Adams County
+01005,2,39.86,-104.82,"Commerce City, City of"
+01009,2,39.87,-105.02,"Federal Heights, City of"
+01011,12,39.99,-104.88,Hi-Land Acres Water & Sanitation District
+01013,7,39.85,-105.04,Hyland Hills Metropolitan Park & Recreation District
+01023,8,39.85,-104.84,South Adams County Fire Protection District
+01024,8,39.82,-105.04,Southwest Adams County Fire Protection District
+01039,6,40,-104.76,Bromley Park Metropolitan District No. 2
+01041,6,39.99,-104.74,Brighton Crossing Metropolitan District No. 4
+01049,6,39.92,-104.91,Wright Farms Metropolitan District
+01064,6,39.91,-104.8,Buffalo Ridge Metropolitan District
+01065,6,39.87,-104.86,Eagle Creek Metropolitan District
+01066,6,39.9,-104.86,Riverdale Dunes Metropolitan District No. 1
+01082,6,39.89,-104.88,Belle Creek Metropolitan District No. 1
+01102,7,39.83,-104.5,Bennett Park and Recreation District
+01900,99,39.83,-104.94,Mapleton 1 School District
+01901,99,39.93,-104.99,Adams 12 Five Star Schools
+01902,99,39.84,-104.87,Adams County 14 School District
+01910,99,39.83,-105.02,Westminster 50 School District
+02001,1,37.47,-105.87,Alamosa County
+02003,2,37.48,-105.89,"Alamosa, City of"
+02004,12,37.47,-105.83,East Alamosa Water & Sanitation District
+02005,5,37.75,-105.88,"Hooper, Town of"
+03001,1,39.61,-105.02,Arapahoe County
+03006,6,39.6,-104.87,Arapahoe Lake Public Park District
+03012,6,39.59,-104.7,Chaparral Metropolitan District
+03015,7,39.61,-104.86,Cherry Creek Vista Metropolitan Recreation & Park District
+03023,2,39.64,-104.95,"Cherry Hills Village, City of"
+03024,6,39.66,-104.83,Heather Gardens Metropolitan District
+03029,5,39.6,-105.04,"Columbine Valley, Town of"
+03032,8,39.64,-104.8,Cunningham Fire Protection District
+03033,5,39.61,-104.04,"Deer Trail, Town of"
+03036,6,39.6,-104.66,East Arapahoe Metropolitan District
+03041,2,39.65,-105,"Englewood, City of"
+03043,2,39.7,-104.94,"Glendale, City of"
+03051,2,39.62,-104.92,"Greenwood Village, City of"
+03059,7,39.61,-104.9,Orchard Hills Metropolitan Recreation & Park District
+03065,2,39.65,-105.04,"Sheridan, City of"
+03067,6,39.62,-104.72,Smoky Hill Metropolitan District
+03076,6,39.61,-104.87,Sundance Hills Metropolitan District
+03087,7,39.62,-104.68,Arapahoe Park & Recreation District
+03097,6,39.58,-104.84,Dove Valley Metropolitan District
+03103,6,39.58,-104.74,Parker Jordan Metropolitan District
+03129,6,39.6,-104.82,Goodman Metropolitan District
+03130,6,39.62,-104.64,East Smoky Hill Metropolitan District No. 1
+03134,5,39.59,-104.78,"Foxfield, Town of"
+03163,2,39.59,-104.87,"Centennial, City of"
+03903,99,39.62,-104.84,Cherry Creek 5 School District
+03905,99,39.65,-104.98,Englewood 1 School District
+03906,99,39.59,-104.98,Littleton 6 School District
+03907,99,39.65,-105.02,Sheridan 2 School District
+04001,1,37.27,-107.01,Archuleta County
+04004,8,37.26,-107.08,Pagosa Fire Protection District
+04006,2,37.27,-107.03,"Pagosa Springs, Town of"
+04014,6,37.33,-106.95,San Juan River Village Metropolitan District
+04015,6,37.26,-107.05,Alpha-Rockridge Metropolitan District
+04018,6,37.18,-106.98,Loma Linda Metropolitan District
+05001,1,37.41,-102.61,Baca County
+05003,5,37.1,-102.58,"Campo, Town of"
+05006,5,37.37,-102.86,"Pritchett, Town of"
+05008,9,37.4,-102.59,Southeast Colorado Hospital District
+05010,7,37.4,-102.65,Springfield Metropolitan Recreation District
+05011,5,37.4,-102.63,"Springfield, Town of"
+05014,7,37.57,-102.42,Two Buttes Metropolitan Recreation & Park District
+05016,5,37.56,-102.4,"Two Buttes, Town of"
+05018,7,37.34,-102.43,Vilas Metropolitan Recreation District
+05019,5,37.37,-102.45,"Vilas, Town of"
+05021,9,37.38,-102.26,Walsh Hospital District
+05022,7,37.31,-102.19,Walsh Metropolitan Recreation District
+05023,5,37.39,-102.28,"Walsh, Town of"
+05026,7,37.09,-102.6,Campo Park & Recreation District
+05900,99,37.33,-102.21,Walsh RE-1 School District
+05901,99,37.34,-102.94,Pritchett RE-3 School District
+05902,99,37.43,-102.67,Springfield RE-4 School District
+05903,99,37.34,-102.41,Vilas RE-5 School District
+05904,99,37.09,-102.62,Campo RE-6 School District
+06001,1,38.07,-103.24,Bent County
+06005,4,38.07,-103.22,"Las Animas, City of"
+06006,8,38.07,-103.2,Las Animas-Bent County Fire Protection District
+06900,99,37.94,-103.21,Las Animas RE-1 School District
+06901,99,37.96,-102.9,McClave RE-2 School District
+07001,12,40.2,-105.53,Allenspark Water & Sanitation District
+07003,1,40.01,-105.29,Boulder County
+07006,2,40.03,-105.25,"Boulder, City of"
+07013,7,40.08,-105.18,Gunbarrel Estates Metropolitan Recreation and Park District
+07016,8,40.2,-105.2,Hygiene Fire Protection District
+07018,5,40.12,-105.39,"Jamestown, Town of"
+07020,2,39.99,-105.1,"Lafayette, City of"
+07022,8,40.13,-105.36,Left Hand Fire Protection District
+07027,8,39.98,-105.12,Louisville Fire Protection District
+07029,2,39.97,-105.14,"Louisville, City of"
+07032,5,40.22,-105.27,"Lyons, Town of"
+07033,5,39.96,-105.5,"Nederland, Town of"
+07042,2,40.07,-105.51,"Ward, Town of"
+07050,8,40.01,-105.41,Sugar Loaf Fire Protection District
+07057,8,40.07,-105.23,Boulder Rural Fire Protection District
+07059,8,39.97,-105.58,Nederland Fire Protection District
+08002,5,38.83,-106.14,"Buena Vista, Town of"
+08003,1,38.54,-105.98,Chaffee County
+08004,8,38.75,-106.2,Chaffee County Fire Protection District
+08006,5,38.51,-106.09,"Poncha Springs, Town of"
+08007,4,38.53,-106,"Salida, City of"
+08900,99,38.84,-106.23,Buena Vista R-31 School District
+09002,1,38.82,-102.33,Cheyenne County
+09003,8,38.82,-102.29,Cheyenne County Fire Protection District No. 1
+09005,7,38.82,-102.37,Cheyenne Wells Metropolitan Recreation District
+09007,5,38.82,-102.35,"Cheyenne Wells, Town of"
+09013,5,38.76,-102.8,"Kit Carson, Town of"
+09014,8,38.76,-102.78,West Cheyenne Fire Protection District
+09900,99,38.83,-102.89,Kit Carson R-1 School District
+09901,99,38.83,-102.31,Cheyenne County RE-5 School District
+10001,10,39.77,-105.61,Central Clear Creek Sanitation District
+10003,1,39.71,-105.71,Clear Creek County
+10004,7,39.7,-105.65,Clear Creek Metropolitan Recreation District
+10005,5,39.76,-105.67,"Empire, Town of"
+10007,3,39.72,-105.69,"Georgetown, Town of"
+10008,4,39.74,-105.5,"Idaho Springs, City of"
+10009,5,39.7,-105.73,"Silver Plume, Town of"
+10010,6,39.82,-105.65,St. Mary's Glacier Metropolitan District
+10011,12,39.82,-105.63,St. Mary's Glacier Water & Sanitation District
+10012,31,39.7,-105.67,Clear Creek County Emergency Services General Improvement District
+10900,99,39.69,-105.63,Clear Creek RE-1 School District
+11001,5,37.08,-106,"Antonito, Town of"
+11004,1,37.09,-106.02,Conejos County
+11005,9,37.26,-105.94,Conejos County Hospital District
+11009,5,37.27,-105.96,"La Jara, Town of"
+11010,5,37.17,-105.94,"Manassa, Town of"
+11012,8,37.26,-105.88,Northeast Conejos County Fire Protection District
+11013,5,37.17,-105.98,"Romeo, Town of"
+11016,2,37.26,-105.9,"Sanford, Town of"
+11017,8,37.07,-106.04,South Conejos Fire Protection District
+11903,99,37.09,-106.2,South Conejos RE-10 School District
+12001,5,37.44,-105.51,"Blanca, Town of"
+12002,6,37.45,-105.4,Blanca/Fort Garland Metropolitan District
+12003,1,37.2,-105.4,Costilla County
+12005,8,37.2,-105.44,Costilla County Fire Protection District
+12009,5,37.2,-105.42,"San Luis, Town of"
+12900,99,37.14,-105.45,Centennial R-1 School District
+12901,99,37.44,-105.38,Sierra Grande R-30 School District
+13001,1,38.22,-103.78,Crowley County
+13002,5,38.19,-103.86,"Crowley, Town of"
+13004,5,38.17,-103.94,"Olney Springs, Town of"
+13006,5,38.22,-103.76,"Ordway, Town of"
+13007,5,38.23,-103.66,"Sugar City, Town of"
+14001,1,38.14,-105.49,Custer County
+14004,5,38.12,-105.41,"Silver Cliff, Town of"
+14005,5,38.13,-105.47,"Westcliffe, Town of"
+14006,8,38.13,-105.45,Wet Mountain Fire Protection District
+14900,99,38.1,-105.39,Consolidated C-1 School District
+15001,11,38.81,-107.64,Bone Mesa Domestic Water District
+15003,2,38.89,-107.93,"Cedaredge, Town of"
+15005,5,38.71,-107.61,"Crawford, Town of"
+15006,1,38.74,-108.07,Delta County
+15008,8,38.85,-107.6,Delta County Fire Protection District No. 2
+15009,8,38.93,-107.95,Delta County Fire Protection District No. 3
+15010,8,38.83,-107.77,Delta County Fire Protection District No. 4
+15014,8,38.76,-108.12,Delta County Fire Protection District No. 1
+15015,2,38.76,-108.09,"Delta, City of"
+15020,5,38.8,-107.71,"Hotchkiss, Town of"
+15022,5,38.81,-107.97,"Orchard City, Town of"
+15025,5,38.87,-107.58,"Paonia, Town of"
+15029,7,38.89,-107.63,"North Fork Pool, Park & Recreation District"
+16002,61,39.74,-104.99,Denver County
+16010,6,39.79,-104.77,Ebert Metropolitan District
+16011,6,39.78,-104.75,GVR Metropolitan District
+16900,99,39.76,-104.88,Denver County 1 School District
+17002,1,37.77,-108.9,Dolores County
+17003,5,37.77,-108.92,"Dove Creek, Town of"
+17004,8,37.76,-108.88,Dove Creek Fire Protection District
+17007,2,37.69,-108.03,"Rico, Town of"
+17011,8,37.69,-108.01,Rico Fire Protection District
+18003,2,39.38,-104.84,"Castle Rock, Town of"
+18008,1,39.37,-104.86,Douglas County
+18011,8,39.29,-104.73,Franktown Fire Protection District
+18019,8,39.34,-104.98,Jackson-105 Fire Protection District
+18021,2,39.23,-104.89,"Larkspur, Town of"
+18024,7,39.52,-104.94,McArthur Ranch Metropolitan Recreation District
+18028,2,39.51,-104.78,"Parker, Town of"
+18029,6,39.25,-104.99,Perry Park Metropolitan District
+18034,8,39.4,-105.02,West Douglas County Fire Protection District
+18036,6,39.56,-104.8,Cottonwood Metropolitan District
+18042,6,39.54,-104.82,Lincoln Park Metropolitan District
+18043,6,39.53,-104.8,Stonegate Village Metropolitan District
+18044,6,39.47,-104.92,Castle Pines North Metropolitan District
+18045,6,39.37,-104.81,Founders Village Metropolitan District
+18053,6,39.49,-104.76,Cherry Creek South Metropolitan District No. 1
+18055,6,39.48,-105.08,Roxborough Village Metropolitan District
+18056,6,39.41,-104.96,Meadows Metropolitan District No. 1
+18057,6,39.39,-104.98,Meadows Metropolitan District No. 2
+18058,6,39.4,-104.88,Meadows Metropolitan District No. 3
+18059,6,39.39,-104.9,Meadows Metropolitan District No. 4
+18061,6,39.4,-104.92,Meadows Metropolitan District No. 6
+18062,6,39.38,-104.94,Meadows Metropolitan District No. 7
+18083,6,39.44,-104.73,High Prairie Farms Metropolitan District
+18095,16,39.33,-104.94,Douglas County Libraries
+18097,8,39.22,-104.87,Larkspur Fire Protection District
+18102,6,39.49,-104.88,Hidden Pointe Metropolitan District
+18103,6,39.51,-104.72,Canterberry Crossing Metropolitan District
+18104,2,39.53,-104.86,"Lone Tree, City of"
+18110,6,39.3,-104.87,Consolidated Bell Mountain Ranch Metropolitan District
+18112,6,39.44,-104.79,Pinery West Metropolitan District No. 2
+18114,6,39.56,-104.74,E-470 Potomac Metropolitan District
+18122,6,39.5,-104.7,Canterberry Crossing Metropolitan District II
+19001,6,39.62,-106.56,Arrowhead Metropolitan District
+19003,2,39.64,-106.51,"Avon, Town of"
+19004,6,39.61,-106.53,Beaver Creek Metropolitan District
+19005,6,39.66,-106.67,Bellyache Ridge Metropolitan District
+19006,6,39.65,-106.58,Berry Creek Metropolitan District
+19009,5,39.64,-106.81,"Eagle, Town of"
+19011,1,39.65,-106.83,Eagle County
+19015,6,39.62,-106.49,Eagle-Vail Metropolitan District
+19018,8,39.65,-106.78,Greater Eagle Fire Protection District
+19020,2,39.63,-106.93,"Gypsum, Town of"
+19024,2,39.55,-106.39,"Minturn, Town of"
+19026,5,39.51,-106.37,"Red Cliff, Town of"
+19032,7,39.64,-106.37,Vail Park & Recreation District
+19038,2,39.64,-106.35,"Vail, Town of"
+19039,7,39.74,-106.84,Western Eagle County Metropolitan Recreation District
+19051,6,39.63,-106.96,Cotton Ranch Metropolitan District
+19071,8,39.59,-106.51,Eagle River Fire Protection District
+20001,1,39.35,-104.44,Elbert County
+20002,12,39.22,-104.54,Elbert Water & Sanitation District
+20003,8,39.37,-104.59,Elizabeth Fire Protection District
+20004,5,39.36,-104.61,"Elizabeth, Town of"
+20005,2,39.34,-104.46,"Kiowa, Town of"
+20006,5,39.14,-104.08,"Simla, Town of"
+20008,8,39.52,-104.56,Rattlesnake Fire Protection District
+20009,8,39.38,-104.36,Kiowa Fire Protection District
+20010,7,39.41,-104.57,Elizabeth Park & Recreation District
+20901,99,39.41,-104.55,Elizabeth C-1 School District
+20902,99,39.37,-104.34,Kiowa C-2 School District
+20904,99,39.2,-104.51,Elbert 200 School District
+20905,99,39.45,-104,Agate 300 School District
+21002,8,39.01,-104.7,Black Forest Fire/Rescue Protection District
+21003,8,38.78,-104.85,Broadmoor Fire Protection District
+21006,5,39.03,-104.3,"Calhan, Town of"
+21007,8,38.89,-104.96,Cascade Fire Protection District
+21010,6,38.84,-104.65,Cherokee Metropolitan District
+21012,6,38.8,-104.88,Cheyenne Creek Metropolitan Park & Water District
+21013,8,38.85,-104.7,Cimarron Hills Fire Protection District
+21015,2,38.87,-104.76,"Colorado Springs, City of"
+21019,1,38.83,-104.82,El Paso County
+21021,8,38.97,-104.56,Falcon Fire Protection District
+21022,11,39.1,-104.89,Forest View Acres Water District
+21026,2,38.69,-104.68,"Fountain, City of"
+21030,2,38.86,-104.91,"Manitou Springs, City of"
+21032,5,39.07,-104.85,"Monument, Town of"
+21034,5,39.12,-104.91,"Palmer Lake, Town of"
+21035,11,38.99,-104.69,Park Forest Water District
+21036,5,39.12,-104.17,"Ramah, Town of"
+21038,8,38.74,-104.72,Security Fire Protection District
+21047,8,39.09,-104.81,Tri-Lakes Monument Fire Protection District
+21057,6,38.76,-104.65,Colorado Centre Metropolitan District
+21061,6,39.07,-104.83,Triview Metropolitan District
+21074,6,38.98,-104.62,Paint Brush Hills Metropolitan District
+21079,8,39.02,-104.47,Peyton Fire Protection District
+21081,6,38.86,-104.93,Manitou Springs Metropolitan District
+21087,8,38.61,-104.5,Hanover Fire Protection District
+21089,6,38.95,-104.6,Woodmen Hills Metropolitan District
+21094,6,38.81,-104.45,Ellicott Metropolitan District
+21106,6,38.99,-104.58,Meridian Ranch Metropolitan District
+21901,99,38.79,-104.77,Harrison 2 School District
+21902,99,38.76,-104.68,Widefield 3 School District
+21903,99,38.67,-104.74,Fountain 8 School District
+21904,99,38.87,-104.8,Colorado Springs 11 School District
+21905,99,38.78,-104.91,Cheyenne Mountain 12 School District
+21906,99,38.9,-104.98,Manitou Springs 14 School District
+21907,99,38.99,-104.79,Academy 20 School District
+21908,99,38.81,-104.43,Ellicott 22 School District
+21910,99,38.6,-104.48,Hanover 28 School District
+21911,99,39.08,-104.87,Lewis Palmer 38 School District
+21913,99,38.95,-104.58,Falcon 49 School District
+22001,5,38.41,-105.18,"Brookside, Town of"
+22002,2,38.44,-105.22,"Canon City, City of"
+22003,8,38.46,-105.28,Canon City Area Fire Protection District
+22004,7,38.44,-105.26,Canon City Area Metropolitan Recreation & Park District
+22006,5,38.36,-105.12,"Coal Creek, Town of"
+22009,8,38.39,-105.08,Florence Fire Protection District
+22011,4,38.38,-105.1,"Florence, City of"
+22013,1,38.44,-105.24,Fremont County
+22015,10,38.45,-105.2,Fremont Sanitation District
+22018,5,38.36,-105.14,"Rockvale, Town of"
+22019,5,38.38,-105.16,"Williamsburg, Town of"
+22022,7,38.48,-105.01,Penrose Park & Recreation District
+22900,99,38.42,-105.65,Cotopaxi RE-3 School District
+22902,99,38.54,-105.33,Canon City RE-1 School District
+23004,2,39.39,-107.21,"Carbondale, Town of"
+23005,1,39.55,-107.31,Garfield County
+23008,2,39.55,-107.33,"Glenwood Springs, City of"
+23010,8,39.53,-108.04,Grand Valley Fire Protection District
+23012,2,39.58,-107.53,"New Castle, Town of"
+23013,2,39.45,-108.08,"Parachute, Town of"
+23014,8,39.55,-107.78,Rifle Fire Protection District
+23017,2,39.54,-107.75,"Rifle, City of"
+23019,2,39.55,-107.65,"Silt, Town of"
+23020,8,39.7,-107.49,Colorado River Fire Protection District
+23029,7,39.54,-108.06,Parachute/Battlement Mesa Park & Recreation District
+23032,6,39.44,-108.03,Battlement Mesa Metropolitan District
+23035,47,39.53,-107.8,Garfield County Emergency Communications Authority
+23900,99,39.54,-108.1,Garfield 16 School District
+23901,99,39.59,-107.69,Garfield RE-2 School District
+24001,2,39.8,-105.48,"Black Hawk, City of"
+24004,8,39.84,-105.46,Colorado Sierra Fire Protection District
+24005,1,39.8,-105.52,Gilpin County
+24901,99,39.82,-105.56,Gilpin County RE-1 School District
+25001,6,39.93,-106.34,Blue Valley Metropolitan District
+25002,11,40.26,-105.85,Columbine Lake Water District
+25003,8,39.93,-105.84,East Grand County Fire Protection District No. 4
+25005,7,39.94,-105.82,Fraser Valley Metropolitan Recreation
+25006,5,39.93,-105.8,"Fraser, Town of"
+25008,5,40.06,-105.92,"Granby, Town of"
+25009,1,40.07,-106.1,Grand County
+25011,8,40.1,-105.94,Grand Fire Protection District No. 1
+25012,8,40.31,-105.84,Grand Lake Fire Protection District
+25013,7,40.24,-105.89,Grand Lake Metropolitan Recreation District
+25014,5,40.25,-105.82,"Grand Lake, Town of"
+25015,5,40.07,-106.12,"Hot Sulphur Springs, Town of"
+25016,8,40.09,-106.08,Hot Sulphur Springs-Parshall Fire Protection District
+25017,10,40.06,-106.4,Kremmling Sanitation District
+25018,5,40.06,-106.38,"Kremmling, Town of"
+25021,12,40.2,-105.85,Three Lakes Water & Sanitation District
+25025,2,39.88,-105.78,"Winter Park, Town of"
+25030,8,40.07,-106.36,Kremmling Fire Protection District
+25900,99,40.13,-105.88,East Grand 2 School District
+26001,8,38.9,-106.94,Crested Butte Fire Protection District
+26004,2,38.87,-106.98,"Crested Butte, Town of"
+26006,1,38.55,-106.94,Gunnison County
+26008,2,38.55,-106.92,"Gunnison, City of"
+26010,5,39.07,-107.19,"Marble, Town of"
+26011,2,38.91,-106.96,"Mt. Crested Butte, Town of"
+26012,5,38.61,-106.51,"Pitkin, Town of"
+27001,1,38.03,-107.29,Hinsdale County
+27005,5,38.03,-107.31,"Lake City, Town of"
+27006,8,38.03,-107.33,Lake City Area Fire Protection District
+27900,99,37.92,-107.3,Hinsdale County RE 1 School District
+28002,1,37.62,-104.78,Huerfano County
+28006,8,37.47,-105.08,La Veta Fire Protection District
+28007,5,37.51,-105.01,"La Veta, Town of"
+28010,4,37.63,-104.8,"Walsenburg, City of"
+28900,99,37.72,-104.94,Huerfano RE-1 School District
+28901,99,37.47,-105.06,La Veta RE-2 School District
+29001,1,40.73,-106.28,Jackson County
+29006,5,40.73,-106.26,"Walden, Town of"
+29900,99,40.67,-106.34,North Park R-1 School District
+30003,8,39.83,-105.16,Arvada Fire Protection District
+30016,7,39.59,-105.06,Columbine Knolls Grove Metropolitan Recreation District
+30020,2,39.75,-105.08,"Edgewater, City of"
+30023,7,39.63,-105.32,Evergreen Park & Recreation District
+30027,8,39.8,-105.24,Fairmount Fire Protection District
+30028,7,39.61,-105.15,Foothills Park & Recreation District
+30029,6,39.7,-105.25,Forest Hills Metropolitan District
+30032,8,39.69,-105.28,Genesee Fire Protection District
+30035,2,39.74,-105.22,"Golden, City of"
+30041,12,39.67,-105.25,Idledale Water and Sanitation District
+30042,8,39.63,-105.25,Indian Hills Fire Protection District
+30044,8,39.52,-105.19,Inter-Canyon Fire Protection District
+30047,1,39.73,-105.2,Jefferson County
+30053,5,39.78,-105.1,"Lakeside, Town of"
+30055,2,39.7,-105.12,"Lakewood, City of"
+30057,7,39.6,-105.09,Leawood Metropolitan Recreation and Park District
+30065,2,39.64,-105.19,"Morrison, Town of"
+30067,2,39.77,-105.06,"Mountain View, Town of"
+30075,6,39.73,-105.18,Pleasant View Metropolitan District
+30090,8,39.77,-105.14,Wheat Ridge Fire Protection District
+30093,2,39.77,-105.12,"Wheat Ridge, City of"
+30105,6,39.58,-105.23,Plains Metropolitan District
+30111,6,39.6,-105.19,West Meadows Metropolitan District
+30115,8,39.79,-105.33,Golden Gate Fire Protection District
+30116,6,39.57,-105.21,Ken-Caryl Ranch Metropolitan District
+30124,6,39.73,-105.29,Mount Vernon Country Club Metropolitan District
+30127,8,39.3,-105.28,North Fork Fire Protection District
+30136,8,39.7,-105.23,Foothills Fire Protection District
+30138,7,39.84,-105.2,Apex Park and Recreation District
+30140,6,39.56,-105.15,Deer Creek Metropolitan District
+30148,7,39.77,-105.16,Prospect Recreation and Park District
+30900,99,39.59,-105.25,Jefferson County R-1 School District
+31002,5,38.48,-102.78,"Eads, Town of"
+31003,5,38.45,-103.16,"Haswell, Town of"
+31004,1,38.48,-102.8,Kiowa County
+31005,9,38.43,-102.74,Kiowa County Hospital District
+31008,5,38.47,-102.29,"Sheridan Lake, Town of"
+31900,99,38.43,-102.97,Eads RE-1 School District
+31901,99,38.44,-102.27,Plainview RE-2 School District
+32001,5,39.3,-102.42,"Bethune, Town of"
+32002,8,39.31,-102.25,Burlington Fire Protection District
+32004,2,39.3,-102.27,"Burlington, City of"
+32007,8,39.3,-103.04,Flagler Rural Fire Protection District
+32010,5,39.29,-103.08,"Flagler, Town of"
+32011,1,39.3,-102.29,Kit Carson County
+32014,8,39.31,-102.89,Seibert Fire Protection District
+32015,5,39.3,-102.87,"Seibert, Town of"
+32018,8,39.3,-102.62,Stratton Fire Protection District
+32020,5,39.3,-102.6,"Stratton, Town of"
+32023,5,39.3,-102.74,"Vona, Town of"
+32901,99,39.29,-102.82,Hi-Plains R-23 School District
+32902,99,39.28,-102.56,Stratton R-4 School District
+32903,99,39.3,-102.44,Bethune R-5 School District
+33001,1,39.25,-106.29,Lake County
+33004,4,39.25,-106.27,"Leadville, City of"
+33005,11,39.25,-106.31,Parkville Water District
+33009,9,39.24,-106.33,St. Vincent General Hospital District
+33900,99,39.2,-106.35,Lake County R-1 School District
+34001,8,37.24,-107.85,Animas Fire Protection District
+34005,5,37.23,-107.59,"Bayfield, Town of"
+34006,6,37.26,-108,Durango West Metropolitan District No. 1
+34007,6,37.27,-107.98,Durango West Metropolitan District No. 2
+34008,2,37.27,-107.87,"Durango, City of"
+34011,6,37.33,-107.59,Forest Lakes Metropolitan District
+34015,5,37.12,-107.64,"Ignacio, Town of"
+34017,1,37.27,-107.89,La Plata County
+34024,6,37.63,-107.81,Purgatory Metropolitan District
+34027,8,37.32,-107.57,Upper Pine River Fire Protection District
+34031,8,37.19,-108.15,Fort Lewis Mesa Fire Protection District
+34033,8,37.12,-107.62,Los Pinos Fire Protection District
+34034,10,37.22,-107.8,Loma Linda Sanitation District
+34035,6,37.21,-107.74,El Rancho Florida Metropolitan District
+34900,99,37.27,-107.94,Durango 9-R School District
+35004,5,40.37,-105.52,"Estes Park, Town of"
+35009,2,40.55,-105.06,"Fort Collins, City of"
+35015,1,40.59,-105.08,Larimer County
+35025,8,40.42,-105.18,Loveland Rural Fire Protection District
+35026,2,40.42,-105.06,"Loveland, City of"
+35033,8,40.28,-105.36,Pinewood Springs Fire Protection District
+35035,8,40.67,-105.61,Poudre Canyon Fire Protection District
+35038,8,40.81,-105.58,Red Feather Lakes Fire Protection District
+35039,10,40.49,-105.03,South Fort Collins Sanitation District
+35044,2,40.53,-104.96,"Timnath, Town of"
+35046,8,40.84,-105.06,Wellington Fire Protection District
+35047,5,40.7,-105.01,"Wellington, Town of"
+35062,8,40.74,-105.41,Glacier View Fire Protection District
+35070,8,40.84,-105.64,Crystal Lakes Fire Protection District
+35080,8,40.88,-105.32,Livermore Fire Protection District
+35902,99,40.77,-105.49,Poudre R-1 School District
+36001,5,37.4,-104.66,"Aguilar, Town of"
+36002,5,37.02,-103.88,"Branson, Town of"
+36004,5,37.14,-104.62,"Cokedale, Town of"
+36005,5,37.25,-103.35,"Kim, Town of"
+36006,1,37.17,-104.51,Las Animas County
+36010,5,37.12,-104.53,"Starkville, Town of"
+36011,2,37.17,-104.49,"Trinidad, City of"
+36015,8,37.17,-104.47,Fishers Peak Fire Protection District
+36018,6,37.04,-104.55,Santa Fe Trail Ranch Metropolitan District
+36019,8,37.15,-105.02,Stonewall Fire Protection District
+36900,99,37.17,-104.59,Trinidad 1 School District
+36901,99,37.12,-104.92,Primero Reorganized 2 School District
+36902,99,37.38,-104.14,Hoehne Reorganized 3 School District
+36903,99,37.5,-104.54,Aguilar Reorganized 6 School District
+36904,99,37.17,-103.85,Branson Reorganized 82 School District
+36905,99,37.34,-103.38,Kim Reorganized 88 School District
+37002,5,39.28,-103.27,"Arriba, Town of"
+37004,5,39.28,-103.5,"Genoa, Town of"
+37006,5,39.14,-103.47,"Hugo, Town of"
+37007,5,39.27,-103.68,"Limon, Town of"
+37008,1,39.14,-103.49,Lincoln County
+37901,99,39.12,-103.42,Genoa-Hugo C113 School District
+37902,99,38.72,-103.51,Karval RE-23 School District
+38001,8,40.86,-102.82,Crook Fire Protection District
+38002,5,40.86,-102.8,"Crook, Town of"
+38003,8,40.68,-102.82,Fleming Fire Protection District
+38005,5,40.68,-102.84,"Fleming, Town of"
+38007,5,40.76,-103.07,"Iliff, Town of"
+38008,1,40.62,-103.22,Logan County
+38011,5,40.48,-103.35,"Merino, Town of"
+38014,8,40.96,-103.09,Peetz Fire Protection District
+38016,5,40.96,-103.11,"Peetz, Town of"
+38019,2,40.62,-103.2,"Sterling, City of"
+38021,10,40.63,-103.18,Highland Park Sanitation District
+38900,99,40.73,-103.11,Valley RE-1 School District
+38901,99,40.63,-102.86,Frenchman RE-3 School District
+38903,99,40.92,-103.27,Plateau RE-5 School District
+39004,8,39.05,-108.45,Central Orchard Mesa Fire Protection District
+39005,8,39.09,-108.45,Clifton Fire Protection District
+39007,10,39.08,-108.47,Clifton Sanitation District
+39011,5,39.24,-107.96,"Collbran, Town of"
+39012,5,39.31,-108.2,"De Beque, Town of"
+39014,2,39.15,-108.73,"Fruita, City of"
+39017,44,39.11,-108.62,Grand Valley Drainage District
+39020,2,39.09,-108.58,"Grand Junction, City of"
+39021,8,39.25,-108.8,Lower Valley Fire Protection District
+39023,1,39.07,-108.56,Mesa County
+39026,12,39.16,-108.13,Mesa Water & Sanitation District
+39032,8,39.12,-108.34,Palisade Rural Fire Protection District
+39034,5,39.11,-108.36,"Palisade, Town of"
+39035,6,39.1,-108.66,Panorama Improvement District
+39038,8,39.2,-107.88,Plateau Valley Fire Protection District
+39048,6,39.08,-108.15,Grand Mesa Metropolitan District #2
+39902,99,39.2,-107.86,Plateau Valley 50 School District
+39903,99,38.96,-108.7,Mesa County Valley 51 School District
+40001,5,37.85,-106.91,"Creede, City of"
+40002,1,37.85,-106.93,Mineral County
+40003,8,37.85,-106.95,Mineral County Fire Protection District
+40900,99,37.67,-106.92,Creede Consolidated 1 School District
+41004,2,40.52,-107.56,"Craig, City of"
+41005,5,40.24,-109.01,"Dinosaur, Town of"
+41007,1,40.51,-107.52,Moffat County
+41900,99,40.62,-108.21,Moffat County RE:No 1 School District
+42003,10,37.35,-108.55,Cortez Sanitation District
+42004,2,37.35,-108.57,"Cortez, City of"
+42006,8,37.55,-108.35,Dolores Fire Protection District
+42008,5,37.47,-108.5,"Dolores, Town of"
+42011,8,37.42,-108.77,Lewis-Arriola Fire Protection District
+42013,8,37.36,-108.32,Mancos Fire Protection District
+42016,5,37.35,-108.28,"Mancos, Town of"
+42017,1,37.35,-108.59,Montezuma County
+42018,9,37.35,-108.61,Montezuma County Hospital District
+42025,8,37.34,-108.67,Cortez Fire Protection District
+42900,99,37.27,-108.74,Montezuma-Cortez RE-1 School District
+42901,99,37.55,-108.37,Dolores RE-4A School District
+42902,99,37.36,-108.3,Mancos RE-6 School District
+43001,1,38.48,-107.88,Montrose County
+43003,7,38.44,-107.82,Montrose Recreation District
+43004,2,38.47,-107.86,"Montrose, City of"
+43005,5,38.22,-108.57,"Naturita, Town of"
+43007,5,38.27,-108.55,"Nucla, Town of"
+43009,8,38.26,-108.59,Nucla-Naturita Fire Protection District
+43011,8,38.61,-108.01,Olathe Fire Protection District
+43012,5,38.61,-107.98,"Olathe, Town of"
+43019,8,38.35,-108.94,Paradox Fire Protection District
+43901,99,38.33,-108.7,West End RE-2 School District
+44001,4,40.26,-103.63,"Brush, City of"
+44005,8,40.25,-103.76,Fort Morgan Rural Fire Protection District
+44006,2,40.26,-103.78,"Fort Morgan, City of"
+44007,5,40.32,-103.52,"Hillrose, Town of"
+44009,5,40.27,-103.84,"Log Lane Village, Town of"
+44010,1,40.25,-103.8,Morgan County
+44016,5,40.23,-104.07,"Wiggins, Town of"
+44902,99,40.25,-103.82,Fort Morgan RE-3 School District
+45001,5,38.11,-103.51,"Cheraw, Town of"
+45004,5,38.13,-104.03,"Fowler, Town of"
+45007,2,37.98,-103.56,"La Junta, City of"
+45008,8,38.11,-103.86,Manzanola Rural Fire Protection District
+45009,5,38.11,-103.88,"Manzanola, Town of"
+45010,10,38,-103.52,North La Junta Sanitation District
+45012,1,37.98,-103.54,Otero County
+45014,4,38.05,-103.72,"Rocky Ford, City of"
+45015,5,38.01,-103.63,"Swink, Town of"
+45900,99,37.8,-103.68,East Otero R-1 School District
+45901,99,38.01,-103.76,Rocky Ford R-2 School District
+45904,99,38.15,-103.49,Cheraw 31 School District
+45905,99,37.96,-103.64,Swink 33 School District
+46004,8,38.24,-107.83,Loghill Mesa Fire Protection District
+46005,1,38.02,-107.65,Ouray County
+46007,2,38.03,-107.67,"Ouray, City of"
+46008,8,38.16,-107.73,Ridgway Fire Protection District
+46009,2,38.16,-107.75,"Ridgway, Town of"
+46013,7,38.19,-107.77,Loghill Village Park and Recreation District
+46900,99,38.02,-107.69,Ouray R-1 School District
+46901,99,38.19,-107.81,Ridgway R-2 School District
+47001,5,39.29,-106.07,"Alma, Town of"
+47005,5,39.22,-106.02,"Fairplay, Town of"
+47006,6,39.51,-105.5,Harris Park Metropolitan District
+47007,8,38.95,-105.78,Hartsel Fire Protection District
+47008,6,39.25,-105.77,Indian Mountain Metropolitan District
+47009,8,39.3,-105.73,Jefferson-Como Fire Protection District
+47010,8,39.04,-105.44,Lake George Fire Protection District
+47011,8,39.18,-106.07,Northwest Fire Protection District
+47012,1,39.23,-106,Park County
+47013,8,39.47,-105.59,Platte Canyon Fire Protection District
+47015,6,39.46,-105.41,Will-O-Wisp Metropolitan District
+47021,7,39.16,-105.82,South Park - Park and Recreation District
+47900,99,39.47,-105.61,Platte Canyon 1 School District
+47901,99,39.06,-105.74,Park County RE-2 School District
+48004,5,40.64,-102.63,"Haxtun, Town of"
+48005,2,40.58,-102.3,"Holyoke, City of"
+48006,5,40.61,-102.47,"Paoli, Town of"
+48007,1,40.58,-102.28,Phillips County
+49001,8,39.19,-106.8,Aspen Fire Protection District
+49006,2,39.2,-106.84,"Aspen, City of"
+49010,1,39.19,-106.82,Pitkin County
+49012,2,39.22,-106.94,"Snowmass Village, Town of"
+49025,6,39.26,-106.89,Brush Creek Metropolitan District
+49901,99,39.15,-106.77,Aspen 1 School District
+50007,5,38.06,-102.31,"Granada, Town of"
+50008,5,38.12,-102.22,"Hartman, Town of"
+50009,8,38.05,-102.14,Holly Fire & Ambulance District
+50011,5,38.06,-102.12,"Holly, Town of"
+50012,2,38.07,-102.62,"Lamar, City of"
+50014,1,38.09,-102.64,Prowers County
+50016,10,38.15,-102.69,Wiley Sanitation District
+50017,5,38.15,-102.71,"Wiley, Town of"
+50900,99,37.96,-102.33,Granada RE-1 School District
+50901,99,37.93,-102.57,Lamar RE-2 School District
+50902,99,37.97,-102.14,Holly RE-3 School District
+51005,5,38.25,-104.26,"Boone, Town of"
+51007,6,37.94,-104.85,Colorado City Metropolitan District
+51010,1,38.28,-104.59,Pueblo County
+51014,8,38.23,-104.43,Pueblo Rural Fire Protection District
+51015,6,38.35,-104.72,Pueblo West Metropolitan District
+51016,2,38.27,-104.61,"Pueblo, City of"
+51018,5,37.92,-104.93,"Rye, Town of"
+51902,99,38.25,-104.64,Pueblo City Schools
+51903,99,38.2,-104.6,Pueblo County Rural 70 School District
+52001,23,39.95,-108.74,Rangely Junior College District
+52003,7,40,-107.88,Eastern Rio Blanco Metropolitan Recreation & Park District
+52006,10,40.05,-107.87,Meeker Sanitation District
+52007,5,40.05,-107.89,"Meeker, Town of"
+52013,8,39.95,-108.7,Rangely Rural Fire Protection District
+52015,5,40.09,-108.78,"Rangely, Town of"
+52016,1,40.04,-107.91,Rio Blanco County
+52017,8,40,-107.82,Rio Blanco Fire Protection District
+52019,7,39.94,-108.76,Western Rio Blanco Metropolitan Recreation & Park District
+52900,99,40,-107.84,Meeker RE1 School District
+52901,99,39.95,-108.72,Rangely RE-4 School District
+53001,8,37.68,-106.37,Del Norte Fire Protection District
+53002,5,37.68,-106.35,"Del Norte, Town of"
+53004,8,37.58,-106.13,Monte Vista Fire Protection District
+53005,2,37.58,-106.15,"Monte Vista, City of"
+53006,1,37.68,-106.33,Rio Grande County
+53013,5,37.67,-106.64,"South Fork, Town of"
+53900,99,37.6,-106.5,Del Norte C-7 School District
+53901,99,37.49,-106.19,Monte Vista C-8 School District
+54005,2,40.48,-107.24,"Hayden, Town of"
+54009,8,40.26,-106.88,Oak Creek Fire Protection District
+54010,5,40.27,-106.96,"Oak Creek, Town of"
+54012,1,40.48,-106.83,Routt County
+54014,9,40.51,-107.21,Solandt Memorial Hospital District
+54017,6,40.51,-106.91,Steamboat II Metropolitan District
+54022,8,40.47,-106.9,Steamboat Springs Area Fire Protection District
+54023,2,40.48,-106.81,"Steamboat Springs, City of"
+54026,8,40.46,-107.22,West Routt Fire Protection District
+54029,8,40.07,-106.84,Yampa Fire Protection District
+54030,5,40.15,-106.91,"Yampa, Town of"
+54031,8,40.73,-106.92,North Routt Fire Protection District
+54040,12,40.75,-107.01,Steamboat Lake Water & Sanitation District
+54900,99,40.51,-107.19,Hayden RE-1 School District
+54901,99,40.69,-106.91,Steamboat Springs RE-2 School District
+55001,12,37.94,-105.67,Baca Grande Water & Sanitation District
+55002,5,38.3,-106.14,"Bonanza City, Town of"
+55004,5,37.99,-105.7,"Crestone, Town of"
+55005,5,38,-105.9,"Moffat, Town of"
+55006,8,38.09,-106.16,Northern Saguache County Fire Protection District
+55007,1,38.09,-106.12,Saguache County
+55008,5,38.09,-106.14,"Saguache, Town of"
+55902,99,38.11,-106.3,Mountain Valley RE 1 School District
+55903,99,37.95,-105.74,Moffat 2 School District
+56001,1,37.81,-107.65,San Juan County
+56002,5,37.81,-107.67,"Silverton, Town of"
+56900,99,37.76,-107.68,Silverton 1 School District
+57002,9,37.99,-107.95,Telluride Hospital District
+57007,5,38.13,-108.29,"Norwood, Town of"
+57008,2,37.86,-107.83,"Ophir, Town of"
+57010,1,37.94,-107.81,San Miguel County
+57013,8,37.99,-107.93,Telluride Fire Protection District
+57014,2,37.94,-107.83,"Telluride, Town of"
+57017,5,37.99,-108,"Sawpit, Town of"
+57027,2,37.93,-107.86,"Mountain Village, Town of"
+57900,99,37.97,-107.97,Telluride R-1 School District
+58003,8,40.91,-102.17,Julesburg Fire Protection District
+58004,5,40.98,-102.25,"Julesburg, Town of"
+58007,5,40.96,-102.39,"Ovid, Town of"
+58009,1,40.99,-102.27,Sedgwick County
+58012,5,40.94,-102.53,"Sedgwick, Town of"
+58903,99,40.89,-102.48,Platte Valley RE-3 School District
+59002,5,39.43,-106.04,"Blue River, Town of"
+59004,2,39.5,-106.04,"Breckenridge, Town of"
+59005,6,39.62,-106.15,Buffalo Mountain Metropolitan District
+59009,2,39.62,-106.04,"Dillon, Town of"
+59014,10,39.58,-106.11,Frisco Sanitation District
+59015,2,39.58,-106.13,"Frisco, Town of"
+59017,8,39.49,-106.08,"Red, White & Blue Fire Protection District"
+59018,2,39.66,-106.09,"Silverthorne, Town of"
+59021,1,39.48,-106.06,Summit County
+59023,6,39.64,-106.17,Willow Brook Metropolitan District
+59028,5,39.58,-105.87,"Montezuma, Town of"
+59032,6,39.54,-106.02,Swan's Nest Metropolitan District
+59039,6,39.5,-106.15,Copper Mountain Consolidated Metropolitan District
+59041,8,39.63,-106.07,Lake Dillon Fire Protection District
+59901,99,39.59,-106.08,Summit RE-1 School District
+60001,4,38.75,-105.2,"Cripple Creek, City of"
+60003,12,38.94,-105.3,Florissant Water & Sanitation District
+60004,11,38.96,-105.22,Highland Lakes Water District
+60009,9,38.76,-105.15,Southern Teller County Health Services District
+60010,1,38.75,-105.18,Teller County
+60012,4,38.71,-105.13,"Victor, City of"
+60015,2,39,-105.06,"Woodland Park, City of"
+60016,8,39.03,-105.08,Northeast Teller County Fire Protection District
+60017,8,38.94,-105.28,Florissant Fire Protection District
+60018,8,38.78,-105.27,Four Mile Fire Protection District
+60019,8,38.93,-105.17,Divide Fire Protection District
+60900,99,38.76,-105.15,Cripple Creek-Victor RE-1 School District
+60901,99,39,-105.17,Woodland Park RE-2 School District
+61001,8,40.14,-103.25,Akron Rural Fire Protection District
+61002,5,40.16,-103.23,"Akron, Town of"
+61004,8,40.12,-102.98,Otis Rural Fire Protection District
+61006,5,40.15,-102.96,"Otis, Town of"
+61008,1,40.16,-103.21,Washington County
+61013,8,39.75,-103.4,Southwest Washington County Fire Protection District
+61900,99,40.14,-103.27,Akron R-1 School District
+61901,99,39.75,-103.03,Arickaree R-2 School District
+61902,99,40.12,-102.94,Otis R-3 School District
+61903,99,40.35,-102.93,Lone Star 101 School District
+61904,99,39.77,-103.51,Woodlin R-104 School District
+62001,8,40.6,-104.78,Ault Fire Protection District
+62003,5,40.59,-104.74,"Ault, Town of"
+62007,2,40.06,-104.95,"Dacono, City of"
+62008,5,40.53,-104.71,"Eaton, Town of"
+62009,8,40.5,-104.72,Eaton Fire Protection District
+62011,2,40.37,-104.76,"Evans, City of"
+62012,5,40.16,-104.95,"Firestone, Town of"
+62013,8,40.09,-104.81,Fort Lupton Fire Protection District
+62014,4,40.08,-104.78,"Fort Lupton, City of"
+62015,8,40.13,-104.97,Frederick-Firestone Fire Protection District
+62016,5,40.11,-104.99,"Frederick, Town of"
+62017,8,40.52,-104.5,Galeton Fire Protection District
+62018,5,40.39,-104.66,"Garden City, Town of"
+62020,5,40.28,-104.78,"Gilcrest, Town of"
+62022,2,40.41,-104.78,"Greeley, City of"
+62023,5,40.87,-104.23,"Grover, Town of"
+62027,8,40.07,-104.64,Hudson Fire Protection District
+62029,5,40.09,-104.62,"Hudson, Town of"
+62030,8,40.33,-104.93,Johnstown Fire Protection District
+62033,5,40.11,-104.51,"Keenesburg, Town of"
+62035,5,40.39,-104.56,"Kersey, Town of"
+62036,8,40.3,-104.67,La Salle Fire Protection District
+62037,5,40.35,-104.72,"La Salle, Town of"
+62038,5,40.01,-104.72,"Lochbuie, Town of"
+62040,5,40.23,-105.01,"Mead, Town of"
+62041,8,40.34,-104.83,Milliken Fire Protection District
+62043,5,40.31,-104.86,"Milliken, Town of"
+62044,8,40.81,-104.74,Nunn Fire Protection District
+62045,5,40.71,-104.79,"Nunn, Town of"
+62046,5,40.63,-104.76,"Pierce, Town of"
+62049,8,40.22,-104.8,Platteville-Gilcrest Fire Protection District
+62050,5,40.22,-104.83,"Platteville, Town of"
+62051,5,40.61,-103.84,"Raymer, Town of"
+62053,5,40.53,-104.86,"Severance, Town of"
+62056,1,40.43,-104.68,Weld County
+62074,7,40.1,-104.93,Carbon Valley Park and Recreation District
+62075,8,40.87,-104.19,Pawnee Fire Protection District
+62082,6,40.23,-104.68,Beebe Draw Farms Metropolitan District No. 1
+62104,7,40.34,-104.91,Thompson Rivers Park and Recreation District
+62123,6,40.01,-105.02,Vista Ridge Metropolitan District
+62905,99,40.25,-104.75,Gilcrest RE-1 School District
+62906,99,40.58,-104.59,Eaton RE-2 School District
+62908,99,40.5,-104.88,Windsor RE-4 School District
+62910,99,40.41,-104.74,Greeley 6 School District
+62911,99,40.37,-104.46,Platte Valley RE-7 School District
+62912,99,40.08,-104.84,Weld County RE-8 School District
+62913,99,40.79,-104.76,Ault-Highland RE-9 School District
+62916,99,40.87,-104.21,Pawnee RE-12 School District
+63003,5,40.11,-102.49,"Eckley, Town of"
+63008,9,40.08,-102.19,Wray Community Hospital District
+63010,2,40.08,-102.23,"Wray, City of"
+63012,1,40.08,-102.21,Yuma County
+63017,2,40.12,-102.72,"Yuma, City of"
+63900,99,40.12,-102.25,Wray RD-2 School District
+63901,99,40.12,-102.63,Yuma 1 School District
+64002,8,37.47,-105.85,Alamosa County Fire Protection District
+64004,8,40.22,-105.51,Allenspark Fire Protection District
+64009,2,39.83,-105.14,"Arvada, City of"
+64010,2,39.71,-104.73,"Aurora, City of"
+64013,8,39.4,-107.08,Basalt & Rural Fire Protection District
+64015,10,39.37,-107.02,Basalt Sanitation District
+64017,2,39.37,-107.04,"Basalt, Town of"
+64018,8,39.76,-104.49,Bennett Fire Protection District
+64020,12,39.8,-105.03,Berkeley Water & Sanitation District
+64021,8,40.3,-105.11,Berthoud Fire Protection District
+64026,5,39.63,-105.07,"Bow Mar, Town of"
+64028,8,39.98,-104.84,Greater Brighton Fire Protection District
+64029,2,39.97,-104.8,"Brighton, City of"
+64030,70,39.92,-105.09,Broomfield County
+64031,8,40.26,-103.61,Brush Rural Fire Protection District
+64032,8,39.82,-104.08,Byers Fire Protection District
+64033,8,39.39,-107.19,Carbondale & Rural Fire Protection District
+64035,8,39.53,-104.84,South Metro Fire Rescue
+64038,10,37.75,-106.13,Center Sanitation District
+64039,5,37.75,-106.11,"Center, Town of"
+64044,8,39.9,-105.32,Coal Creek Canyon Fire Protection District
+64047,8,40.49,-107.58,Craig Rural Fire Protection District
+64052,8,39.66,-103.94,Deer Trail Rural Fire Protection District
+64057,8,39.18,-104.49,Elbert Fire Protection District
+64058,8,39.49,-105.33,Elk Creek Fire Protection District
+64060,5,40.04,-105.04,"Erie, Town of"
+64061,8,39.63,-105.38,Evergreen Fire Protection District
+64063,8,38.13,-104.01,Fowler Rural Fire Protection District
+64070,5,38.93,-105.02,"Green Mountain Falls, Town of"
+64071,8,38.94,-105,Green Mountain Falls-Chipita Park Fire Protection District
+64072,8,38.55,-106.96,Gunnison County Fire Protection District
+64073,7,38.59,-106.9,Gunnison County Metropolitan Recreation District
+64074,8,40.64,-102.61,Haxtun Fire Protection District
+64075,8,39.9,-105.45,Timberline Fire Protection District
+64076,8,40.33,-103.5,Hillrose Rural Fire Protection District
+64078,8,40.58,-102.32,Holyoke Fire Protection District
+64083,11,40.32,-104.99,Little Thompson Water District
+64085,2,39.59,-105,"Littleton, City of"
+64087,8,40.13,-105.02,Mountain View Fire Protection District
+64093,8,38.44,-107.84,Montrose Fire Protection District
+64095,12,39.5,-105.35,Mountain Water & Sanitation District
+64096,7,39.59,-105.13,Normandy Estates Metropolitan Recreation District
+64101,8,39.84,-104.96,Adams County Fire Protection District
+64106,,37.27,-105.98,Northwest Conejos County Fire Protection District
+64107,8,38.07,-108.37,Norwood Fire Protection District
+64112,8,37.59,-108.76,Pleasant View Fire Protection District
+64113,8,40.6,-105.1,Poudre Valley Fire Protection District
+64115,9,38.07,-102.6,Prowers County Hospital District
+64119,7,40.38,-105.55,Estes Valley Recreation & Park District
+64121,8,39.75,-104.69,Sable-Altura Fire Protection District
+64122,9,38.54,-106.02,Salida Hospital District
+64126,7,39.59,-104.97,South Suburban Park and Recreation District
+64127,8,40.1,-104.36,Southeast Weld Fire Protection District
+64134,8,39.77,-104.3,Strasburg Fire Protection District No. 8
+64135,7,39.81,-104.31,Strasburg Metropolitan Park & Recreation District
+64136,12,39.73,-104.33,Strasburg Sanitation and Water District
+64144,9,37.25,-107.12,Upper San Juan Health Service District
+64150,8,39.95,-105.02,North Metro Fire Rescue District
+64153,2,39.88,-105.06,"Westminster, City of"
+64154,8,40.23,-104.05,Wiggins Rural Fire Protection District
+64155,8,38.15,-102.67,Wiley Rural Fire Protection District
+64156,8,40.48,-104.91,Windsor-Severance Fire Protection District
+64158,8,40.12,-102.74,Yuma Rural Fire Protection District
+64160,8,37.24,-107.87,Hermosa Cliff Fire Protection District
+64170,7,39.76,-104.15,Byers Park & Recreation District
+64179,8,40.22,-105.29,Lyons Fire Protection District
+64180,8,40.61,-103.82,New Raymer-Stoneham Fire Protection District
+64183,5,39.93,-105.16,"Superior, Town of"
+64193,6,39.62,-105.11,Bowles Metropolitan District
+64198,2,39.91,-104.97,"Northglenn, City of"
+64203,8,39.06,-104.28,Calhan Fire Protection District
+64204,47,40.59,-105.12,Poudre Fire Authority
+64205,2,40.17,-105.1,"Longmont, City of"
+64211,6,39.39,-107.1,Mid Valley Metropolitan District
+64220,16,38.83,-107.84,Delta County Public Library District
+64225,2,40.47,-104.93,"Windsor, Town of"
+64226,8,39.72,-107,Gypsum Fire Protection District
+64237,5,40.31,-105.04,"Berthoud, Town of"
+64243,8,39.64,-105.17,West Metro Fire Protection District
+64258,5,39.74,-104.43,"Bennett, Town of"
+64260,64,39.22,-106.87,Roaring Fork Transportation Authority
+64261,11,39.71,-105.27,Lookout Mountain Water District
+64263,2,39.8,-105.54,Central City
+64264,2,39.92,-104.94,"Thornton, City of"
+64266,2,40.35,-104.95,"Johnstown, Town of"
+64901,99,39.94,-104.71,Brighton 27J School District
+64902,99,39.74,-104.51,Bennett 29J School District
+64903,99,39.81,-104.33,Strasburg 31J School District
+64904,99,37.47,-105.81,Alamosa RE-11J School District
+64905,99,37.69,-105.77,Sangre De Cristo RE-22J School District
+64906,99,39.68,-103.92,Deer Trail 26J School District
+64907,99,39.72,-104.71,Adams-Arapahoe 28J School District
+64908,99,39.84,-104,Byers 32J School District
+64909,99,37.26,-107.1,Archuleta County 50 JT School District
+64910,99,40.17,-105.18,St. Vrain Valley RE 1J School District
+64911,99,40,-105.39,Boulder Valley RE 2 School District
+64912,99,38.55,-106.05,Salida R-32 School District
+64913,99,37.28,-106.26,North Conejos RE-1J School District
+64914,99,37.27,-105.82,Sanford 6J School District
+64915,99,38.35,-103.75,Crowley County RE-1-J School District
+64916,99,38.84,-107.82,Delta County School District 50(J)
+64917,99,37.8,-108.59,Dolores County RE No. 2 School District
+64918,99,39.34,-104.92,Douglas County RE 1 School District
+64919,99,39.71,-106.79,Eagle County RE 50 School District
+64920,99,39.1,-103.97,Big Sandy 100J School District
+64921,99,39.06,-104.26,Calhan RJ-1 School District
+64922,99,39.05,-104.48,Peyton 23 JT School District
+64923,99,38.6,-104.07,Edison 54 JT School District
+64924,99,38.39,-105.02,Florence RE-2 School District
+64925,99,39.39,-107.06,Roaring Fork RE-1 School District
+64926,99,40.05,-106.33,West Grand 1-JT. School District
+64927,99,38.55,-106.98,Gunnison RE1J School District
+64928,99,39.33,-103.16,Arriba-Flagler C-20 School District
+64929,99,39.32,-102.2,Burlington RE-6J School District
+64930,99,37.43,-107.6,Bayfield 10 JT.-R School District
+64931,99,37.09,-107.57,Ignacio 11 JT School District
+64932,99,40.41,-105.2,Thompson R-2J School District
+64933,99,40.37,-105.58,Park (Estes Park) R-3 School District
+64934,99,39.3,-103.7,Limon RE-4J School District
+64935,99,40.51,-103.4,Buffalo RE-4 School District
+64936,99,39.48,-108.55,DeBeque 49JT School District
+64937,99,38.44,-107.97,Montrose County RE-1J School District
+64938,99,40.25,-103.57,Brush RE-2(J) School District
+64939,99,40.41,-104.03,Weldon Valley RE-20(J) School District
+64940,99,40.2,-104.13,Wiggins RE-50(J) School District
+64941,99,38.04,-103.89,Manzanola 3J School District
+64942,99,38.06,-104.11,Fowler R-4J School District
+64943,99,40.56,-102.26,Holyoke RE-1J School District
+64944,99,40.59,-102.59,Haxtun RE-2J School District
+64945,99,38.19,-102.73,Wiley RE-13 JT School District
+64946,99,37.65,-106.1,Sargent RE-33J School District
+64947,99,40.17,-106.87,South Routt RE 3 School District
+64948,99,37.83,-106.2,Center 26 JT School District
+64949,99,38.04,-108.43,Norwood R-2J School District
+64950,99,40.87,-102.19,Julesburg RE-1 School District
+64951,99,40.1,-104.44,Keenesburg RE-3J School District
+64952,99,40.33,-104.89,Johnstown-Milliken RE-5J School District
+64953,99,40.62,-104.26,Briggsdale RE-10 School District
+64954,99,40.75,-103.77,Prairie RE-11 School District
+64957,99,38.82,-104.06,Miami/Yoder 60 JT School District
+64958,99,39.71,-102.26,Idalia RJ-3 School District
+64959,99,39.68,-102.63,Liberty J-4 School District
+65065,7,37.68,-104.96,Huerfano Parks and Recreation District
+65117,6,38.94,-104.63,Falcon Highlands Metropolitan District
+65152,7,39.32,-106.87,Crown Mountain Park and Recreation District
+65199,6,37.36,-107.68,Aspen Trails Metropolitan District
+65200,6,38.71,-104.7,Cross Creek Metropolitan District
+65210,6,39.63,-106.69,Cordillera Metropolitan District
+65217,8,37.28,-104.38,Hoehne Fire Protection District
+65225,6,38.34,-107.73,Buckhorn Heights Metropolitan District
+65297,6,39.88,-104.8,High Point Metropolitan District
+65302,64,38.83,-104.86,Pikes Peak Rural Transportation Authority
+65308,6,38.89,-105,Cascade Metropolitan District No. 1
+65329,45,39.03,-105.29,Ute Pass Regional Health Service District
+65369,8,40.07,-105.33,Boulder Mountain Fire Protection District
+65415,8,39.09,-103.95,Big Sandy Fire Protection District
+65495,6,38.69,-104.66,Cumberland Green Metropolitan District
+65634,9,40,-107.86,Eastern Rio Blanco Health Service District
+65673,8,39.97,-105.22,Rocky Mountain Fire Protection District
+65679,9,40.16,-106.89,South Routt Medical Center Health Service District
+65783,6,39.54,-104.97,Highlands Ranch Metropolitan District
+65844,6,40.18,-104.97,St. Vrain Lakes Metropolitan District No. 2
+65845,6,40.2,-104.93,St. Vrain Lakes Metropolitan District No. 3
+65846,6,40.19,-104.91,St. Vrain Lakes Metropolitan District No. 4
+65868,8,39.26,-103.66,Limon Area Fire Protection District
+65882,6,39.67,-105.17,Fossil Ridge Metropolitan District No. 2
+65883,6,39.67,-105.21,Fossil Ridge Metropolitan District No. 3
+65951,8,39.45,-108.39,DeBeque Fire Protection District
+65955,6,39.82,-104.98,Clear Creek Station Metropolitan District No. 2
+65956,6,39.82,-105,Clear Creek Station Metropolitan District No. 3
+65962,35,37.26,-107.96,Lake Durango Water Authority
+65986,4,39.47,-104.9,"Castle Pines, City of"
+66047,11,39.47,-104.6,Deer Creek Water District
+66048,8,37.27,-107.85,Durango Fire Protection District
+66136,7,39.9,-105.34,Coal Creek Canyon Park and Recreation District
+66150,47,39.57,-104.88,South Metro Fire Rescue Authority
+66164,7,38.02,-108.45,Norwood Park and Recreation District
+66171,8,40.36,-105.48,Estes Valley Fire Protection District
+66179,8,39.43,-103.94,Agate Fire Protection District
+66209,,39.84,-105.5,Gilpin Ambulance Authority
+66216,60,39.36,-104.57,Elbert County Communications Authority
+66239,16,38.08,-106.18,Northern Saguache County Library District
+66318,78,39.55,-107.29,Garfield Cty Fed Mineral Lease Dist
+66319,78,39.06,-108.52,Mesa County Federal Mineral Lease
+66327,78,40.42,-104.7,Weld Cty Fed Mineral Lease Act Dist
+66328,78,39.22,-105.96,Park Cty Federal Mineral Lease Dist
+66331,26,40.48,-104.89,Windsor Downtown Development Authority
+66332,8,40.37,-104.74,Evans Fire Protection District
+66501,35,37.27,-106.99,Pagosa Area Geothermal Water and Power Authority
+66538,78,37.62,-104.76,Huerfano County Federal Mineral Lease District
+66539,9,38.83,-102.39,Keefe Memorial Health Service District
+66593,7,40.52,-104.74,Eaton Area Parks & Recreation District
+x00100,100,38.83,-104.84,Pikes Peak Area Council of Governments
+x00101,100,39.45,-108.05,Associated Governements of Northwest Colorado
+x00102,100,39.7,-104.9,Department of Health
+x00103,100,39.75,-105.03,University of Colorado Denver
+x00104,100,37.24,-107.89,San Juan Basin Health Department
+x00105,100,38.55,-106.9,Western State College
+x00106,100,39.63,-106.09,Northwest Colorado Council of Governments
+x00107,100,38.48,-107.94,League for Economic Assistance and Planning
+x00108,100,39.57,-104.9,Division of Homeland Security and Emergency Management
+x00109,100,37.18,-104.43,South Central Colorado Council of Governments
+x00110,100,38.46,-105.3,Fremont County E-911 Authority
+x00112,100,38.48,-107.92,Region 10 Legion
+x00114,100,39.74,-104.97,Denver Regional Council of Governments
+x00115,100,38.98,-105.36,"Coalitions and Collaboratives, Inc."
+x00116,100,39.75,-104.92,"Clarion Associates, LLC"
+x00117,100,40.02,-105.23,"Ecology and Environment, Inc."
+x00118,100,37.27,-107.91,Southwest Colorado Council of Governments
+x00119,100,37.47,-105.79,San Luis Valley Council of Governments
+x00121,100,39.74,-105.01,OED IT
+x00122,100,40.37,-105.5,Estes Valley Waterhed Coalition
+x00124,100,39.08,-108.54,Colorado Mesa University
+x00125,100,40.02,-105.27,The Environmental Group
+x00126,100,38.28,-104.57,Pueblo Area Council of Governments
+x00127,100,40.1,-105.16,Lefthand Watershed Oversight Group
+x00128,100,40.6,-105.04,Coalition for the Poudre River Watershed
+x00129,100,38.9,-104.74,"Fountain Creek Watershed, Flood Control, and Greenway District"
+x00130,100,39,-104.72,"Black Forest Together, Inc."
+x00131,100,39.31,-102.58,East Central Council of Local Governments
+x00132,100,38.48,-107.96,Region 10 League
+x00133,100,39.98,-105.18,The Rocky Mountain Climate Organization
+X00001,100,39.26,-103.64,Colorado East Community Action Association
+X00002,100,37.24,-107.91,Housing Solutions For The Southwest
+X00003,100,38.48,-107.9,Mexican American Development Association
+X00004,100,40.25,-103.74,Northeast Colorado Association Of Local Governments
+X00005,100,39.23,-105.98,Park County Senior Coalition
+X00006,100,37.47,-105.91,San Luis Valley Community Action Association
+X00007,100,37.18,-104.45,South Central Council of Governments
+X00008,100,39.57,-106.08,Summit County Senior Services
+X00009,100,38.99,-105.04,Teller Senior Coalition
+X00010,100,38.44,-105.08,Upper Arkansas Area Council Of Governments

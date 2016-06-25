@@ -125,7 +125,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
             .attr('fill', function(d) {
                 return getcolor(d.program);
             })
-                    .on("mouseenter", function(d) {
+            .on("mouseenter", function(d) {
                 var projoutput = "";
                 if (d.projname === "null" || d.projname === null) {
                     projoutput = '';
@@ -133,7 +133,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
                     projoutput = '<span style="vertical-align: -5px"><i>' + d.projname + '</i></span><br />';
                 }
                 var a = accounting.formatMoney(parseFloat(d.award));
-          //console.log('{"lgid": "' + d.lgid + '", "fips":null, "lgname": "' + d.govname + '", "lgtype": "'+d.lgtype+'", "lgstatus":"1", "bbox":"", "coordinates":[' + d.longitude + ',' + d.latitude + ']},');
+                //console.log('{"lgid": "' + d.lgid + '", "fips":null, "lgname": "' + d.govname + '", "lgtype": "'+d.lgtype+'", "lgstatus":"1", "bbox":"", "coordinates":[' + d.longitude + ',' + d.latitude + ']},');
                 return tooltip.html('<b>' + d.govname + '</b>' + '<br /><span style="font-family: monospace;">' + projoutput + '-------<br /><span style="color: grey;">Program:</span>&nbsp;' + d.program + '<br /><span style="color: grey;">Date:</span>&nbsp;&nbsp;&nbsp;&nbsp;' + (d.dateofaward).toString().slice(4, 15) + '<br />' + '<span style="color: grey;">Award:</span>&nbsp;&nbsp;&nbsp;' + a + '</span>');
             })
             .on("mouseover", function() {
@@ -194,7 +194,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
                 return proj.latLngToLayerPoint(d.latLng).y + offSet(d);
             })
             .text(symbolize)
-                    .style('pointer-events', 'none');
+            .style('pointer-events', 'none');
 
 
 
