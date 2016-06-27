@@ -21,8 +21,8 @@ module.exports = function(map: Object, refreshdata: Function) {
             '<h4>Organization Type</h4>' +
             '&nbsp;&nbsp;<span style="padding-left: 4px; font-size: 15pt; line-height: 15pt;">&#10022;</span>&nbsp;&nbsp;&nbsp;City<br />' +
             '&nbsp;&nbsp;<span style="padding-left: 4px; padding-right: 1px; font-size: 14pt; line-height: 15pt;">&#9733;</span>&nbsp;&nbsp;&nbsp;County<br />' +
-            '&nbsp;&nbsp;<span style="padding-left: 6px; padding-right: 2px; font-size: 12pt; line-height: 15pt;">&#8718;</span>&nbsp;&nbsp;&nbsp;District<br />' +
-            '&nbsp;&nbsp;<span style="padding-left: 7px; padding-right: 3px; font-size: 13pt; line-height: 15pt;">&#9650;</span>&nbsp;&nbsp;&nbsp;Other</form></div>' +
+            '&nbsp;&nbsp;<span style="padding-left: 8px; padding-right: 5px; font-size: 9pt; line-height: 15pt;">&#9632;</span>&nbsp;&nbsp;&nbsp;District<br />' +
+            '&nbsp;&nbsp;<span style="padding-left: 7px; padding-right: 3px; font-size: 12pt; line-height: 15pt;">&#9650;</span>&nbsp;&nbsp;&nbsp;Other</form></div>' +
 
             '<div id="tabs-2"><h4 style="margin-bottom: 10px;">Programs&nbsp;&nbsp;<span id="prgbtn" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" style="margin-top: -10px; margin-left: 20px;" title="Program Information" ><span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text">Program Information</span></span></h4>' +
             '<span style="display: none;">&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grants">CDBG</span><br />' +

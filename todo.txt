@@ -1,31 +1,22 @@
 
 Check what is happening to csbg/cdbg Xlgids when coerced into array index - it works, but how?
+Data Validation Report (as CSV product from Data Pipeline)
 
-Blockers
+
+Data Issues
 ---------
-
 Upper Arkansas Area Council O(o)f Governments duplicate x00111 X00010
-  - here's the deal:  csbg_pts should only be used to add points that already already represented elsewhere.  Otherwise Duplicates.
   
 Four-Mile in Teller
   - email sent to Dave Bowman to correct data in Oracle to proper LGID
   
-Sometimes dissapearing text markers
-  - probably occurs when circle SVG renders before text SVG
+CSBG $0 Amounts - OIT working on this
 
 
-BUGs: 
+Minor BUGs: 
 ------
 Search box : Previous Location Flashes on Double Click
 Modal Triggers Scroll Bar
-
-
-Data Pipeline Improvments:
---------------------------
-CSBG $0 Amounts - OIT working on this
-all NodeJS
-
-Data Validation Report (as CSV product from Data Pipeline)
 
 
 Enhancements:

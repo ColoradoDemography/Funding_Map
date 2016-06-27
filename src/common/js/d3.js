@@ -19,7 +19,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
             return "★";
         }
         if (d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100) {
-            return "∎";
+            return "▪";
         }
         if (d.lgtype === 100) {
             return "▲";
@@ -27,7 +27,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
 
         return "ARG!!!"; //hopefully not
 
-    } //✦★∎▲
+    } //✦★▪▲
 
 
     function fontSize(d) {
@@ -38,7 +38,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
             return "4pt";
         }
         if (d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100) {
-            return "3.5pt";
+            return "7pt";
         }
         if (d.lgtype === 100) {
             return "3pt";
@@ -46,7 +46,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
 
         return "100pt"; //hopefully not
 
-    } //✦★∎▲
+    } //✦★▪▲
 
 
     function offSet(d) {
@@ -57,7 +57,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
             return 1.6;
         }
         if (d.lgtype !== 1 && d.lgtype !== 2 && d.lgtype !== 3 && d.lgtype !== 4 && d.lgtype !== 5 && d.lgtype !== 61 && d.lgtype !== 70 && d.lgtype !== 100) {
-            return 1.25;
+            return 3;
         }
         if (d.lgtype === 100) {
             return 1.4;
@@ -65,10 +65,10 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
 
         return 4; //hopefully not
 
-    } //✦★∎▲
+    } //✦★▪▲
 
     var animation_ms: number = 1000;
-
+  
     var csvdatacopy: Array < Object > = [];
     var cities: Array < Object > = [];
     var texts: Array < Object > = [];
@@ -176,6 +176,13 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         citiesUpd.order();
 
 
+    });
+    var textOverlay = L.d3SvgOverlay(function(sel, proj) {
+
+        var key = function(d): number {
+            return d.id;
+        };
+
         var textUpd = sel.selectAll('text')
             .data(texts, key);
 
@@ -222,7 +229,6 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
     });
 
 
-
     //so that geojson layers do not load before chips (preventing them from being clickable)
     Promise.all([p1, p2]).then(function(values) {
 
@@ -237,7 +243,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         //      map.setView(L.latLng(38.9983, -105.6417), 9);
         refreshdata();
         map.addLayer(citiesOverlay);
-
+        map.addLayer(textOverlay);
 
     });
 
