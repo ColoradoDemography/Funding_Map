@@ -1,4 +1,11 @@
 
+Can Fix
+-------
+Modal Scroll Bar
+Use Google Web Font for Symbols for consistant SVG text styling across browsers
+
+
+
 Check what is happening to csbg/cdbg Xlgids when coerced into array index - it works, but how?
 Data Validation Report (as CSV product from Data Pipeline)
 

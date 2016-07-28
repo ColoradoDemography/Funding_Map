@@ -62,7 +62,7 @@ onmessage = function(e) {
                 });
 
                 var data_translated: Array < Object > = data.map(d => {
-                    return initial_grantdata_crunch(d, searchstring, coordinates, keys);
+                    return initial_grantdata_crunch(d, keys);
                 });
 
                 // remove undefineds - now life can go on without them
