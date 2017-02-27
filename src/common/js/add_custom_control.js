@@ -30,6 +30,7 @@ module.exports = function(map: Object, refreshdata: Function) {
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Energy/Mineral Impact Assistance Fund">EIAF</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Limited Gaming Impact Program">GAME</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Rural Economic Development Initiative">REDI</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="mj" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Marijuana Impact Grants">MJ</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox"  />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Conservation Trust Fund">CTF</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="fml" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Federal Mineral Lease Direct Distribution">FML</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Severance Direct Distribution">SEV</span><br />' +
@@ -67,6 +68,9 @@ module.exports = function(map: Object, refreshdata: Function) {
         refreshdata();
     }, false);
     document.getElementById("redi").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("mj").addEventListener("click", function() {
         refreshdata();
     }, false);
     document.getElementById("ctf").addEventListener("click", function() {

@@ -41,6 +41,9 @@ module.exports = function filter_prog_geo_date(d: Object, flags: Object, dateran
     if (program === "REDI" && flags.redi_flag === 0) {
         return false;
     }
+    if (program === "MJ" && flags.mj_flag === 0) {
+        return false;
+    }
     if (program === "CSBG" && flags.csbg_flag === 0) {
         return false;
     }

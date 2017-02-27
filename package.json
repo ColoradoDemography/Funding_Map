@@ -60,7 +60,8 @@
   },
   "main": "app.min.js",
   "directories": {
-    "doc": "docs"
+    "doc": "docs",
+    "test": "test"
   },
   "dependencies": {
     "accounting": "^0.4.1"

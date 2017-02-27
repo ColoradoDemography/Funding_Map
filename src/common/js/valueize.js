@@ -52,6 +52,9 @@ module.exports = function(d: Object): Object {
     if (program === "REDI") {
         start = start + 400000;
     }
+    if (program === "MJ") {
+        start = start + 1300000;
+    }
     if (program === "VFP") {
         start = start + 800000;
     }

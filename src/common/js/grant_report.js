@@ -22,6 +22,7 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
         sar: 0,
         ffb: 0,
         eiaf: 0,
+        mj: 0,
         game: 0,
         redi: 0,
         csbg: 0,
@@ -53,6 +54,9 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
         }
         if (program === "EIAF") {
             program_totals.eiaf += dollars;
+        }
+        if (program === "MJ") {
+            program_totals.mj += dollars;
         }
         if (program === "GAME") {
             program_totals.game += dollars;
@@ -106,6 +110,7 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
             ((program_totals.eiaf > 0) ? ("<b>EIAF</b>: <i> " + accounting.formatMoney(program_totals.eiaf) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.game > 0) ? ("<b>GAME</b>: <i> " + accounting.formatMoney(program_totals.game) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.redi > 0) ? ("<b>REDI</b>: <i> " + accounting.formatMoney(program_totals.redi) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.mj > 0) ? ("<b>MJ</b>: <i> " + accounting.formatMoney(program_totals.mj) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.csbg > 0) ? ("<b>CSBG</b>: <i> " + accounting.formatMoney(program_totals.csbg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.cdbg > 0) ? ("<b>CDBG</b>: <i> " + accounting.formatMoney(program_totals.cdbg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.dr > 0) ? ("<b>DR</b>: <i> " + accounting.formatMoney(program_totals.dr) + "</i>") : "") +

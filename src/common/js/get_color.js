@@ -10,7 +10,7 @@ module.exports = function getcolor(program: string): string {
     if (program === "CSBG" || program === "CDBG") {
         return "blue";
     }
-    if (program === "EIAF" || program === "GAME" || program === "REDI") {
+    if (program === "EIAF" || program === "GAME" || program === "REDI" || program === "MJ") {
         return "red";
     }
     if (program === "VFP" || program === "SAR" || program === "FFB") {
