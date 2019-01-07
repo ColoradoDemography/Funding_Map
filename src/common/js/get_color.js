@@ -13,7 +13,7 @@ module.exports = function getcolor(program: string): string {
     if (program === "EIAF" || program === "GAME" || program === "REDI" || program === "MJ") {
         return "red";
     }
-    if (program === "VFP" || program === "SAR" || program === "FFB") {
+    if (program === "VFP" || program === "SAR" || program === "FFB" || program === "SAR Tier 1" || program === "SAR Tier 3" || program === "SAR EoY") {
         return "purple";
     }
     if (program === "DR") {

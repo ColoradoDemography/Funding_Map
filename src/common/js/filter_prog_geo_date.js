@@ -25,7 +25,7 @@ module.exports = function filter_prog_geo_date(d: Object, flags: Object, dateran
         return false;
     }
 
-    if (program === "SAR" && flags.sar_flag === 0) {
+    if ((program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 3" || program === "SAR EoY") && flags.sar_flag === 0) {
         return false;
     }
     if (program === "FFB" && flags.ffb_flag === 0) {

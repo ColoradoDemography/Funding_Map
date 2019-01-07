@@ -46,7 +46,7 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
         if (program === "CTF") {
             program_totals.ctf += dollars;
         }
-        if (program === "SAR") {
+        if (program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 3" || program === "SAR EoY") {
             program_totals.sar += dollars;
         }
         if (program === "FFB") {

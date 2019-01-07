@@ -58,7 +58,7 @@ module.exports = function(d: Object): Object {
     if (program === "VFP") {
         start = start + 800000;
     }
-    if (program === "SAR") {
+    if (program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 3" || program === "SAR EoY") {
         start = start + 700000;
     }
     if (program === "FFB") {
