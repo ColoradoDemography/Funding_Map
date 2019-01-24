@@ -50,7 +50,7 @@ module.exports.monthNumStr = function(monthText: string): number {
     if (monthText === "DEC") {
         return 11;
     }
-
+    console.log(monthText);
     console.log('unexpected fall through on monthNumStr');
     return 99;
 };
