@@ -10,8 +10,8 @@ module.exports = function(map: Object, refreshdata: Function) {
 
     command.onAdd = function() {
         var div = L.DomUtil.create('div', 'command bord');
-        div.innerHTML = '<ul><li><a href="#tabs-1">Legend</a></li><li><a href="#tabs-2">Options</a></li></ul>' +
-            '<div id="tabs-1">' +
+        div.innerHTML = '<ul><li><a href="#tabs-1">Options</a></li><li><a href="#tabs-2">Legend</a></li></ul>' +
+            '<div id="tabs-2">' +
             '<form><h4>Funding Source</h4>' +
             '&nbsp;&nbsp;&nbsp;<svg width="12" height="12"><circle cx="6" cy="6" r="6" stroke="black" stroke-width="0.2" fill="blue" /></svg>&nbsp;&nbsp;&nbsp;Federal<br />' +
             '&nbsp;&nbsp;&nbsp;<svg width="12" height="12"><circle cx="6" cy="6" r="6" stroke="black" stroke-width="0.2" fill="red" /></svg>&nbsp;&nbsp;&nbsp;State<br />' +
@@ -24,7 +24,7 @@ module.exports = function(map: Object, refreshdata: Function) {
             '&nbsp;&nbsp;<span style="padding-left: 8px; padding-right: 5px; font-size: 9pt; line-height: 15pt;">&#9632;</span>&nbsp;&nbsp;&nbsp;District<br />' +
             '&nbsp;&nbsp;<span style="padding-left: 7px; padding-right: 3px; font-size: 12pt; line-height: 15pt;">&#9650;</span>&nbsp;&nbsp;&nbsp;Other</form></div>' +
 
-            '<div id="tabs-2"><h4 style="margin-bottom: 10px;">Programs&nbsp;&nbsp;<span id="prgbtn" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" style="margin-top: -10px; margin-left: 20px;" title="Program Information" ><span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text">Program Information</span></span></h4>' +
+            '<div id="tabs-1"><h4 style="margin-bottom: 10px;">Programs&nbsp;&nbsp;<span id="prgbtn" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" style="margin-top: -10px; margin-left: 20px;" title="Program Information" ><span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text">Program Information</span></span></h4>' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grants">CDBG</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Services Block Grants">CSBG</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Energy/Mineral Impact Assistance Fund">EIAF</span><br />' +

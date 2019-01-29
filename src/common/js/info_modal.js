@@ -19,7 +19,7 @@ module.exports = function(map: Object) {
             '<tr><td><span class="ttext">VFP:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/volunteer-firefighter-pension-fund-vfp" class="blue" target="_blank" >Volunteer Firefighter Pension Fund</a></span></td></tr>' +
             '<tr><td><span class="ttext">DR:</span></td><td><span class="desctext">&nbsp;&nbsp;<a href="https://www.colorado.gov/pacific/dola/disaster-recovery" class="grey" target="_blank" >Disaster Recovery Grants</a></span></td></tr>' +
             '</table><br />' +
-            '<a id="bblink" href="http://dola.colorado.gov/gis-cms/content/interactive-broadband-map" target="_blank">Colorado Broadband Grant Map</a><br />'
+            '<a id="bblink" href="https://demography.dola.colorado.gov/D3_BroadbandStatus/" target="_blank">Colorado Broadband Grant Map</a><br />'
     });
 
 
