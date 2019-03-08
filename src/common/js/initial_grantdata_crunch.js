@@ -8,8 +8,7 @@ module.exports = function(d: Object, keys: Array < Object > ) {
     if (d.program === "FML_SB106") {
         d.program = "FML";
     }
-
-
+    
     var dateofaward: string = (d.dateofaward).split("-");
     var awrd: Date = new Date(Number("20" + dateofaward[2]), monthNumStr(dateofaward[1]), Number(dateofaward[0]));
 

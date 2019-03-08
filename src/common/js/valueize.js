@@ -40,7 +40,7 @@ module.exports = function(d: Object): Object {
     if (program === "CSBG") {
         start = start + 600000;
     }
-    if (program === "CDBG") {
+    if (program === "CDBG" || program === "CDBGED" || program === "CDBGPF") {
         start = start + 500000;
     }
     if (program === "EIAF") {
@@ -52,13 +52,13 @@ module.exports = function(d: Object): Object {
     if (program === "REDI") {
         start = start + 400000;
     }
-    if (program === "MJ") {
+    if (program === "MJ" || program === "GBMJ") {
         start = start + 1300000;
     }
     if (program === "VFP") {
         start = start + 800000;
     }
-    if (program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 3" || program === "SAR EoY") {
+    if (program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 3" ||program === "SAR Tier 2" || program === "SAR EoY") {
         start = start + 700000;
     }
     if (program === "FFB") {

@@ -21,12 +21,14 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
         ctf: 0,
         sar: 0,
         ffb: 0,
+        dcfa: 0,
         eiaf: 0,
         mj: 0,
         game: 0,
         redi: 0,
         csbg: 0,
         cdbg: 0,
+        chpg: 0,
         dr: 0
     };
 
@@ -46,16 +48,19 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
         if (program === "CTF") {
             program_totals.ctf += dollars;
         }
-        if (program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 3" || program === "SAR EoY") {
+        if (program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 2" |program === "SAR Tier 3" || program === "SAR EoY") {
             program_totals.sar += dollars;
         }
         if (program === "FFB") {
             program_totals.ffb += dollars;
         }
+        if (program === "DCFA") {
+            program_totals.dcfa += dollars;
+        }
         if (program === "EIAF") {
             program_totals.eiaf += dollars;
         }
-        if (program === "MJ") {
+        if (program === "MJ" || program === "GBMJ") {
             program_totals.mj += dollars;
         }
         if (program === "GAME") {
@@ -67,7 +72,10 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
         if (program === "CSBG") {
             program_totals.csbg += dollars;
         }
-        if (program === "CDBG") {
+        if (program === "CHPG") {
+            program_totals.chpg += dollars;
+        }
+        if (program === "CDBG" || program === "CDBGED" || program === "CDBGPF") {
             program_totals.cdbg += dollars;
         }
         if (program === "DR") {
@@ -107,11 +115,13 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
             ((program_totals.ctf > 0) ? ("<b>CTF</b>: <i> " + accounting.formatMoney(program_totals.ctf) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.sar > 0) ? ("<b>SAR</b>: <i> " + accounting.formatMoney(program_totals.sar) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.ffb > 0) ? ("<b>FFB</b>: <i> " + accounting.formatMoney(program_totals.ffb) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.dcfa > 0) ? ("<b>DCFA</b>: <i> " + accounting.formatMoney(program_totals.dcfa) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.eiaf > 0) ? ("<b>EIAF</b>: <i> " + accounting.formatMoney(program_totals.eiaf) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.game > 0) ? ("<b>GAME</b>: <i> " + accounting.formatMoney(program_totals.game) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.redi > 0) ? ("<b>REDI</b>: <i> " + accounting.formatMoney(program_totals.redi) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.mj > 0) ? ("<b>MJ</b>: <i> " + accounting.formatMoney(program_totals.mj) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.csbg > 0) ? ("<b>CSBG</b>: <i> " + accounting.formatMoney(program_totals.csbg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.chpg > 0) ? ("<b>CHPG</b>: <i> " + accounting.formatMoney(program_totals.chpg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.cdbg > 0) ? ("<b>CDBG</b>: <i> " + accounting.formatMoney(program_totals.cdbg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.dr > 0) ? ("<b>DR</b>: <i> " + accounting.formatMoney(program_totals.dr) + "</i>") : "") +
             "</span><br /><button style='margin-top: 20px;' id='dlcsv'>Download</button>"

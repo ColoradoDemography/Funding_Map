@@ -25,7 +25,8 @@ module.exports = function filter_prog_geo_date(d: Object, flags: Object, dateran
         return false;
     }
 
-    if ((program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 3" || program === "SAR EoY") && flags.sar_flag === 0) {
+    if ((program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 2" || program === "SAR Tier 3" || program === "SAR EoY") && flags.sar_flag === 0) {
+        //
         return false;
     }
     if (program === "FFB" && flags.ffb_flag === 0) {
@@ -37,22 +38,25 @@ module.exports = function filter_prog_geo_date(d: Object, flags: Object, dateran
     if (program === "GAME" && flags.game_flag === 0) {
         return false;
     }
-
     if (program === "REDI" && flags.redi_flag === 0) {
         return false;
     }
-    if (program === "MJ" && flags.mj_flag === 0) {
+    if ((program === "MJ" || program === "GBMJ") && flags.mj_flag === 0) {
         return false;
     }
     if (program === "CSBG" && flags.csbg_flag === 0) {
         return false;
     }
-    if (program === "CDBG" && flags.cdbg_flag === 0) {
+    if (program === "CHPG" && flags.chpg_flag === 0) {
         return false;
     }
-
-
+    if ((program === "CDBG" || program === "CDBGED" || program === "CDBGPF") && flags.cdbg_flag === 0) {
+        return false;
+    }
     if (program === "DR" && flags.dr_flag === 0) {
+        return false;
+    }
+    if (program === "DCFA" && flags.dcfa_flag === 0) {
         return false;
     }
 
