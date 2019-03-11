@@ -25,16 +25,19 @@ module.exports = function(map: Object, refreshdata: Function) {
             // '&nbsp;&nbsp;<span style="padding-left: 7px; padding-right: 3px; font-size: 12pt; line-height: 15pt;">&#9650;</span>&nbsp;&nbsp;&nbsp;Other</form></div>' +
 
             '</br><div id="tabs-1"><h4 style="margion-top: 10px margin-bottom: 10px;">Programs&nbsp;&nbsp;<span id="prgbtn" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" style="margin-top: -10px; margin-left: 20px;" title="Program Information" ><span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text">Program Information</span></span></h4>' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grants">Community Development Block Grants</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="chpg" type="checkbox" />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Colorado Heritage Planning Grants">Colorado Heritage Planning Grants</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Services Block Grants">Community Services Block Grants</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="chpg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Colorado Heritage Planning Grants">Colorado Heritage Planning Grants</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grants">Community Development Block Grants</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="dr" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grant Disaster Recovery">Community Development Block Grant Disaster Recovery </span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Services Block Grants">Community Services Block Grants</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ms" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Main Street Program">Main Street Program</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ccpi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Community Crime Prevention Initiative">Community Crime Prevention Initiative</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="dcfa" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Defense Counsel on First Appearance">Defense Counsel on First Appearance</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Energy and Mineral Impact Assistance Fund">Energy and Mineral Impact Assistance Fund</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Local Government Limited Gaming Impact Program">Local Government Limited Gaming Impact Program</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Rural Economic Development Initiative">Rural Economic Development Initiative</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="mj" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Marijuana Impact Grant Programs">Marijuana Impact Grant Programs</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox"  />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Conservation Trust Fund">Conservation Trust Fund</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="pomh" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Peace Officer Mental Health Support Program">Peace Officer Mental Health Support Program</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Rural Economic Development Initiative">Rural Economic Development Initiative</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Conservation Trust Fund">Conservation Trust Fund</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="fml" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Direct Distribution of Federal Mineral Lease Dollars ">Direct Distribution of Federal Mineral Lease Dollar</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Direct Distribution of Severance Tax Dollars">Direct Distribution of Severance Tax Dollars</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Firefighter Cardiac Benefit Program">Firefighter Cardiac Benefit Program</span><br />' +
@@ -88,7 +91,6 @@ module.exports = function(map: Object, refreshdata: Function) {
     document.getElementById("fml").addEventListener("click", function() {
         refreshdata();
     }, false);
-
     document.getElementById("sevedd").addEventListener("click", function() {
         refreshdata();
     }, false);
@@ -104,6 +106,16 @@ module.exports = function(map: Object, refreshdata: Function) {
     document.getElementById("dr").addEventListener("click", function() {
         refreshdata();
     }, false);
+    document.getElementById("ccpi").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("pomh").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("ms").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    
     document.getElementById("city").addEventListener("click", function() {
         refreshdata();
     }, false);

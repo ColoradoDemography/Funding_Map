@@ -251,13 +251,18 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
     function refreshdata() {
 
         var flags: {
-            cdbg_flag: number;csbg_flag: number;dfca_flag: number;eiaf_flag: number;game_flag: number;redi_flag: number;mj_flag: number;ctf_flag: number;fml_flag: number;sevedd_flag: number;ffb_flag: number;sar_flag: number;vfp_flag: number;dr_flag: number;city_flag: number;county_flag: number;district_flag: number;other_flag: number
+            chpg_flag: number;cdbg_flag: number;dr_flag: number;csbg_flag: number;ms_flag: number;dcfa_flag: number;eiaf_flag: number;game_flag: number;redi_flag: number;mj_flag: number;ctf_flag: number;fml_flag: number;sevedd_flag: number;ffb_flag: number;sar_flag: number;vfp_flag: number;pomh_flag: number;ccpi_flag: number;city_flag: number;county_flag: number;district_flag: number;other_flag: number
         } = {
+            chpg_flag: 0,
             cdbg_flag: 0,
+            dr_flag: 0,
             csbg_flag: 0,
-            dfca_flag: 0,
+            ms_flag: 0,
+            ccpi_flag: 0,
+            dcfa_flag: 0,
             eiaf_flag: 0,
             game_flag: 0,
+            pomh_flag: 0,
             redi_flag: 0,
             mj_flag: 0,
             ctf_flag: 0,
@@ -266,27 +271,33 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
             ffb_flag: 0,
             sar_flag: 0,
             vfp_flag: 0,
-            dr_flag: 0,
+           
             city_flag: 0,
             county_flag: 0,
             district_flag: 0,
             other_flag: 0
         };
 
+        (($('#chpg').is(':checked'))) ? flags.chpg_flag = 1: flags.chpg_flag = 0;
         (($('#cdbg').is(':checked'))) ? flags.cdbg_flag = 1: flags.cdbg_flag = 0;
+        (($('#dr').is(':checked'))) ? flags.dr_flag = 1: flags.dr_flag = 0;
         (($('#csbg').is(':checked'))) ? flags.csbg_flag = 1: flags.csbg_flag = 0;
-        (($('#dfca').is(':checked'))) ? flags.dfca_flag = 1: flags.dfca_flag = 0;
+        (($('#ms').is(':checked'))) ? flags.ms_flag = 1: flags.ms_flag = 0;
+        (($('#ccpi').is(':checked'))) ? flags.ccpi_flag = 1: flags.ccpi_flag = 0;
+        (($('#dcfa').is(':checked'))) ? flags.dcfa_flag = 1: flags.dcfa_flag = 0;
         (($('#eiaf').is(':checked'))) ? flags.eiaf_flag = 1: flags.eiaf_flag = 0;
         (($('#game').is(':checked'))) ? flags.game_flag = 1: flags.game_flag = 0;
+        (($('#pomh').is(':checked'))) ? flags.pomh_flag = 1: flags.pomh_flag = 0;
         (($('#redi').is(':checked'))) ? flags.redi_flag = 1: flags.redi_flag = 0;
         (($('#mj').is(':checked'))) ? flags.mj_flag = 1: flags.mj_flag = 0;
         (($('#ctf').is(':checked'))) ? flags.ctf_flag = 1: flags.ctf_flag = 0;
+        (($('#fml').is(':checked'))) ? flags.fml_flag = 1: flags.fml_flag = 0;
         (($('#sevedd').is(':checked'))) ? flags.sevedd_flag = 1: flags.sevedd_flag = 0;
         (($('#ffb').is(':checked'))) ? flags.ffb_flag = 1: flags.ffb_flag = 0;
         (($('#sar').is(':checked'))) ? flags.sar_flag = 1: flags.sar_flag = 0;
         (($('#vfp').is(':checked'))) ? flags.vfp_flag = 1: flags.vfp_flag = 0;
-        (($('#fml').is(':checked'))) ? flags.fml_flag = 1: flags.fml_flag = 0;
-        (($('#dr').is(':checked'))) ? flags.dr_flag = 1: flags.dr_flag = 0;
+
+        
 
         (($('#city').is(':checked'))) ? flags.city_flag = 1: flags.city_flag = 0;
         (($('#county').is(':checked'))) ? flags.county_flag = 1: flags.county_flag = 0;

@@ -29,7 +29,10 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
         csbg: 0,
         cdbg: 0,
         chpg: 0,
-        dr: 0
+        dr: 0,
+        ms: 0,
+        pomh: 0,
+        ccpi: 0
     };
 
     //iterate over results array to get totals for each program
@@ -81,6 +84,15 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
         if (program === "DR") {
             program_totals.dr += dollars;
         }
+        if (program === "MS") {
+            program_totals.ms += dollars;
+        }
+        if (program === "POMH") {
+            program_totals.pomh += dollars;
+        }
+        if (program === "CCPI") {
+            program_totals.ccpi += dollars;
+        }
     });
 
     function compare(a: Object, b: Object) {
@@ -124,6 +136,9 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
             ((program_totals.chpg > 0) ? ("<b>CHPG</b>: <i> " + accounting.formatMoney(program_totals.chpg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.cdbg > 0) ? ("<b>CDBG</b>: <i> " + accounting.formatMoney(program_totals.cdbg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.dr > 0) ? ("<b>DR</b>: <i> " + accounting.formatMoney(program_totals.dr) + "</i>") : "") +
+            ((program_totals.ms > 0) ? ("<b>MS</b>: <i> " + accounting.formatMoney(program_totals.ms) + "</i>") : "") +
+            ((program_totals.ccpi > 0) ? ("<b>CCPI</b>: <i> " + accounting.formatMoney(program_totals.ccpi) + "</i>") : "") +
+            ((program_totals.pomh > 0) ? ("<b>POMH</b>: <i> " + accounting.formatMoney(program_totals.pomh) + "</i>") : "") +
             "</span><br /><button style='margin-top: 20px;' id='dlcsv'>Download</button>"
     });
 
