@@ -120,7 +120,7 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
 
 
     map.openModal({
-        content: "<h2 style='margin-bottom: -10px; margin-left: -5px;'>Grant Report for: " + d.govname + "</h2><br /><i>From: " + (daterange.mindate).toString().slice(0, 15) + " to " + (daterange.maxdate).toString().slice(0, 15) + "</i><br /><br /><table id='resultstable'><tr><th align='left'>Description</th><th>Program</th><th>Date</th><th align='right'>Total Award</th></tr>" + content_tbl + "</table><br /><h4>Total:  " + accounting.formatMoney(award_ttl) + "</h4><br /><span style='color: grey;'>" +
+        content: "<h2 style='margin-bottom: -10px; margin-left: -5px;'>Grant Report for: " + d.govname + "</h2><br /><i>From: " + (daterange.mindate).toString().slice(0, 15) + " to " + (daterange.maxdate).toString().slice(0, 15) + "</i><br /><br /><div style='overflow:auto;'><table id='resultstable'><tr><th align='left'>Description</th><th>Program</th><th>Date</th><th align='right'>Total Award</th></tr>" + content_tbl + "</table></div><br /><h4>Total:  " + accounting.formatMoney(award_ttl) + "</h4><br /><span style='color: grey;'>" +
             ((program_totals.fml > 0) ? ("<b>FML</b>: <i> " + accounting.formatMoney(program_totals.fml) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.sev_dist > 0) ? ("<b>SEV_DIST</b>: <i> " + accounting.formatMoney(program_totals.sev_dist) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             ((program_totals.vfp > 0) ? ("<b>VFP</b>: <i> " + accounting.formatMoney(program_totals.vfp) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +

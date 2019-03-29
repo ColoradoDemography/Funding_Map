@@ -319,13 +319,13 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
    * Mouse down on overlay
    * @param  {L.MouseEvent} evt
    */
-  _onMouseDown: function(evt) {
-    L.DomEvent.stop(evt);
-    var target = (evt.target || evt.srcElement);
-    if (L.DomUtil.hasClass(target, this.options.MODAL_CLS)) {
-      this._hide();
-    }
-  },
+  // _onMouseDown: function(evt) {
+  //   L.DomEvent.stop(evt);
+  //   var target = (evt.target || evt.srcElement);
+  //   if (L.DomUtil.hasClass(target, this.options.MODAL_CLS)) {
+  //     this._hide();
+  //   }
+  // },
 
   /**
    * Key stroke(escape)
