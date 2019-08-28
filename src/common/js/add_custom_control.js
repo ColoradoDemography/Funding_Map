@@ -28,7 +28,7 @@ module.exports = function(map: Object, refreshdata: Function) {
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="bb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,255,0)" title="Broadband">Broadband</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="cap" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,255,0)" title="Capacity">Capacity</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="dr" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Drainage">Drainage</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ed" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,255,0)" title="Economic Development">Economic Development</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ed" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,0)" title="Economic Development">Economic Development</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="en" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,255,0)" title="Energy">Energy</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="hhs" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Health and Human Services">Health and Human Services</span><br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="hous" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Housing">Housing</span><br />' +

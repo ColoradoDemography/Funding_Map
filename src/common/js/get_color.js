@@ -17,7 +17,7 @@ module.exports = function getcolor(program: string): string {
         return "purple";
     }
     if (program === "Economic Development") {
-        return "yellow";
+        return "black";
     }
     return "black";
 

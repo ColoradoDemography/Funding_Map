@@ -33,7 +33,7 @@ module.exports = function(map: Object, daterange: {
 
     $("#slider").dateRangeSlider({
         bounds: {
-            min: new Date(2012, 0, 1),
+            min: new Date(2019, 0, 1),
             max: daterange.maxdate
         },
         defaultValues: {
