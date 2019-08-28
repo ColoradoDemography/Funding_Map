@@ -12,60 +12,49 @@ module.exports = function filter_prog_geo_date(d: Object, flags: Object, dateran
 
 
     //filter program
-    if (program === "FML" && flags.fml_flag === 0) {
+    if (program === "Broadband" && flags.bb_flag === 0) {
         return false;
     }
-    if (program === "SEV_DIST" && flags.sevedd_flag === 0) {
+    if (program === "Capacity" && flags.cap_flag === 0) {
         return false;
     }
-    if (program === "VFP" && flags.vfp_flag === 0) {
+    if (program === "Drainage" && flags.dr_flag === 0) {
         return false;
     }
-    if (program === "CTF" && flags.ctf_flag === 0) {
+    if (program === "Economic Development" && flags.ed_flag === 0) {
         return false;
     }
-    if ((program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 2" || program === "SAR Tier 3" || program === "SAR EoY") && flags.sar_flag === 0) {
+    if (program === "Energy" && flags.en_flag === 0) {
         return false;
     }
-    if (program === "FFB" && flags.ffb_flag === 0) {
+    if (program === "Health and Human Services" && flags.hhs_flag === 0) {
         return false;
     }
-    if (program === "EIAF" && flags.eiaf_flag === 0) {
+    if (program === "Housing" && flags.hous_flag === 0) {
         return false;
     }
-    if (program === "GAME" && flags.game_flag === 0) {
+    if (program === "Parks and Recreation" && flags.pr_flag === 0) {
         return false;
     }
-    if (program === "REDI" && flags.redi_flag === 0) {
+    if (program === "Planning/Community Development" && flags.pcd_flag === 0) {
         return false;
     }
-    if ((program === "MJ" || program === "GBMJ") && flags.mj_flag === 0) {
+    if (program === "Public Facilities" && flags.pf_flag === 0) {
         return false;
     }
-    if (program === "CSBG" && flags.csbg_flag === 0) {
+    if (program === "Public Safety" && flags.ps_flag === 0) {
         return false;
     }
-    if (program === "CHPG" && flags.chpg_flag === 0) {
+    if (program === "Road/Street" && flags.road_flag === 0) {
         return false;
     }
-    if ((program === "CDBG" || program === "CDBGED" || program === "CDBGPF") && flags.cdbg_flag === 0) {
+    if (program === "Sewer" && flags.sew_flag === 0) {
         return false;
     }
-    if (program === "DR" && flags.dr_flag === 0) {
+    if (program === "water" && flags.wat_flag === 0) {
         return false;
     }
-    if (program === "DCFA" && flags.dcfa_flag === 0) {
-        return false;
-    }
-    if (program === "MS" && flags.ms_flag === 0) {
-        return false;
-    }
-    if (program === "POMH" && flags.pomh_flag === 0) {
-        return false;
-    }
-    if (program === "CCPI" && flags.ccpi_flag === 0) {
-        return false;
-    }
+
     
     //filter geo
     if ((lgtype === 2 || lgtype === 3 || lgtype === 4 || lgtype === 5) && flags.city_flag === 0) {

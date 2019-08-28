@@ -37,7 +37,7 @@ onmessage = function(e) {
         var searchstring = [];
         var coordinates = [];
 
-        d3.csv("https://storage.googleapis.com/co-publicdata/grants.csv", function(data) {
+        d3.csv("../data/funding.csv", function(data) {
             d3.csv("../data/keypts.csv", function(keys) {
               
                 //seed search box            
@@ -50,7 +50,7 @@ onmessage = function(e) {
                         coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
                     }
                     //search by EIAF project number - precede search with #
-                    if (d.program === "EIAF" && d.projectnmbr > 0 && (searchstring.indexOf(("#" + d.projectnmbr)) === -1)) {
+/*                    if (d.program === "EIAF" && d.projectnmbr > 0 && (searchstring.indexOf(("#" + d.projectnmbr)) === -1)) {
                         searchstring.push(("#" + d.projectnmbr));
                         coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
                     }
@@ -58,7 +58,7 @@ onmessage = function(e) {
                     if (d.program === "EIAF" && d.projectnmbr > 0 && (searchstring.indexOf(("#" + d.projectnmbr)) === -1)) {
                         searchstring.push(("#" + d.projectnmbr));
                         coordinates.push([parseFloat(d.longitude), parseFloat(d.latitude)]);
-                    }
+                    }*/
                 });
 
                 var data_translated: Array < Object > = data.map(d => {

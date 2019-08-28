@@ -4,20 +4,20 @@ module.exports = function getcolor(program: string): string {
     'use strict';
 
     //["FML", "SEV_DIST", "VFP", "CTF", "SAR", "FFB", "EIAF", "GAME", "REDI", "CSBG", "CDBG"];
-    if (program === "FML" || program === "CTF" || program === "SEV_DIST") {
+    if (program === "Broadband" || program === "Capacity" || program === "Energy") {
         return "green";
     }
-    if (program === "CSBG" || program === "CDBG" || program === "CDBGED" || program === "CDBGPF" || program === "CHPG"|| program === "MS") {
+    if (program === "Sewer" || program === "Water" || program === "Drainage") {
         return "blue";
     }
-    if (program === "EIAF" || program === "GAME" || program === "REDI" || program === "MJ" || program === "GBMJ" || program === "POMH" || program === "CCPI"|| program === "DCFA") {
+    if (program === "Health and Human Services" || program === "Housing" || program === "Planning/Community Development") {
         return "red";
     }
-    if (program === "VFP" || program === "SAR" || program === "FFB" || program === "SAR Tier 1" || program === "SAR Tier 2" || program === "SAR Tier 3" || program === "SAR EoY" || program === "FFB") {
+    if (program === "Parks and Recreation" || program === "Public Facilities" || program === "Public Safety" || program === "Road/Street") {
         return "purple";
     }
-    if (program === "DR") {
-        return "grey";
+    if (program === "Economic Development") {
+        return "yellow";
     }
     return "black";
 

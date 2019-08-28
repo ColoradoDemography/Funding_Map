@@ -24,25 +24,21 @@ module.exports = function(map: Object, refreshdata: Function) {
             // '&nbsp;&nbsp;<span style="padding-left: 8px; padding-right: 5px; font-size: 9pt; line-height: 15pt;">&#9632;</span>&nbsp;&nbsp;&nbsp;District<br />' +
             // '&nbsp;&nbsp;<span style="padding-left: 7px; padding-right: 3px; font-size: 12pt; line-height: 15pt;">&#9650;</span>&nbsp;&nbsp;&nbsp;Other</form></div>' +
 
-            '</br><div id="tabs-1"><h4 style="margion-top: 10px margin-bottom: 10px;">Programs&nbsp;&nbsp;<span id="prgbtn" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" style="margin-top: -10px; margin-left: 20px;" title="Program Information" ><span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text">Program Information</span></span></h4>' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="chpg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Colorado Heritage Planning Grants">Colorado Heritage Planning Grants</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="cdbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grants">Community Development Block Grants</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="dr" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Development Block Grant Disaster Recovery">Community Development Block Grant Disaster Recovery </span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="csbg" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Community Services Block Grants">Community Services Block Grants</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ms" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Main Street Program">Main Street Program</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ccpi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Community Crime Prevention Initiative">Community Crime Prevention Initiative</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="dcfa" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Defense Counsel on First Appearance">Defense Counsel on First Appearance</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="eiaf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Energy and Mineral Impact Assistance Fund">Energy and Mineral Impact Assistance Fund</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="game" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Local Government Limited Gaming Impact Program">Local Government Limited Gaming Impact Program</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="mj" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Marijuana Impact Grant Programs">Marijuana Impact Grant Programs</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="pomh" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Peace Officer Mental Health Support Program">Peace Officer Mental Health Support Program</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="redi" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Rural Economic Development Initiative">Rural Economic Development Initiative</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ctf" type="checkbox" />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Conservation Trust Fund">Conservation Trust Fund</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="fml" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Direct Distribution of Federal Mineral Lease Dollars ">Direct Distribution of Federal Mineral Lease Dollar</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="sevedd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,126,0)" title="Direct Distribution of Severance Tax Dollars">Direct Distribution of Severance Tax Dollars</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ffb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Firefighter Cardiac Benefit Program">Firefighter Cardiac Benefit Program</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="sar" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Colorado Search and Rescue Program">Colorado Search and Rescue Program</span><br />' +
-            '&nbsp;&nbsp;&nbsp;<input class="leg" id="vfp" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(126,0,126)" title="Volunteer Firefighter Pension">Volunteer Firefighter Pension</span><br />' +
+            //'</br><div id="tabs-1"><h4 style="margion-top: 10px margin-bottom: 10px;">Programs&nbsp;&nbsp;<span id="prgbtn" class="ui-button ui-widget ui-state-default ui-corner-//all ui-button-icon-only" role="button" aria-disabled="false" style="margin-top: -10px; margin-left: 20px;" title="Project Type" ><span class="ui-button-icon-//primary ui-icon ui-icon-help"></span><span class="ui-button-text">Project Type</span></span></h4>' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="bb" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,255,0)" title="Broadband">Broadband</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="cap" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,255,0)" title="Capacity">Capacity</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="dr" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Drainage">Drainage</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ed" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,255,0)" title="Economic Development">Economic Development</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="en" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,255,0)" title="Energy">Energy</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="hhs" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Health and Human Services">Health and Human Services</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="hous" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Housing">Housing</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="pr" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(150,0,150)" title="Parks and Recreation">Parks and Recreation</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="pcd" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(255,0,0)" title="Planning/Community Development">Planning/Community Development</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="pf" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(150,0,150)" title="Public Facilities">Public Facilities</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="ps" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(150,0,150)" title="Public Safety">Public Safety</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="road" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(150,0,150)" title="Road/Street">Road/Street</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="sew" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Sewer">Sewer</span><br />' +
+            '&nbsp;&nbsp;&nbsp;<input class="leg" id="wat" type="checkbox" checked />&nbsp;&nbsp;&nbsp;<span style="color:rgb(0,0,255)" title="Water">Water</span><br />' +
             
             '<hr>' + '&nbsp;&nbsp;&nbsp;<input class="leg" id="city" type="checkbox" checked />&nbsp;&nbsp;&nbsp;City<br />' +
             '&nbsp;&nbsp;&nbsp;<input class="leg" id="county" type="checkbox" checked />&nbsp;&nbsp;&nbsp;County<br />' +
@@ -61,60 +57,49 @@ module.exports = function(map: Object, refreshdata: Function) {
         require("./info_modal.js")(map);
     });
 
-    document.getElementById("cdbg").addEventListener("click", function() {
+    document.getElementById("bb").addEventListener("click", function() {
         refreshdata();
     }, false);
-    document.getElementById("chpg").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("csbg").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("dcfa").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("eiaf").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("game").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("redi").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("mj").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("ctf").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("fml").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("sevedd").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("ffb").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("sar").addEventListener("click", function() {
-        refreshdata();
-    }, false);
-    document.getElementById("vfp").addEventListener("click", function() {
+    document.getElementById("cap").addEventListener("click", function() {
         refreshdata();
     }, false);
     document.getElementById("dr").addEventListener("click", function() {
         refreshdata();
     }, false);
-    document.getElementById("ccpi").addEventListener("click", function() {
+    document.getElementById("ed").addEventListener("click", function() {
         refreshdata();
     }, false);
-    document.getElementById("pomh").addEventListener("click", function() {
+    document.getElementById("en").addEventListener("click", function() {
         refreshdata();
     }, false);
-    document.getElementById("ms").addEventListener("click", function() {
+    document.getElementById("hhs").addEventListener("click", function() {
         refreshdata();
     }, false);
+    document.getElementById("hous").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("pr").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("pcd").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("pf").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("ps").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("road").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("sew").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+    document.getElementById("wat").addEventListener("click", function() {
+        refreshdata();
+    }, false);
+   
     
     document.getElementById("city").addEventListener("click", function() {
         refreshdata();

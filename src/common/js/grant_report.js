@@ -15,83 +15,67 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
     }
 
     var program_totals: Object = {
-        fml: 0,
-        sev_dist: 0,
-        vfp: 0,
-        ctf: 0,
-        sar: 0,
-        ffb: 0,
-        dcfa: 0,
-        eiaf: 0,
-        mj: 0,
-        game: 0,
-        redi: 0,
-        csbg: 0,
-        cdbg: 0,
-        chpg: 0,
+        bb: 0,
+        cap: 0,
         dr: 0,
-        ms: 0,
-        pomh: 0,
-        ccpi: 0
+        ed: 0,
+        en: 0,
+        hhs: 0,
+        hous: 0,
+        pr: 0,
+        pcd: 0,
+        pf: 0,
+        ps: 0,
+        road: 0,
+        sew: 0,
+        wat: 0
     };
 
     //iterate over results array to get totals for each program
     tbl_results.forEach(d => {
         let program = d.program;
         let dollars = d.award;
-        if (program === "FML") {
-            program_totals.fml += dollars;
+        if (program === "Broadband") {
+            program_totals.bb += dollars;
         }
-        if (program === "SEV_DIST") {
-            program_totals.sev_dist += dollars;
+        if (program === "Capacity") {
+            program_totals.cap += dollars;
         }
-        if (program === "VFP") {
-            program_totals.vfp += dollars;
-        }
-        if (program === "CTF") {
-            program_totals.ctf += dollars;
-        }
-        if (program === "SAR" || program === "SAR Tier 1" || program === "SAR Tier 2" |program === "SAR Tier 3" || program === "SAR EoY") {
-            program_totals.sar += dollars;
-        }
-        if (program === "FFB") {
-            program_totals.ffb += dollars;
-        }
-        if (program === "DCFA") {
-            program_totals.dcfa += dollars;
-        }
-        if (program === "EIAF") {
-            program_totals.eiaf += dollars;
-        }
-        if (program === "MJ" || program === "GBMJ") {
-            program_totals.mj += dollars;
-        }
-        if (program === "GAME") {
-            program_totals.game += dollars;
-        }
-        if (program === "REDI") {
-            program_totals.redi += dollars;
-        }
-        if (program === "CSBG") {
-            program_totals.csbg += dollars;
-        }
-        if (program === "CHPG") {
-            program_totals.chpg += dollars;
-        }
-        if (program === "CDBG" || program === "CDBGED" || program === "CDBGPF") {
-            program_totals.cdbg += dollars;
-        }
-        if (program === "DR") {
+        if (program === "Drainage") {
             program_totals.dr += dollars;
         }
-        if (program === "MS") {
-            program_totals.ms += dollars;
+        if (program === "Economic Development") {
+            program_totals.ed += dollars;
         }
-        if (program === "POMH") {
-            program_totals.pomh += dollars;
+        if (program === "Energy") {
+            program_totals.en += dollars;
         }
-        if (program === "CCPI") {
-            program_totals.ccpi += dollars;
+        if (program === "Health and Human Services") {
+            program_totals.hhs += dollars;
+        }
+        if (program === "Housing") {
+            program_totals.hous += dollars;
+        }
+        if (program === "Parks and Recreation") {
+            program_totals.pr += dollars;
+        }
+        if (program === "Planning/Community Development") {
+            program_totals.pcd += dollars;
+        }
+        if (program === "Public Facilities") {
+            program_totals.pf += dollars;
+        }
+        if (program === "Public Safety") {
+            program_totals.ps += dollars;
+        }
+        if (program === "Road/Street") {
+            program_totals.road += dollars;
+        }
+        if (program === "Sewer") {
+            program_totals.sew += dollars;
+        }
+        if (program === "Water") {
+            program_totals.wat += dollars;
         }
     });
 
@@ -121,24 +105,20 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
 
     map.openModal({
         content: "<h2 style='margin-bottom: -10px; margin-left: -5px;'>Grant Report for: " + d.govname + "</h2><br /><i>From: " + (daterange.mindate).toString().slice(0, 15) + " to " + (daterange.maxdate).toString().slice(0, 15) + "</i><br /><br /><div style='overflow:auto;'><table id='resultstable'><tr><th align='left'>Description</th><th>Program</th><th>Date</th><th align='right'>Total Award</th></tr>" + content_tbl + "</table></div><br /><h4>Total:  " + accounting.formatMoney(award_ttl) + "</h4><br /><span style='color: grey;'>" +
-            ((program_totals.fml > 0) ? ("<b>FML</b>: <i> " + accounting.formatMoney(program_totals.fml) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.sev_dist > 0) ? ("<b>SEV_DIST</b>: <i> " + accounting.formatMoney(program_totals.sev_dist) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.vfp > 0) ? ("<b>VFP</b>: <i> " + accounting.formatMoney(program_totals.vfp) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.ctf > 0) ? ("<b>CTF</b>: <i> " + accounting.formatMoney(program_totals.ctf) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.sar > 0) ? ("<b>SAR</b>: <i> " + accounting.formatMoney(program_totals.sar) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.ffb > 0) ? ("<b>FFB</b>: <i> " + accounting.formatMoney(program_totals.ffb) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.dcfa > 0) ? ("<b>DCFA</b>: <i> " + accounting.formatMoney(program_totals.dcfa) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.eiaf > 0) ? ("<b>EIAF</b>: <i> " + accounting.formatMoney(program_totals.eiaf) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.game > 0) ? ("<b>GAME</b>: <i> " + accounting.formatMoney(program_totals.game) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.redi > 0) ? ("<b>REDI</b>: <i> " + accounting.formatMoney(program_totals.redi) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.mj > 0) ? ("<b>MJ</b>: <i> " + accounting.formatMoney(program_totals.mj) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.csbg > 0) ? ("<b>CSBG</b>: <i> " + accounting.formatMoney(program_totals.csbg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.chpg > 0) ? ("<b>CHPG</b>: <i> " + accounting.formatMoney(program_totals.chpg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.cdbg > 0) ? ("<b>CDBG</b>: <i> " + accounting.formatMoney(program_totals.cdbg) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
-            ((program_totals.dr > 0) ? ("<b>DR</b>: <i> " + accounting.formatMoney(program_totals.dr) + "</i>") : "") +
-            ((program_totals.ms > 0) ? ("<b>MS</b>: <i> " + accounting.formatMoney(program_totals.ms) + "</i>") : "") +
-            ((program_totals.ccpi > 0) ? ("<b>CCPI</b>: <i> " + accounting.formatMoney(program_totals.ccpi) + "</i>") : "") +
-            ((program_totals.pomh > 0) ? ("<b>POMH</b>: <i> " + accounting.formatMoney(program_totals.pomh) + "</i>") : "") +
+            ((program_totals.bb > 0) ? ("<b>Broadband</b>: <i> " + accounting.formatMoney(program_totals.bb) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.cap > 0) ? ("<b>Capacity</b>: <i> " + accounting.formatMoney(program_totals.cap) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.dr > 0) ? ("<b>Drainage</b>: <i> " + accounting.formatMoney(program_totals.dr) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.ed > 0) ? ("<b>Economic Development</b>: <i> " + accounting.formatMoney(program_totals.ed) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.en > 0) ? ("<b>Energy</b>: <i> " + accounting.formatMoney(program_totals.en) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.hhs > 0) ? ("<b>Health and Human Services</b>: <i> " + accounting.formatMoney(program_totals.hhs) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.hous > 0) ? ("<b>Housing</b>: <i> " + accounting.formatMoney(program_totals.hous) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.pr > 0) ? ("<b>Parks and Recreation</b>: <i> " + accounting.formatMoney(program_totals.pr) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.pcd > 0) ? ("<b>Planning/Community Development</b>: <i> " + accounting.formatMoney(program_totals.pcd) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.pf > 0) ? ("<b>Public Facilities</b>: <i> " + accounting.formatMoney(program_totals.pf) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.ps > 0) ? ("<b>Public Safety</b>: <i> " + accounting.formatMoney(program_totals.ps) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.road > 0) ? ("<b>Road/Street</b>: <i> " + accounting.formatMoney(program_totals.road) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.sew > 0) ? ("<b>Sewer</b>: <i> " + accounting.formatMoney(program_totals.sew) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
+            ((program_totals.wat > 0) ? ("<b>Water</b>: <i> " + accounting.formatMoney(program_totals.wat) + "</i>&nbsp;&nbsp;&nbsp;&nbsp;") : "") +
             "</span><br /><button style='margin-top: 20px;' id='dlcsv'>Download</button>"
     });
 
@@ -172,7 +152,7 @@ module.exports = function(d: Object, map: Object, cities: Array < Object > , dat
         var blob: Blob = new Blob([csvstring], {
             type: "text/csv;charset=utf-8"
         });
-        saveAs(blob, "grant_report_" + outputname + ".csv");
+        saveAs(blob, "funding_report_" + outputname + ".csv");
 
     }
 
