@@ -113,7 +113,7 @@ module.exports = function(map: Object, p1: Promise, p2: Promise) {
         citiesUpd.enter()
             .append('circle')
             .style("opacity", 1e-6)
-            .attr('r', 3.2)
+            .attr('r', 5)
             .attr('cx', function(d) {
                 return proj.latLngToLayerPoint(d.latLng).x;
             })

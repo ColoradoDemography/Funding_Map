@@ -62,7 +62,3 @@ eslint: {
 
 };
 
-
-// webpack-dev-server --host 0.0.0.0 --port 8080 --watch --inline --content-base /home/nitrous/public_html/CO_Grants/
-// http://red-meteor-147235.nitrousapp.com:8080/webpack-dev-server/
-
